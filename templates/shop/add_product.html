@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>add_product</title>
+</head>
+<body>
+    <form method="post" enctype="multipart/form-data">
+        <div>
+            {% csrf_token %}
+        </div>
+        <div>
+            <input type="text" name="name" placeholder="商品名称">
+        </div>
+        <div>
+            <input type="text" name="price" placeholder="商品价格">
+        </div>
+        <div>
+            <input type="text" name="description" placeholder="商品描述">
+        </div>
+        <div>
+            <input type="text" name="stock" placeholder="商品库存">
+        </div>
+        <div>
+            商品图片
+            <input type="file" name="image" placeholder="商品图片">
+        </div>
+        <div>
+            <input type="submit" value="添加">
+        </div>
+    </form>
+</body>
+</html>

@@ -1,0 +1,58 @@
+main {
+    width: 1200px;
+    margin: auto;
+}
+
+
+img {
+    margin-top: 100px;
+
+    float: left;
+}
+
+
+.loginBox {
+    margin-top: 80px;
+    margin-left: 800px;
+    margin-right: auto;
+    width: 400px;
+}
+
+
+.welcome {
+    font-size: 1.5em;
+    color: black;
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+
+.signUp {
+    margin-top: 40px;
+    font-size: smaller;
+}
+
+.signUp a:link {
+    color: #0366d6;
+    text-decoration: none;
+}
+
+
+
+.signUp a:visited {
+    color: #0366d6;
+    text-decoration: none;
+}
+
+
+
+.signUp a:hover {
+    color: #0366d6;
+    text-decoration: underline;
+}
+
+
+
+.signUp a:active {
+    color: #0366d6;
+}

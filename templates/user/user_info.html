@@ -1,0 +1,45 @@
+{% extends 'user/base.html' %}
+{% block title %}
+    用户信息
+{% endblock title%}
+
+
+{% block main %}
+    <div>欢迎，{{ user.nickname }}</div>
+    <div>用户名 ：{{ user.username }}</div>
+    <div>邮箱 ：{{ user.email }}</div>
+    <div>头像 ：<img style="width: 200px;height: 200px;" src="/static/{{ user.avatar }}"></div>
+    <div>联系电话 ：{{ user.phone }}</div>
+    <div>联系地址 ：{{ user.contact_address }}</div>
+    <div><a href="{% url 'user:user_update' %}">修改</a></div>
+
+    <div>
+        <h3>收货地址</h3>
+    </div>
+
+    {% for add in address_list %}
+        <div>
+            <h3>{{ add.receiver }}</h3>
+            <a href="{% url 'user:address_update' add.id %}">修改</a>|
+            <a href="{% url 'user:address_delete' add.id %}">删除</a>
+        </div>
+        <div>联系电话：{{ add.recieve_phone }}</div>
+        <div>邮编：{{ add.postNumber }}</div>
+        <div>详细地址：{{ add.address }}</div>
+    {% endfor %}
+
+    <div><a href="{% url 'user:add_address' %}">添加新地址</a></div>
+
+    <div>
+        <h3><a href="{% url 'user:order_list' 5 %}">我的订单</a></h3>
+    </div>
+    {% for order in order_list %}
+        <div>
+            <h3>{{ order.order_id }}</h3>
+
+        </div>
+        <div>订单状态：{{ order.order_status }}</div>
+        <div>金额：{{ order.order_price }}</div>
+        <div>时间：{{ order.order_date }}</div>
+    {% endfor %}
+{% endblock main %}

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login in</title>
+</head>
+<body>
+<h1>Please login </h1>
+<div>
+    <div>
+        <div>
+            <div>
+                <strong>用户登录</strong>
+                <a href="{% url 'shop:sign_up' %}">立即注册</a>
+            </div>
+            <div>
+                {% if result.status == "error" %}
+                    <h5>{{ result.data }}</h5>
+                {% endif %}
+                <form method="post">
+                    {% csrf_token %}
+                    <input type="text" name="username" value="{{ username }}" placeholder="请输入用户名">
+                    <br>
+                    <input type="password" name="password" placeholder="请输入密码">
+                    <div>
+                        <input type="checkbox" name="remember" {{ checked }}>
+                        <label>记住用户名</label><br>
+                        <a href="#">忘记密码</a>
+                    </div>
+                    <input type="submit" name="" value="登录">
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

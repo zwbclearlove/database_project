@@ -1,0 +1,57 @@
+.container {}
+
+img {
+    width: 100%;
+}
+
+ul {
+    border: 0;
+}
+
+.tick {
+    text-align: center;
+}
+
+.tickimg {
+    width: 60px;
+    border-radius: 50%;
+    height: 57px;
+    background-color: #0BB20C;
+    margin: 20px auto 10px;
+    position: relative;
+}
+
+.tickimg:after {
+    position: absolute;
+    content: '7';
+    font-size: 48px;
+    font-weight: bold;
+    color: #fff;
+    top: -7px;
+    left: 22px;
+    transform: rotateZ(-300deg) rotateX(-180deg);
+    -webkit-transform: rotateZ(-300deg) rotateX(-180deg);
+}
+
+p {
+    margin: 10px 0;
+}
+
+.mark {
+    font-size: 16px;
+    color: #808080;
+    padding: .2em 0;
+}
+
+.des-label {
+    width: 100px;
+    text-align: right;
+    font-size: 16px;
+    font-weight: bolder;
+    color: #808080;
+    display: inline-block;
+}
+
+.list-group-item {
+    border: 0;
+}

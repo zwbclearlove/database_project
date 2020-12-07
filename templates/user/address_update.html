@@ -1,0 +1,34 @@
+{% extends 'user/base.html' %}
+{% block title %}
+地址信息更新
+{% endblock title %}
+
+{% block main %}
+    <main>
+        <h1>修改收货地址</h1>
+        <form method="post">
+            {% csrf_token %}
+            <div class=inputTips>
+                姓名
+            </div>
+            <input type="text" name="receiver" placeholder="收货人" value="{{ add.receiver }}" autocomplete="off" class="inputText">
+
+            <div class=inputTips>
+                手机
+            </div>
+            <input type="tel" name="phone" placeholder="手机" value="{{ add.receive_phone }}" autocomplete="off" class="inputText">
+
+            <div class=inputTips>
+                邮编
+            </div>
+            <input type="tel" name="post_num" placeholder="邮编" value="{{ add.postNumber }}" autocomplete="off" class="inputText">
+
+            <div class=inputTips>
+                详细地址
+            </div>
+            <input type="text" name="address" placeholder="详细地址" value="{{ add.address }}" autocomplete="off" class="inputText">
+
+            <input type="submit" name="saveAddr" value="保存" class="submitButton">
+        </form>
+    </main>
+{% endblock main %}

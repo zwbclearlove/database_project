@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>user_update</title>
+</head>
+<body>
+    <form method="post" enctype="multipart/form-data">
+        <div>
+            {% csrf_token %}
+        </div>
+        <div>
+            昵称：<input type="text" name="nickname" value="{{ user.nickname }}" placeholder="昵称">
+        </div>
+        <div>
+            邮箱：<input type="text" name="email" value="{{ user.email }}" placeholder="邮箱">
+        </div>
+        <div>
+            联系电话：<input type="text" name="phone" value="{{ user.phone }}" placeholder="联系电话">
+        </div>
+        <div>
+            联系地址：<input type="text" name="contact_address" value="{{ user.contact_address }}" placeholder="联系地址">
+        </div>
+        <div>
+            头像
+            <img style="width: 200px;height: 200px;" src="/static/{{ user.avatar }}">
+            <input type="file" name="avatar" placeholder="头像">
+        </div>
+        <div>
+            <input type="submit" value="更新">
+        </div>
+    </form>
+</body>
+</html>

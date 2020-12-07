@@ -1,0 +1,52 @@
+{% extends 'user/base.html' %}
+{% load static %}
+{% block title %}
+    收藏夹
+{% endblock %}
+{% block main %}
+    <!-- 导航栏 -->
+    <div id="nav_part"></div>
+
+    <!-- 主体部分 -->
+    <main>
+        <div class="container">
+            <div class="row" style="margin-top: 45px">
+                <div class="row row-goods">
+                    <div class="col-md-12 title">
+                        <div class="col-md-5 ">
+                            <div class="k-border">
+                                <div class="border bor-l">
+                                    <div class="border bor-r">
+                                        <div class="bor-m"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2 ">收藏夹</div>
+                        <div class="col-md-5 ">
+                            <div class="k-border">
+                                <div class="border bor-l">
+                                    <div class="border bor-r">
+                                        <div class="bor-m"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% for fav in favorites %}
+                        <div class="col-md-2" style="margin-top: 20px;">
+                            <a href="{% url 'user:product' fav.product_id %}"><img src="/static/{{ fav.image }}" alt=""></a>
+                            <form action="{% url 'user:cancel_favorite' fav.product_id %}">
+                                <button type="submit" class="btn btn-warning " style="width: 100%;">删除</button>
+                            </form>
+
+                        </div>
+                    {% endfor %}
+
+
+
+                </div>
+            </div>
+        </div>
+    </main>
+{% endblock %}

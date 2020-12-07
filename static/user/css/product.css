@@ -1,0 +1,159 @@
+main {
+    width: 1002px;
+    margin: auto;
+}
+
+img {
+    width: 400px;
+    height: 500px;
+}
+
+
+.productBox {
+    margin-top: 100px;
+
+}
+
+
+
+table {
+    text-align: left;
+    border: 1px solid gainsboro;
+}
+
+td {
+    vertical-align: top;
+}
+
+h1 {
+    font-size: larger;
+    width: 570px;
+}
+
+
+
+.amount {
+    border-top: 2px solid lavender;
+    margin-bottom: 5px;
+}
+
+.colour {
+    border-top: 2px solid lavender;
+    margin-bottom: 5px;
+}
+
+.count {
+    border-top: 2px solid lavender;
+    margin-bottom: 5px;
+}
+
+
+
+.countValue {
+    margin-bottom: 5px;
+}
+
+.minusButton {
+    width: 40px;
+    height: 40px;
+    font-size: large;
+    border-radius: 2px;
+
+    border: black 2px solid;
+
+    background-color: white;
+
+    cursor: pointer;
+}
+
+.countInput {
+    width: 32px;
+    height: 34px;
+    font-size: large;
+    border-radius: 0;
+
+
+    border: black 1px;
+    border-style: none;
+    text-align: center;
+}
+
+.plusButton {
+    width: 40px;
+    height: 40px;
+    font-size: large;
+
+    padding: 0;
+
+    border-radius: 2px;
+    border: black 2px solid;
+
+    background-color: white;
+
+    cursor: pointer;
+}
+
+
+.buttonDiv {
+    width: 100%;
+    margin-right: 0;
+    margin-left: auto;
+}
+
+.buttonDiv button {
+    width: 100%;
+    height: 40px;
+
+    background-color: #2ebc4f;
+    color: white;
+
+    margin-top: 100px;
+
+    text-align: center;
+    font-size: medium;
+    font-weight: bold;
+
+    cursor: pointer;
+
+    border: none;
+    border-radius: 5px;
+    outline: none;
+}
+
+.buttonDiv button:hover {
+    background-color: #45a049;
+}
+
+
+.commentTip {
+    margin-top: 100px;
+    margin-bottom: 10px;
+}
+
+.commentBox {
+    border-top: 2px solid lavender;
+
+}
+
+
+
+.commenter {
+    font-size: smaller;
+    float: left;
+}
+
+.commentContent {
+    font-size: 14px;
+    margin-left: 200px;
+}
+
+.commentTime {
+    margin-top: 5px;
+    text-align: right;
+    color: grey;
+    font-size: small;
+
+    padding-right: 20px;
+
+    border-bottom: 2px solid lavender;
+}

@@ -1,0 +1,98 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>
+        {% block title %}
+        {% endblock title %}
+    </title>
+
+    <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <link type="text/css" rel="stylesheet" href="{% static 'user/css/all.css' %}" />
+    <link rel="stylesheet" href="{% static 'user/css/index.css' %}">
+
+
+    <script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
+    <script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div id="navbar" class="navbar-collapse collapse"></div>
+            <ul class="nav navbar-nav">
+                <li><a href="{% url 'user:index' %}">主页</a></li>
+                <li><a href="{% url 'user:favorite' %}">收藏夹</a></li>
+                <li><a href="{% url 'user:cart' %}">购物车</a></li>
+                <li class="dropdown">
+                    <a href="{% url 'user:user_info' %}" class="dropdown-toggle" data-toggle="dropdown">
+                        我的
+                        <b class="caret"></b>
+                    </a>
+                    {% if request.COOKIES.user_username %}
+                        <ul class="dropdown-menu">
+                            <li><a>欢迎，{{ request.COOKIES.user_username }}</a></li>
+                            <li><a href="{% url 'user:user_info' %}">个人主页</a></li>
+                            <li><a href="#">我的足迹</a></li>
+                            <li><a href="{% url 'user:logout' %}">退出</a></li>
+                        </ul>
+                    {% else %}
+                        <ul class="dropdown-menu">
+                            <li><a href="{% url 'user:login' %}">登录</a></li>
+                            <li><a href="{% url 'user:register' %}">注册</a></li>
+                        </ul>
+                    {% endif %}
+
+                </li>
+            </ul>
+
+
+            <form class="navbar-form" action='{% url 'user:product_list' %}'>
+                <div class="form-group">
+                    <input type="text" class="form-control" name="keywords" value="{{ keywords }}" placeholder="商品">
+                </div>
+                <button type="submit" class="btn btn-default" >搜索</button>
+            </form>
+        </div>
+    </nav>
+    <main class="col-md-8">
+        <div class="row">
+            <div class="col-md-12" style="height: 50px;background: #f66060"></div>
+        </div>
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                    aria-hidden="true">&times;</span></button>
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+        {% block main %}
+        {% endblock main %}
+    </main>
+
+    <footer>
+        <div class="links">
+            <a target="_blank" href="#">
+                关于我们
+            </a>
+            |
+            <a target="_blank" href="#">
+                联系我们
+            </a>
+        </div>
+        <div class="copyright">
+            Copyright&nbsp;&copy;&nbsp;2020&nbsp;&nbsp;buaa_database&nbsp;版权所有
+        </div>
+    </footer>
+
+</body>
+
+
+
+</html>

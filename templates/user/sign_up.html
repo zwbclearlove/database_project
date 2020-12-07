@@ -1,0 +1,78 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>注册</title>
+        <link rel="stylesheet" href="{% static 'user/css/signup.css' %}" />
+        <link rel="stylesheet" href="{% static 'user/css/all.css' %}" />
+    </head>
+
+    <body>
+
+        <main>
+            <div class="loginBox">
+                <div class="welcome">
+                    欢迎注册
+                </div>
+
+                <form method="POST">
+                    {% csrf_token %}
+                    {% if result.status == "error" %}
+                        <h1>{{ result.data }}</h1>
+                    {% endif %}
+
+                    <div class=inputTips>
+                        用户名
+                    </div>
+                    <input type="text" name="username" placeholder="用户名" class="inputText">
+
+                    <div class=inputTips>
+                        邮箱
+                    </div>
+                    <input type="text" name="email" placeholder="邮箱" class="inputText">
+
+                    <div class=inputTips>
+                        昵称
+                    </div>
+                    <input type="text" name="nickname" placeholder="昵称" class="inputText">
+
+                    <div class=inputTips>
+                        密码
+                    </div>
+                    <input type="password" name="password" placeholder="密码" class="inputText">
+
+                    <div class=inputTips>
+                        确认密码
+                    </div>
+                    <input type="password" name="password1" placeholder="确认密码" class="inputText">
+
+                    <input type="submit" name="signup" value="注册" class="submitButton" >
+                </form>
+
+                <div class="signUp">
+                    已经有账号了
+                    <a href="{% url 'user:login' %}">马上登录</a>
+                </div>
+
+
+            </div>
+        </main>
+
+        <footer>
+            <div class="links">
+                <a target="_blank" href="#">
+                    关于我们
+                </a>
+                |
+                <a target="_blank"
+                    href="#">
+                    联系我们
+                </a>
+            </div>
+            <div class="copyright">
+                Copyright&nbsp;&copy;&nbsp;2020&nbsp;&nbsp;buaa_database&nbsp;版权所有
+            </div>
+        </footer>
+    </body>
+</html>

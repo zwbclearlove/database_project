@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Shop</title>
+</head>
+<body>
+<h1>Index Page</h1>
+{% if request.session.username %}
+    <strong>{{ request.session.username }}</strong>
+    <a href="{% url 'shop:logout' %}">退出登录</a>
+    {% if request.COOKIES.shop_registered %}
+        <div>已经注册店铺</div>
+        <div>店名 ： {{ shop.shopName }}</div>
+        <div>店址 ： {{ shop.address }}</div>
+        <div>描述 ： {{ shop.description }}</div>
+        <div>
+            <img style="width: 200px;height: 200px;" src="/static/{{ shop.avatar }}">
+        </div>
+
+        <a href="{% url 'shop:shop_update' %}"><span>更改店铺信息</span></a>
+        <br>
+        <a href="{% url 'shop:add_product' %}"><span>增加商品</span></a>
+        <br>
+        <a href="{% url 'shop:product_list' %}"><span>查看本店商品</span></a>
+        <a href="{% url 'shop:products' %}"><span>查看所有商品</span></a>
+    {% else %}
+        <div>还未注册店铺</div>
+        <a href="{% url 'shop:shop_register' %}"><span>注册店铺</span></a>
+    {% endif %}
+{% else %}
+    <a href="{% url 'shop:sign_up' %}">立即注册</a> |
+    <a href="{% url 'shop:login' %}">立即登录</a> |
+
+{% endif %}
+
+</body>
+</html>

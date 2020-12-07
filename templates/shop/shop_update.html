@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>shop_update</title>
+</head>
+<body>
+    <form method="post" enctype="multipart/form-data">
+        <div>
+            {% csrf_token %}
+        </div>
+        <div>
+            店铺名称：<input type="text" name="name" value="{{ shop.shopName }}" placeholder="店铺名称">
+        </div>
+        <div>
+            店铺地址：<input type="text" name="address" value="{{ shop.address }}" placeholder="店铺地址">
+        </div>
+        <div>
+            店铺描述：<input type="text" name="description" value="{{ shop.description }}" placeholder="店铺描述">
+        </div>
+        <div>
+            店铺logo
+            <img style="width: 200px;height: 200px;" src="/static/{{ shop.avatar }}">
+            <input type="file" name="avatar" placeholder="店铺logo">
+        </div>
+        <div>
+            店铺电话：<input type="text" name="phoneNumber" value="{{ shop.phoneNumber }}" placeholder="店铺电话">
+        </div>
+        <div>
+            <select name="type" multiple="multiple">
+                {% for t in type_list %}
+                    <option value="{{ t.id }}">{{ t.shopType }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div>
+            <input type="submit" value="更新">
+        </div>
+    </form>
+</body>
+</html>

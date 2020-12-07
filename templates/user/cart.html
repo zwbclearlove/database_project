@@ -1,0 +1,68 @@
+{% extends 'user/base.html' %}
+{% load static %}
+
+{% block title %}
+    {{ user.username }}的购物车
+{% endblock %}
+
+
+{% block main %}
+    <link rel="stylesheet" href="{% static 'user/css/cart.css' %}">
+    <main>
+        <div class="cartBox">
+            <div class="welcome">
+                我的购物车
+            </div>
+
+            <table class="cartTable" border="0" cellpadding="10" cellspacing="0">
+                <tr>
+
+                    <th class="cartImage">产品描述</th>
+                    <th class="cartDescrip"></th>
+                    <th class="cartPrice">价格</th>
+                    <th class="cartCount">数量</th>
+                    <th class="cartTotal">金额</th>
+                    <th></th>
+                </tr>
+
+                {% for ci in cart_item_list %}
+                    <tr>
+                        <td>
+                            <img style="width: 200px;height: 200px;" src="/static/{{ ci.image }}" alt="">
+                        </td>
+                        <td>
+                            {{ ci.product_name }}<br>
+                        </td>
+                        <td>￥{{ ci.product_price }}</td>
+                        <td>{{ ci.product_number }}</td>
+                        <td>￥{{ ci.total_price }}</td>
+                        <td>
+                            <a href="{% url 'user:delete_cart_item' ci.product_id %}" class="delete-icon">
+                                <svg width="2em" height="2em" viewBox="1 0 16 16" class="bi bi-trash" fill="currentColor"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
+                                    <path fill-rule="evenodd"
+                                        d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
+                                </svg>
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+
+
+            </table>
+            <div class="totalMoney">￥{{ total_price }}</div>
+            <div class="subTotal">合计</div>
+
+
+            <button type="button" class="btn btn-success col-sm-offset-9 col-sm-3">
+                <a href="{% url 'user:checkout' %}">结算</a>
+            </button>
+
+
+
+
+        </div>
+    </main>
+{% endblock %}

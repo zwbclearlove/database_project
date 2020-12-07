@@ -1,0 +1,63 @@
+{% extends 'user/base.html' %}
+{% load static %}
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+{% block title %}
+    商品列表
+{% endblock title %}
+
+{% block main %}
+    <link rel="stylesheet" href="{% static 'user/css/cart.css' %}">
+
+    <main>
+        <div class="cartBox">
+            <div class="welcome">
+                商品清单
+            </div>
+
+            <table class="cartTable" border="0" cellpadding="10" cellspacing="0">
+
+                <tr>
+                    <th class="cartImage">图片</th>
+                    <th class="cartDescrip"></th>
+                    <th class="cartPrice">价格</th>
+                    <th class="cartCount">库存</th>
+                    <th class="cartTotal">时间</th>
+                    <th></th>
+                </tr>
+
+
+                {% for p in page %}
+                    <tr>
+                        <td>
+                            <a href="/product/{{ p.id }}">
+                                <img style="width: 200px;height: 200px;" src="/static/{{ p.image }}" alt="">
+                            </a>
+                        </td>
+                        {# <td><a href="/shop/product/{{ p.id }}">{{ p.name }}</a></td> #}
+                        <td>{{ p.name }}</td>
+                        <td>{{ p.price }}</td>
+                        <td>{{ p.stock }}</td>
+                        <td>{{ p.createdDate }}</td>
+                        <td>
+                            <a href="{% url 'user:product' p.id %}">详情</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+
+            </table>
+        </div>
+    </main>
+
+    <div>
+        <ul>
+            {% for p in page_range %}
+            <li>
+                <a href="?keywords={{ keywords }}&page_num={{ p }}">{{ p }}</a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock main %}
+

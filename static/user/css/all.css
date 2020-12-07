@@ -1,0 +1,43 @@
+body {
+    font-family: "microsoft yahei";
+    font-size: 20px;
+    width: 100%;
+    margin: 0;
+}
+
+footer {
+    clear: both;
+    color: #666666;
+    text-align: center;
+    padding: 15px;
+    margin: 100px 10px 10px 10px;
+    font-size: 80%;
+}
+
+/* 未访问链接*/
+footer a:link {
+    color: #666666;
+    text-decoration: none;
+}
+
+
+/* 已访问链接 */
+footer a:visited {
+    color: #666666;
+    text-decoration: none;
+}
+
+
+/* 鼠标移动到链接上 */
+footer a:hover {
+    color: cornflowerblue;
+    text-decoration: underline;
+}
+
+
+/* 鼠标点击时 */
+footer a:active {
+    color: #0366d6;
+}
+
+

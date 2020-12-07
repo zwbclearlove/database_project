@@ -1,0 +1,64 @@
+.container {}
+
+img {
+    width: 100%;
+}
+
+ul {
+    border: 0;
+}
+
+.list-address li {
+    border: 0;
+    list-style: none;
+    margin-right: 20px;
+    background: url("../images/address.png") no-repeat;
+    height: 240px;
+    width: 240px;
+    background-position: -240px 0;
+}
+
+.list-address li:hover {
+    background-position: -480px 0;
+}
+
+.list-address li.active{
+    background-position: 0 0;
+}
+
+.list-address li.active:hover {
+    background-position: 0 0;
+}
+
+.table>tbody>tr>td,
+.table>tbody>tr>th {
+    position: relative;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+    border-top: 0;
+}
+
+p {
+    margin: 5px 0 5px 0;
+}
+
+h3 {
+    margin-top: 0;
+    font-size: 20px;
+}
+
+.footer {
+    height: 40px;
+    line-height: 40px;
+    text-align: right;
+    margin-bottom: 80px;
+}
+
+select {
+    -webkit-appearance: none;
+    height: 32px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    text-align: center;
+    padding: 0 10px;
+}

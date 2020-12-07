@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ p.name }} 详情</title>
+</head>
+<body>
+    <table class="table">
+        <tr>
+            <td rowspan="3">
+                <img style="width: 200px;height: 200px;" src="/static/{{ p.image }}">
+            </td>
+            <th>
+                商品名称
+            </th>
+            <td colspan="3">
+                {{ p.name }}
+            </td>
+        </tr>
+
+        <tr>
+            <th>
+                商品价格
+            </th>
+            <td>
+                {{ p.price }}
+            </td>
+            <th>
+                商品库存
+            </th>
+            <td>
+                {{ p.stock }}
+            </td>
+        </tr>
+
+        <tr>
+            <th>
+                生产日期
+            </th>
+            <td>
+                {{ p.createdDate }}
+            </td>
+        </tr>
+
+        <tr>
+            <th colspan="5" style="text-align: center;">商品描述</th>
+        </tr>
+        <tr>
+            <td colspan="5">{{ p.description }}</td>
+        </tr>
+    </table>
+    <a href="/shop/update_product/{{ p.id }}">修改商品信息</a>
+    <div><a href="{% url 'shop:index' %}">返回</a></div>
+</body>
+</html>

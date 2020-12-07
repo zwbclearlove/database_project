@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>product_list</title>
+</head>
+<body>
+    <form>
+        <div>
+            <input type="text" name = "keywords" value="{{ keywords }}" placeholder="阿哲">
+            <input type="submit" value="搜">
+        </div>
+    </form>
+    <table>
+        <thead>
+            <tr>
+                <th>商品名称</th>
+                <th>商品价格</th>
+                <th>商品库存</th>
+                <th>描述</th>
+                <th>上架日期</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for p in page %}
+            <tr>
+                <td><a href="/shop/product/{{ p.id }}">{{ p.name }}</a></td>
+                <td>{{ p.price }}</td>
+                <td>{{ p.stock }}</td>
+                <td>{{ p.description }}</td>
+                <td>{{ p.createdDate }}</td>
+                <td>
+                     {% if p.on_sale == 1 %}
+                         <a href="/shop/product_state_change/down/?id={{ p.id }}">下架</a>
+                     {% else %}
+                         <a href="/shop/product_state_change/up/?id={{ p.id }}">上架</a>
+                     {% endif %}
+                    <a href="/shop/product_state_change/delete/?id={{ p.id }}">销毁</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div>
+        <ul>
+            {% for p in page_range %}
+            <li>
+                <a href="?keywords={{ keywords }}&page_num={{ p }}">{{ p }}</a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div><a href="{% url 'shop:index' %}">返回</a></div>
+</body>
+</html>
