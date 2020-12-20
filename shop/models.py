@@ -52,7 +52,7 @@ class Product(models.Model):
     sales = models.IntegerField(verbose_name="销量", default=0)
     description = models.TextField(verbose_name="商品描述")
     createdDate = models.DateField(verbose_name="上架时间")
-    product_type = models.ForeignKey(to=ProductType,on_delete=models.CASCADE,verbose_name="商品类型",default=1)
+    product_type = models.ForeignKey(to=ProductType,on_delete=models.CASCADE,verbose_name="商品类型",null=True)
     shopId = models.ForeignKey(to=Shop, on_delete=models.CASCADE, verbose_name="商品店铺", null=True)
     on_sale = models.IntegerField(verbose_name="状态",default=0)
     def __str__(self):
