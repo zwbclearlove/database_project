@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8" />
+<title>依托谢特-我的购物车</title>
+
+<!-- Bootstrap -->
+<link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css">
+
+<link type="text/css" rel="stylesheet" href="../css/all.css" />
+<link type="text/css" rel="stylesheet" href="../css/index.css" />
+
+<script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
+<script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<style>
+    img {
+        width: 100%;
+
+        border: 1px wheat solid;
+
+    }
+
+    th,
+    td {
+        vertical-align: middle !important;
+        text-align: center;
+    }
+
+
+    .good-name,
+    .good-descrip {
+        word-wrap: break-word;
+    }
+</style>
+</head>
+
+<body>
+    <!-- 导航栏 -->
+    <div id="nav_part"></div>
+
+    <!-- 主体部分 -->
+    <main style="margin-top: 50px;">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 title">
+                    <div class="col-md-5 ">
+                        <div class="k-border">
+                            <div class="border bor-l">
+                                <div class="border bor-r">
+                                    <div class="bor-m"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2 ">我的购物车</div>
+                    <div class="col-md-5 ">
+                        <div class="k-border">
+                            <div class="border bor-l">
+                                <div class="border bor-r">
+                                    <div class="bor-m"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <table class="table"
+                        style="table-layout:fixed ; text-align: center; border-bottom: 1px solid #ddd;">
+                        <thead>
+                            <tr>
+                                <th style="width: 12%; "></th>
+                                <th style="width: 10%;">名称</th>
+                                <th style="width: 40%;">描述</th>
+                                <th style="width: 10%;">单价</th>
+                                <th style="width: 12%;">数量</th>
+                                <th style="width: 8%;">小计</th>
+                                <th style="width: 8%;">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody style="overflow-y: auto;">
+                            <tr>
+                                <td> <a href="product.html"><img src="../images/cart/50e2c594f34bef9c.jpg" alt=""></a>
+                                </td>
+                                <td class="good-name">咖啡</td>
+                                <td class="good-descrip">马来西亚进口 零涩 蓝山风味速溶三合一咖啡</td>
+
+                                <td>
+                                    ￥ <span class="unit-price">59.99</span>
+                                </td>
+
+                                <td>
+                                    <button type="button" class="btn btn-sm add-btn" data-operator='increase'>+</button>
+                                    <button type="button" class="btn btn-sm  disabled count" data-name='qty'>0</button>
+                                    <button type="button" class="btn btn-sm sub-btn" data-operator='decrease'>-</button>
+                                </td>
+
+                                <td>
+                                    ￥<span class="subtotal">0</span>
+                                </td>
+
+                                <td>
+                                    <button class="delete-item" style="border: none; background-color: white;">
+                                        <svg width="1.6em" height="1.6em" viewBox="0 0 16 16" fill="#0074c2">
+                                            <path
+                                                d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
+                                            <path fill-rule="evenodd"
+                                                d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
+                                        </svg>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td> <a href="product.html"><img src="../images/cart/749e8fce6291f8c8.jpg" alt=""></a>
+                                </td>
+                                <td class="good-name">高斯键盘</td>
+                                <td class="good-descrip">GANSS 高斯GS87C/GS104C 87键/104键原厂樱桃轴PBT键帽背光机械键盘 游戏键盘啡</td>
+
+                                <td>
+                                    ￥ <span class="unit-price">299.99</span>
+                                </td>
+
+                                <td>
+                                    <button type="button" class="btn btn-sm add-btn" data-operator='increase'>+</button>
+                                    <button type="button" class="btn btn-sm  disabled count" data-name='qty'>0</button>
+                                    <button type="button" class="btn btn-sm sub-btn" data-operator='decrease'>-</button>
+                                </td>
+
+                                <td>
+                                    ￥<span class="subtotal">0</span>
+                                </td>
+
+                                <td>
+                                    <button class="delete-item" style="border: none; background-color: white;">
+                                        <svg width="1.6em" height="1.6em" viewBox="0 0 16 16" fill="#0074c2">
+                                            <path
+                                                d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
+                                            <path fill-rule="evenodd"
+                                                d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
+                                        </svg>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td> <a href="product.html"><img src="../images/cart/749e8fce6291f8c8.jpg" alt=""></a>
+                                </td>
+                                <td class="good-name">高斯键盘</td>
+                                <td class="good-descrip">GANSS 高斯GS87C/GS104C 87键/104键原厂樱桃轴PBT键帽背光机械键盘 游戏键盘啡</td>
+
+                                <td>
+                                    ￥ <span class="unit-price">299.99</span>
+                                </td>
+
+                                <td>
+                                    <button type="button" class="btn btn-sm add-btn">+</button>
+                                    <button type="button" class="btn btn-sm  disabled count">0</button>
+                                    <button type="button" class="btn btn-sm sub-btn">-</button>
+                                </td>
+
+                                <td>
+                                    ￥<span class="subtotal">0</span>
+                                </td>
+
+                                <td>
+                                    <button class="delete-item" style="border: none; background-color: white;">
+                                        <svg width="1.6em" height="1.6em" viewBox="0 0 16 16" fill="#0074c2">
+                                            <path
+                                                d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
+                                            <path fill-rule="evenodd"
+                                                d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
+                                        </svg>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4 col-md-offset-4" style="text-align: center;">
+                    <ul class="pagination">
+                        <li class="prev-page"><a href="#">&laquo;</a></li>
+                        <li class="active"><a href="#">1</a></li>
+                        <li><a href="#">2</a></li>
+                        <li><a href="#">3</a></li>
+                        <li><a href="#">4</a></li>
+                        <li><a href="#">5</a></li>
+                        <li class="next-page"><a href="#">&raquo;</a></li>
+                    </ul>
+                </div>
+
+
+                <div class="col-md 4">
+                    <div class="col-sm-offset-1 col-md-1">合计</div>
+                    <div class="col-md-2" style="color: red;">￥ <span class="total-price">11.00</span> </div>
+
+                    <div class="col-md-4" style="margin-top: 10px;"></div>
+
+                    <button type="button" class="btn btn-success col-sm-offset-1 col-sm-3"
+                        onclick="window.location.href='{% url 'user:checkout' %}'">结算</button>
+                </div>
+            </div>
+    </main>
+
+    <!-- 页脚 -->
+    <div id="footer_part"></div>
+    <button onclick="genGoods()">生成html</button>
+
+</body>
+<script type="text/javascript">
+    var total_price = {{ total_price }};
+    var cart_item_list = {{ cart_items }};
+    var cart_item_iamge_list = {{ cart_item_images }};
+
+
+
+
+    //加载导航栏和页脚
+    //$("#nav_part").load("/templates/user/html/nav_part.html");
+    //$("#footer_part").load("/templates/user/html/footer_part.html");
+
+
+    getTotalPrice();
+
+    //删除一个商品
+
+    function deleteGood(deleteButton) {
+        var theDeleteButton = $(deleteButton);
+        theDeleteButton.parent().parent().remove();
+        getTotalPrice();
+    }
+
+
+
+    //+或-按钮的效果
+    function addAndSubButton(button) {
+        /* $(".add-btn,.sub-btn").click(function () */
+        //变化数量
+        var theButton = $(button);
+        var countStr = theButton.siblings(".count").text();
+        var count = parseInt(countStr);
+        if (theButton.hasClass("add-btn")) {
+            count++;
+        } else {
+            if (count > 0) {
+                count--;
+                theButton.siblings(".count").text(count);
+            }
+        }
+
+        theButton.siblings(".count").text(count);
+
+        //获得小计
+        var unitPriceStr = theButton.parent().siblings().find(".unit-price").text();
+
+        var unitPrice = parseFloat(unitPriceStr);
+        var totalPrice = (unitPrice * count).toFixed(2);
+        theButton.parent().siblings().find(".subtotal").text(totalPrice);
+        getTotalPrice();
+    };
+
+
+    //获得总计
+    function getTotalPrice() {
+        var totalPrice = 0;
+        $("tbody").find(".subtotal").each(function () {
+            totalPrice += parseFloat($(this).text())
+        }
+        );
+        $(".total-price").text(totalPrice.toFixed(2));
+    }
+
+
+    //分页栏
+    $(".pagination li").click(function () {
+        var pageCount = $(".pagination li").length - 2;
+        var activeIndex = $(".pagination .active").index();
+        if ($(this).hasClass("prev-page")) {
+            if (activeIndex > 1) {
+                $(".pagination li").eq(activeIndex).removeClass("active");
+                $(".pagination li").eq(activeIndex - 1).addClass("active");
+            }
+        } else if ($(this).hasClass("next-page")) {
+            if (activeIndex < pageCount) {
+                $(".pagination li").eq(activeIndex).removeClass("active");
+                $(".pagination li").eq(activeIndex + 1).addClass("active");
+            }
+        } else {
+            $(this).addClass("active");
+            $(this).siblings().removeClass("active");
+        }
+    });
+
+    function genGoods() {
+        $("tbody").empty();
+        let tbody = $("tbody");
+        //alert("wdnmd");
+        $.each(cart_item_list, function (i, item) {
+            //alert("wdnmd");
+            //let item = goodsList[0];
+            console.log(item.fields.product_name);
+            let tableRow = document.createElement("tr");
+            tbody.append(tableRow);
+
+            let imageTd = document.createElement("td");
+            tableRow.append(imageTd);
+
+            let imageURL = document.createElement("a");
+            imageURL.setAttribute("href", "/product/"+item.fields.product_id);
+            imageTd.append(imageURL);
+
+            let image = document.createElement("img");
+            image.src = "/static/"+cart_item_iamge_list[item.fields.product_id];
+            imageURL.append(image);
+
+
+            let nameTd = document.createElement("td");
+            nameTd.setAttribute("class", "good-name");
+            nameTd.innerHTML = item.fields.product_name;
+            tableRow.append(nameTd);
+
+
+            let descripTd = document.createElement("td");
+            descripTd.setAttribute("class", "good-descrip");
+            descripTd.innerHTML = item.fields.product_name;
+            tableRow.append(descripTd);
+
+            let unitPriceTd = document.createElement("td");
+            unitPriceTd.append("￥");
+            tableRow.append(unitPriceTd);
+
+            let unitPriceSpan = document.createElement("span");
+            unitPriceSpan.setAttribute("class", "unit-price");
+            unitPriceSpan.innerHTML = item.fields.product_price;
+            unitPriceTd.append(unitPriceSpan);
+
+            let countTd = document.createElement("td");
+            tableRow.append(countTd);
+
+            let countIncreaseBtn = document.createElement("button");
+            countIncreaseBtn.setAttribute("class", "btn btn-sm add-btn");
+            countIncreaseBtn.setAttribute("onclick", "addAndSubButton(this)");
+            countIncreaseBtn.innerHTML = "+";
+            countTd.append(countIncreaseBtn);
+
+            let countBtn = document.createElement("button");
+            countBtn.setAttribute("class", "btn btn-sm disabled count");
+            countBtn.innerHTML = item.fields.product_number;
+            countTd.append(countBtn)
+
+            let countDecreaseBtn = document.createElement("button");
+            countDecreaseBtn.setAttribute("class", "btn btn-sm sub-btn");
+            countDecreaseBtn.setAttribute("onclick", "addAndSubButton(this)");
+            countDecreaseBtn.innerHTML = "-";
+            countTd.append(countDecreaseBtn);
+
+
+            let subTotalTd = document.createElement("td");
+            subTotalTd.append("￥");
+            tableRow.append(subTotalTd);
+
+            let subTotalSpan = document.createElement("span");
+            subTotalSpan.setAttribute("class", "subtotal");
+            subTotalSpan.innerHTML = item.fields.total_price;
+            subTotalTd.append(subTotalSpan);
+
+            let deleteTd = document.createElement("td");
+            tableRow.append(deleteTd);
+
+            let deleteBtn = document.createElement("button");
+            deleteBtn.setAttribute("class", "delete-item");
+            deleteBtn.setAttribute("style", "border: none; background-color: white;");
+            deleteBtn.setAttribute("onclick", "deleteGood(this)");
+            deleteBtn.innerHTML = "<svg width=\"1.6em\" height=\"1.6em\" viewBox=\"0 0 16 16\" fill=\"#0074c2\">" +
+                "<path d=\"M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z\" />" +
+                "<path fill-rule=\"evenodd\" d=\"M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z\" />" +
+                "</svg>";
+            deleteTd.append(deleteBtn);
+        });
+    }
+
+
+
+
+
+
+
+
+
+
+</script>
+
+</html>

@@ -1,63 +1,453 @@
-{% extends 'user/base.html' %}
 {% load static %}
+{% load user_extras %}
+
+<!doctype html>
+<html>
+
+<head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-{% block title %}
-    商品列表
-{% endblock title %}
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
 
-{% block main %}
-    <link rel="stylesheet" href="{% static 'user/css/cart.css' %}">
+    <title>网上购物系统</title>
+    <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'user/css/all.css' %}">
 
-    <main>
-        <div class="cartBox">
-            <div class="welcome">
-                商品清单
+    <script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
+    <script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+
+</head>
+
+<style>
+    img {
+        width: 100%;
+    }
+
+    .good-frame {
+        background-color: white;
+
+        margin-bottom: 20px;
+    }
+
+    .good-frame h4 {
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+
+    .good-frame .title {
+        padding-top: 13px;
+        padding-bottom: 10px;
+
+        font-size: large;
+        font-weight: bold;
+    }
+
+    .good-frame .good-name {
+        padding-top: 13px;
+        padding-bottom: 10px;
+
+        font-size: large;
+        font-weight: bold;
+    }
+
+    .good-frame .see-more {
+        padding-top: 10px;
+        padding-bottom: 13px;
+
+        font-size: smaller;
+    }
+
+    .good-frame .unit-price {
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+</style>
+
+<body>
+    <!-- 导航栏 -->
+    {% show_nav_part %}
+
+    <!--主体内容-->
+    <main style="margin-top: 60px;">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-10">
+                    <div style="font-size:large">
+                        关于<span style="color:skyblue; font-weight: bold;">{{ keyword }}</span>的搜索结果：
+                    </div>
+
+                    <hr>
+                </div>
+                <div class="col-md-2">
+                    <form>
+                        <div class="form-group">
+                            <label for="sel1">排序方式</label>
+                            <select class="form-control" id="select" onchange="sortGoods()">
+                                <option value="asc">价格&uarr;</option>
+                                <option value="desc">价格&darr;</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="row row-goods">
+                <div class="col-md-3 good-frame">
+                    <div>
+                        <a href="goodsinfo.html"><img src="../images/index/4.jpg" alt=""></a>
+                    </div>
+                    <div class="good-name">
+                        电子产品
+                    </div>
+                    <div class="unit-price">
+                        ￥55.00
+                    </div>
+                    <div class="good-descrip">
+                        商品描述商品描述商品描述商品描述商品描述商
+                    </div>
+                </div>
+                <div class="col-md-3 good-frame">
+                    <div>
+                        <a href="goodsinfo.html"><img src="../images/index/4.jpg" alt=""></a>
+                    </div>
+                    <div class="good-name">
+                        电子产品
+                    </div>
+                    <div class="unit-price">
+                        ￥55.00
+                    </div>
+                    <div class="good-descrip">
+                        商品描述商品描述商品描述商品描述商品描述商
+                    </div>
+                </div>
+                <div class="col-md-3 good-frame">
+                    <div>
+                        <a href="goodsinfo.html"><img src="../images/index/4.jpg" alt=""></a>
+                    </div>
+                    <div class="good-name">
+                        电子产品
+                    </div>
+                    <div class="unit-price">
+                        ￥55.00
+                    </div>
+                    <div class="good-descrip">
+                        商品描述商品描述商品描述商品描述商品描述商
+                    </div>
+                </div>
+                <div class="col-md-3 good-frame">
+                    <div>
+                        <a href="goodsinfo.html"><img src="../images/index/4.jpg" alt=""></a>
+                    </div>
+                    <div class="good-name">
+                        电子产品
+                    </div>
+                    <div class="unit-price">
+                        ￥55.00
+                    </div>
+                    <div class="good-descrip">
+                        商品描述商品描述商品描述商品描述商品描述商
+                    </div>
+                </div>
+                <div class="col-md-3 good-frame">
+                    <div>
+                        <a href="goodsinfo.html"><img src="../images/index/4.jpg" alt=""></a>
+                    </div>
+                    <div class="good-name">
+                        电子产品
+                    </div>
+                    <div class="unit-price">
+                        ￥55.00
+                    </div>
+                    <div class="good-descrip">
+                        商品描述商品描述商品描述商品描述商品描述商
+                    </div>
+                </div>
             </div>
 
-            <table class="cartTable" border="0" cellpadding="10" cellspacing="0">
-
-                <tr>
-                    <th class="cartImage">图片</th>
-                    <th class="cartDescrip"></th>
-                    <th class="cartPrice">价格</th>
-                    <th class="cartCount">库存</th>
-                    <th class="cartTotal">时间</th>
-                    <th></th>
-                </tr>
-
-
-                {% for p in page %}
-                    <tr>
-                        <td>
-                            <a href="/product/{{ p.id }}">
-                                <img style="width: 200px;height: 200px;" src="/static/{{ p.image }}" alt="">
-                            </a>
-                        </td>
-                        {# <td><a href="/shop/product/{{ p.id }}">{{ p.name }}</a></td> #}
-                        <td>{{ p.name }}</td>
-                        <td>{{ p.price }}</td>
-                        <td>{{ p.stock }}</td>
-                        <td>{{ p.createdDate }}</td>
-                        <td>
-                            <a href="{% url 'user:product' p.id %}">详情</a>
-                        </td>
-                    </tr>
-                {% endfor %}
-
-            </table>
+            <div class="row">
+                <div class="col-md-12" style="text-align: center;">
+                    <ul class="pagination">
+                        <li id="prev-page"><a onclick="prevPage()">&laquo;</a></li>
+                        <li class="active"><a onclick="thisPage(this)">1</a></li>
+                        <li><a onclick="thisPage(this)">2</a></li>
+                        <li><a onclick="thisPage(this)">3</a></li>
+                        <li><a onclick="thisPage(this)">4</a></li>
+                        <li><a onclick="thisPage(this)">5</a></li>
+                        <li id="next-page"><a onclick="nextPage()">&raquo;</a></li>
+                    </ul>
+                </div>
+            </div>
         </div>
     </main>
 
-    <div>
-        <ul>
-            {% for p in page_range %}
-            <li>
-                <a href="?keywords={{ keywords }}&page_num={{ p }}">{{ p }}</a>
-            </li>
-            {% endfor %}
-        </ul>
-    </div>
-{% endblock main %}
+    <!-- 页脚 -->
+    {% show_footer %}
+
+    <button onclick="setUp()">生成商品</button>
+</body>
+
+<script type="text/javascript">
+
+    //加载导航栏和页脚
+    var product_list = {{ product_list }};
+    var keyword = {{ keyword }};
+    console.log(product_list);
+    console.log(keyword);
+
+    //打开窗口时
+    /*window.onload = function () {
+
+        //从服务器获取数据，并存在goodList中
+        $.ajax({
+            type: "GET",
+            url: "",
+            dataType: "json",
+            success: function (data) {
+                /*  window.location.href("index.html"); */
+                //goodList = data;
+            /*},
+            error: function (data) {
+
+            },
+        });
+
+        //然后是初始化,这里进行了分页操作
+        setUp;
+    };*/
+
+    //分页栏
+    let nowPage = 1;
+    let maxPage = 1;
+
+    let numOnePage = 8;//一页商品的个数
+
+    let splitGoodList = new Array();
+
+    function prevPage() {
+        if (nowPage > 1) {
+            nowPage--;
+            let nowActiveLi = $(".pagination").children(".active");
+            nowActiveLi.removeClass("active");
+            nowActiveLi.prev().addClass("active");
+            loadGoods(splitGoodList[nowPage - 1]);
+        }
+    }
+
+    function nextPage() {
+        if (nowPage < maxPage) {
+            nowPage++;
+            let nowActiveLi = $(".pagination").children(".active");
+            nowActiveLi.removeClass("active");
+            nowActiveLi.next().addClass("active");
+            loadGoods(splitGoodList[nowPage - 1]);
+        }
+    }
+    function thisPage(a) {
+        let theA = $(a);
+        theA.parent().addClass("active");
+        theA.parent().siblings().removeClass("active");
+        nowPage = parseInt(theA.text());
+        loadGoods(splitGoodList[nowPage - 1]);
+    }
+
+    var goodList = [
+        {
+            id: "1111",
+            goodName: "商品名",
+            goodLink: "product.html",
+            imgURL: "../images/index/4.jpg",
+            goodDescrip: "商品描述商品描述商品描述商品描述商品描述商品描述",
+            unitPrice: 1
+        },
+        {
+            id: "1111",
+            goodName: "商品名",
+            goodLink: "product.html",
+            imgURL: "../images/index/4.jpg",
+            goodDescrip: "商品描述商品描述商品描述商品描述商品描述商品描述",
+            unitPrice: 8
+        },
+        {
+            id: "1111",
+            goodName: "商品名",
+            goodLink: "product.html",
+            imgURL: "../images/index/4.jpg",
+            goodDescrip: "商品描述商品描述商品描述商品描述商品描述商品描述",
+            unitPrice: 4
+        },
+        {
+            id: "1111",
+            goodName: "商品名",
+            goodLink: "product.html",
+            imgURL: "../images/index/4.jpg",
+            goodDescrip: "商品描述商品描述商品描述商品描述商品描述商品描述",
+            unitPrice: 5
+        },
+        {
+            id: "1111",
+            goodName: "商品名",
+            goodLink: "product.html",
+            imgURL: "../images/index/4.jpg",
+            goodDescrip: "商品描述商品描述商品描述商品描述商品描述商品描述",
+            unitPrice: 3
+        },
+        {
+            id: "1111",
+            goodName: "商品名",
+            goodLink: "product.html",
+            imgURL: "../images/index/4.jpg",
+            goodDescrip: "商品描述商品描述商品描述商品描述商品描述商品描述",
+            unitPrice: 15
+        },
+        {
+            id: "1111",
+            goodName: "商品名",
+            goodLink: "product.html",
+            imgURL: "../images/index/4.jpg",
+            goodDescrip: "商品描述商品描述商品描述商品描述商品描述商品描述",
+            unitPrice: 20
+        },
+    ];
+
+
+
+    function getSplitGoodList(product_list) {
+        splitGoodList = new Array();
+        let len = product_list.length;
+        let remainder = len % numOnePage;
+        let leftCount = len;//还没有被分组的商品个数
+
+        let pageCount = 0;//当前计算到的页面个数
+
+        for (let i = 0; i < len; i += numOnePage) {
+            if (leftCount >= numOnePage) {//如果还剩8个以上
+                splitGoodList.push(product_list.slice(i, i + numOnePage));
+                leftCount -= numOnePage;
+            } else {//如果剩下的不足8个
+                splitGoodList.push(product_list.slice(i, i + leftCount));
+                leftCount -= leftCount;
+            }
+            pageCount++;
+        }
+
+        maxPage = pageCount;
+    }
+
+    var colId = "unitPrice";
+    //升序比较函数
+    var asc = function (x, y) {
+        return (x[colId] > y[colId]) ? 1 : -1
+    }
+    //降序比较函数
+    var desc = function (x, y) {
+        return (x[colId] < y[colId]) ? 1 : -1
+    }
+
+    //下拉菜单,发生变化时排序
+    function sortGoods() {
+        var sel = document.getElementById("select");
+        var sortMethod = sel.options[sel.selectedIndex].value;
+
+        console.log(sortMethod);
+
+        if (sortMethod == "asc") {
+            product_list.sort(asc);
+            console.log("asccc");
+        } else if (sortMethod == "desc") {
+            product_list.sort(desc);
+            console.log(product_list[0].unitPrice);
+        }
+        getSplitGoodList(product_list);
+        loadGoods(splitGoodList[0]);
+
+        let firstPageLi = $(".pagination").children().eq(1);
+        thisPage(firstPageLi.children());
+    }
+
+    //load商品
+    function loadGoods(product_list) {
+        let rowGoodDiv = $(".row-goods");
+        rowGoodDiv.html("");
+
+        //console.log("wdnmd");
+        console.log(product_list.length);
+
+        //按照升序排序
+        //goodList.sort(asc);
+
+        $.each(product_list, function (i, item) {
+            let frameDiv = document.createElement("div");
+            frameDiv.setAttribute("class", "col-md-3 good-frame");
+            rowGoodDiv.append(frameDiv);
+
+            let frame1Div = document.createElement("div");
+            frameDiv.append(frame1Div);
+
+            let goodLinkA = document.createElement("a");
+            goodLinkA.setAttribute("href", "/product/"+item.pk);
+            frameDiv.append(goodLinkA);
+
+            let image = document.createElement("img");
+            image.setAttribute("src", '/static/'+item.fields.image);
+            goodLinkA.append(image);
+
+            let goodNameDiv = document.createElement("div");
+            goodNameDiv.setAttribute("class", "good-name");
+            goodNameDiv.innerHTML = item.fields.name;
+            frameDiv.append(goodNameDiv);
+
+            let unitPriceDiv = document.createElement("div");
+            unitPriceDiv.setAttribute("class", "unit-price");
+            unitPriceDiv.innerHTML = "￥" + item.fields.price;
+            frameDiv.append(unitPriceDiv);
+
+            let goodDescripDiv = document.createElement("div");
+            goodDescripDiv.setAttribute("class", "good-descrip");
+            goodDescripDiv.innerHTML = item.fields.description;
+            frameDiv.append(goodDescripDiv);
+        });
+
+    }
+
+    //初始化函数，会生成所有商品并得到最大页数
+    function setUp() {
+        getSplitGoodList(product_list);
+        loadGoods(splitGoodList[0]);
+
+        //生成页数
+        let paginationUl = $(".pagination");
+        paginationUl.html("");
+
+        //加上上一页
+        let prevLi = document.createElement("li");
+        prevLi.setAttribute("id", "prev-page");
+        prevLi.innerHTML = "<a onclick=\"prevPage()\">&laquo;</a>";
+        paginationUl.append(prevLi);
+
+        //加上中间的页数
+        for (let i = 1; i <= maxPage; i++) {
+            let thePageLi = document.createElement("li");
+            if (i == 1) {
+                thePageLi.setAttribute("class", "active");
+            }
+            paginationUl.append(thePageLi);
+
+            let theA = document.createElement("a");
+            theA.setAttribute("onclick", "thisPage(this)");
+            theA.innerHTML = i;
+            thePageLi.append(theA);
+        }
+
+        //下一页
+        let nextLi = document.createElement("li");
+        nextLi.setAttribute("id", "next-page");
+        nextLi.innerHTML = "<a onclick=\"nextPage()\">&raquo;</a>";
+        paginationUl.append(nextLi);
+    }
+
+
+
+</script>
+
+</html>
 

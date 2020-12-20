@@ -1,0 +1,120 @@
+{% load static %}
+{% load user_extras %}
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+
+    <title>网上购物系统</title>
+    <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'user/css/all.css' %}" />
+    <link rel="stylesheet" href="{% static 'user/css/index.css' %}" />
+    <link rel="stylesheet" href="{% static 'user/css/sub_menu.css' %}" />
+    <script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
+    <script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+
+</head>
+
+<style>
+    body {
+        /* background-color: wheat; */
+        background-image: url("{% static 'user/images/background/bg2.jpg' %}");
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+    }
+
+    img {
+        width: 100%;
+    }
+
+    .good-frame {
+        background-color: white;
+        padding-left: 15px;
+        padding-right: 15px;
+        margin-bottom: 20px;
+    }
+
+    .good-frame h4 {
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+
+    .good-frame .title {
+        padding-top: 13px;
+        padding-bottom: 10px;
+
+        font-size: large;
+        font-weight: bold;
+    }
+
+    .good-frame .see-more {
+        padding-top: 10px;
+        padding-bottom: 13px;
+
+        font-size: smaller;
+    }
+</style>
+
+<body>
+    <!-- 导航栏 -->
+    {% show_nav_part %}
+
+    <!--主体内容-->
+    <main style="margin-top: 55px;">
+        <div class="container">
+            <div class="row" style="margin-left: 0px; margin-right: 0px; ">
+                <div class="col-md-12" style="background-color: white; margin-top: 20px;  margin-bottom: 20px; ">
+                    <div>
+                        <h4
+                            style="font-size: larger; font-weight: bold; color: cadetblue;  font-family: 'Times New Roman', Times, serif;">
+                            {{ current_shop.shopName }}</h4>
+                        <p>
+                            <span class="glyphicon glyphicon-heart"></span>&nbsp;&nbsp;{{ current_shop.description }}
+                        </p>
+                        <p>
+                            <span class="glyphicon glyphicon-home"></span>&nbsp;&nbsp;{{ current_shop.address }}
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+            <div class="row" style="margin-left: 0px; margin-right: 0px; ">
+                <div class="col-md-12" style="background-color: white; margin-top: 20px;  margin-bottom: 20px; ">
+                    <div class="col-md-12">
+                        <h4 style="font-size: larger; font-weight: bold; text-align: center;">全部商品</h4>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                {% for product in products %}
+                    <div class="col-md-3 ">
+                        <div class="good-frame">
+                            <div class=" title">{{ product.name }}</div>
+                            <div>
+                                <a href="/product/{{ product.id }}/"><img src="/static/{{ product.image }}" alt=""></a>
+                            </div>
+                            <div class="see-more">
+                                <a href="/product/{{ product.id }}/">查看详情</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+    </main>
+    <!-- 页脚 -->
+    {% show_footer %}
+</body>
+
+
+
+<script type="text/javascript">
+</script>
+
+</html>

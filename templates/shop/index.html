@@ -6,8 +6,8 @@
 </head>
 <body>
 <h1>Index Page</h1>
-{% if request.session.username %}
-    <strong>{{ request.session.username }}</strong>
+{% if request.session.shop_username %}
+    <strong>{{ request.session.shop_username }}</strong>
     <a href="{% url 'shop:logout' %}">退出登录</a>
     {% if request.COOKIES.shop_registered %}
         <div>已经注册店铺</div>

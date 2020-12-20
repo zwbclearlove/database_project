@@ -7,7 +7,7 @@ class User(models.Model):
     nickname = models.CharField(max_length=32, verbose_name="昵称")
     password = models.CharField(max_length=32, verbose_name="密码")
     email = models.EmailField(verbose_name="邮箱")
-    avatar = models.ImageField(upload_to="user/images", verbose_name="头像",null=True,blank=True)
+    avatar = models.ImageField(upload_to="user/images", verbose_name="头像",default="user\images\default_avatar.png",null=True,blank=True)
     phone = models.CharField(max_length=32, verbose_name="联系电话",null=True,blank=True)
     contact_address = models.TextField(verbose_name="联系地址",null=True,blank=True)
 
@@ -29,7 +29,7 @@ class Order(models.Model):
     order_shop = models.IntegerField(verbose_name="店铺id")
     order_address = models.ForeignKey(to=Address,on_delete=models.CASCADE,verbose_name="收货地址")
     order_status = models.IntegerField(verbose_name="订单状态")
-    # 0-未发货 1-已发货 2-已收货 3-已完成
+    # 0-未发货 1-已发货 2-已收货 3-已评价 4-失败 5-全部
     order_price = models.FloatField(verbose_name="订单总额")
     order_date = models.DateTimeField(verbose_name="下单时间")
     def __str__(self):

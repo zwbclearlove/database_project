@@ -1,0 +1,216 @@
+{% load static %}
+{% load user_extras %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>我的消息</title>
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css">
+
+    <link rel="stylesheet" href="{% static 'user/css/all.css' %}" />
+
+    <script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
+    <script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <style>
+        #good-img {
+            width: 100%;
+            height: 100%;
+            border: 1px wheat solid;
+        }
+
+        .avatar {
+            width: 60%;
+            border-radius: 50%;
+            border: 1px wheat solid;
+        }
+
+        .sender {
+            color: lightcoral;
+            font-size: large;
+            font-weight: bold;
+        }
+
+        .message {
+            margin-top: 10px;
+            font-size: 100%;
+            line-height: 140%;
+        }
+
+        .send-time {
+            margin-top: 10px;
+            color: #bbb;
+        }
+    </style>
+
+</head>
+
+<body>
+    <!-- 导航栏 -->
+    {% show_nav_part %}
+
+
+    <main style="margin-top: 80px;">
+        <div class="container">
+            <div class="row">
+                <table class="table" id="message-table" style="table-layout:fixed ;border-bottom: 1px solid #ddd;">
+                    <thead>
+                        <tr>
+                            <th width="10%"></th>
+                            <th width="90%"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="text-align: center;">
+                                <img src="../images/index/6.jpg" alt="" class="avatar">
+                            </td>
+                            <td>
+                                <div style="padding-left: 1em;">
+                                    <div class="sender">张文斌</div>
+                                    <div class="message">
+                                        我IE记法好QUI唯一入口撒谎发
+                                    </div>
+                                    <div class="send-time">2020-12-06 19:30</div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: center;">
+                                <div>
+                                    <img src="../images/index/7.jpg" alt="" class="avatar">
+                                </div>
+                            </td>
+                            <td>
+                                <div style="padding-left: 1em;">
+                                    <div class="sender">qqq</div>
+                                    <div class="message">
+                                        文法净化器weUR逾期未见客户反馈和骄傲我也锐器盒撒娇防控疫情位于荣佛球儿以肉眼市场价卡士大夫，。地方去和各分管萌妃驾到奇怪吗，沙丁鱼法语马萨很反感，手动滑稽分工好一天，。
+                                    </div>
+                                    <div class="send-time">2020-12-06 19:30</div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: center;">
+                                <div>
+                                    <img src="../images/index/4.jpg" alt="" class="avatar">
+                                </div>
+                            </td>
+                            <td>
+                                <div style="padding-left: 1em;">
+                                    <div class="sender">yxy</div>
+                                    <div class="message">
+                                        真的很好吃。
+                                    </div>
+                                    <div class="send-time">2020-12-06 19:30</div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: center;">
+                                <div>
+                                    <img src="../images/index/8.jpg" alt="" class="avatar">
+                                </div>
+                            </td>
+                            <td>
+                                <div style="padding-left: 1em;">
+                                    <div class="sender">张文斌</div>
+                                    <div class="message">
+                                        放弃越野何润锋，地区为羽绒服，超QUI一万二，加括号的覅去医院问UR云趣园，，。
+                                    </div>
+                                    <div class="send-time">2020-12-06 19:30</div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <!-- 页脚 -->
+    {% show_footer %}
+    <button onclick="loadComments()">生成评论</button>
+    <button onclick="loadGood()">生成商品</button>
+</body>
+
+<script type="text/javascript">
+
+    var messageList = [{
+        id: 1234564876,
+        imgURL: "../images/cart/749e8fce6291f8c8.jpg",
+        sender: "上课",
+        message: "马来西亚进口咖啡咖啡咖啡咖啡咖啡咖啡咖啡咖啡，无返回，未发货",
+        sendTime: "2020-12-20 19:30",
+
+    },
+    {
+        id: 1234564876,
+        imgURL: "../images/cart/749e8fce6291f8c8.jpg",
+        sender: "上课",
+        message: "马来西亚进口咖啡咖啡咖啡咖啡咖啡咖啡咖啡咖啡，无返回，未发货",
+        sendTime: "2020-12-20 19:30",
+
+    },
+    {
+        id: 1234564876,
+        imgURL: "../images/cart/749e8fce6291f8c8.jpg",
+        sender: "上课",
+        message: "马来西亚进口咖啡咖啡咖啡咖啡咖啡咖啡咖啡咖啡，无返回，未发货",
+        sendTime: "2020-12-20 19:30",
+
+    },
+    ];
+
+    var message_list = {{ message_list }};
+    var shop_names = {{ shop_names }};
+    var shop_images = {{ shop_images }};
+    console.log(message_list);
+    console.log(shop_names);
+    console.log(shop_images);
+
+
+    function loadComments() {
+        let tbody = $("tbody");
+        tbody.html("");
+        $.each(message_list, function (i, item) {
+            let tableRow = document.createElement("tr");
+            tbody.append(tableRow);
+
+            let imageTd = document.createElement("td");
+            imageTd.setAttribute("style", "text-align: center;")
+            tableRow.append(imageTd);
+
+            let image = document.createElement("img");
+            image.setAttribute("class", "avatar");
+            image.src = '/static/'+shop_images[item.fields.from_id];
+            imageTd.append(image);
+
+            let messageDetailTd = document.createElement("td");
+            tableRow.append(messageDetailTd);
+
+            let messageDetailDiv = document.createElement("div");
+            messageDetailDiv.setAttribute("style", "padding-left: 1em;");
+            messageDetailTd.append(messageDetailDiv);
+
+            let messageerDiv = document.createElement("div");
+            messageerDiv.setAttribute("class", "sender");
+            messageerDiv.innerHTML = shop_names[item.fields.from_id];
+            messageDetailDiv.append(messageerDiv);
+
+            let messageDiv = document.createElement("div");
+            messageDiv.setAttribute("class", "message");
+            messageDiv.innerHTML = item.fields.content;
+            messageDetailDiv.append(messageDiv);
+
+            let messageTimeDiv = document.createElement("div");
+            messageTimeDiv.setAttribute("class", "send-time");
+            messageTimeDiv.innerHTML = item.fields.message_time;
+            messageDetailDiv.append(messageTimeDiv);
+        });
+    }
+
+</script>
+
+</html>

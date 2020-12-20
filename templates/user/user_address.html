@@ -1,0 +1,552 @@
+{% load static %}
+{% load user_extras %}
+
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>网上购物系统</title>
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css">
+
+    <link rel="stylesheet" href="{% static 'user/css/all.css' %}" />
+
+    <script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
+    <script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <style>
+        body {
+            /* background-color: wheat; */
+            background-image: url("{% static 'user/images/background/bg2.jpg' %}");
+            background-repeat: no-repeat;
+            background-size: 100%;
+            background-position: 0 -30px;
+
+        }
+
+        main>.container {
+            background: whitesmoke;
+        }
+
+        img {
+            width: 100%;
+        }
+
+        ul {
+            border: 0;
+        }
+
+        #address-table tr {
+            height: 30px;
+        }
+
+        .nav-pills a {
+            border-bottom: 1px solid #ddd;
+
+        }
+
+        .panel-default>.panel-heading {
+            background-color: lightblue;
+        }
+
+        .panel-default {
+            border-color: #fff;
+        }
+
+        .panel-group .panel-heading+.panel-collapse>.panel-body {
+            border-top: 1px solid #fff;
+        }
+
+        .save {
+            padding: 6px 30px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 导航栏 -->
+    {% show_nav_part %}
+    <div class="row">
+        <div class="col-md-12" style="height: 50px;background: #f66060"></div>
+    </div>
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+    <!--主体内容-->
+    <main style="margin-top: 60px;">
+        <div class="container">
+
+            <div class="row">
+                <div class="col-md-3">
+                    <ul class="nav nav-pills nav-stacked">
+                        <li><a href="{% url 'user:user_info' %}">我的信息</a></li>
+                        <li class="active"><a href="{% url 'user:user_address' %}">我的地址</a></li>
+                        <li><a href="{% url 'user:order_list'%}">我的订单</a></li>
+                        <li><a href="{% url 'user:user_coupon' %}">我的优惠券</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-9">
+                    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                        <div class="panel panel-default">
+                            <div class="panel-heading" role="tab" id="headingOne">
+                                <h4 class="panel-title">
+                                    <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne"
+                                        aria-expanded="true" aria-controls="collapseOne">
+                                        管理地址
+                                    </a>
+                                </h4>
+                            </div>
+
+
+                            <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel"
+                                aria-labelledby="headingOne">
+
+                                <div class="col-md-2 col-md-offset-10">
+                                    <button type="button" class="btn btn-link " id="add-addr" data-toggle="modal"
+                                        data-target="#new-addr-modal" style="width: 100%;">新增地址</button>
+                                </div>
+
+                                <div class="panel-body">
+                                    <div class="col-md-12">
+                                        <table class="table" style="border-bottom: 1px solid #ddd;" id="address-table">
+                                            <thead>
+                                                <tr>
+                                                    <th style="width: 10%;">收货人</th>
+                                                    <th style="width: 60%;">详细地址</th>
+                                                    <th>电话</th>
+                                                    <th>编辑</th>
+                                                    <th>删除</th>
+                                                    <th>默认</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody style="height: 60px; overflow-y: auto;">
+                                                <tr id="addr-1">
+                                                    <td class="receiver">收货人</td>
+                                                    <td class="address" style=" text-align: left;">
+                                                        详细地址详细地址详细地址详细地址详细地址详细地址详细地址</td>
+                                                    <td class="tel">11122223333</td>
+                                                    <td><button type="button" class="btn btn-warning"
+                                                            data-toggle="modal" data-target="#modify-addr-modal"
+                                                            onclick="editAddr(this)">编辑</button>
+                                                    </td>
+                                                    <td><button type="button" class="btn btn-danger "
+                                                            data-toggle="modal" data-target="#confirm-delete-modal"
+                                                            onclick="deleteAddr(this)">删除</button>
+                                                    </td>
+                                                    <td><button type="button" class="btn btn-default " disabled="true"
+                                                            onclick="setDefault(this)">默认地址</button>
+                                                    </td>
+                                                </tr>
+                                                <tr id="addr-2">
+                                                    <td class="receiver">收货人</td>
+                                                    <td class="address" style=" text-align: left;">
+                                                        详细地址详细地址详细地址详细地址详细地址详细地址详细地址</td>
+                                                    <td class="tel">11122223333</td>
+                                                    <td><button type="button" class="btn btn-warning"
+                                                            data-toggle="modal" data-target="#modify-addr-modal"
+                                                            onclick="editAddr(this)">编辑</button>
+                                                    </td>
+                                                    <td><button type="button" class="btn btn-danger "
+                                                            data-toggle="modal" data-target="#confirm-delete-modal"
+                                                            onclick="deleteAddr(this)">删除</button>
+                                                    </td>
+                                                    <td><button type="button" class="btn btn-primary "
+                                                            onclick="setDefault(this)">设为默认</button>
+                                                    </td>
+                                                </tr>
+
+
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+
+    <!-- 页脚 -->
+    {% show_footer %}
+
+
+    <!-- 弹出来的新建地址 -->
+    <div class="modal fade" id="new-addr-modal" tabindex="-1" role="dialog" aria-labelledby="newAddrLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="newAddrLabel" style="color: #0074c2; font-weight: bold;">新增地址</h4>
+                </div>
+                <div class="modal-body">
+                    <label for="">收货人姓名</label>
+                    <input class="form-control" type="text" placeholder="姓名" id="new-receiver">
+                    <label for="">手机号码</label>
+                    <input class="form-control" type="tel" placeholder="手机号码" id="new-tel">
+                    <label for="">详细地址</label>
+                    <textarea class="form-control" name="" id="new-address" rows="4" placeholder="详细地址"
+                        style="resize: none;"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="new-addr-btn" data-dismiss="modal"
+                        onclick="addAddr()">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 弹出来的编辑地址 -->
+    <div class="modal fade" id="modify-addr-modal" tabindex="-1" role="dialog" aria-labelledby="modifyAddrLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="modifyAddrLabel" style="color: #0074c2; font-weight: bold;">编辑地址</h4>
+                </div>
+                <div class="modal-body">
+                    <label for="">收货人姓名</label>
+                    <input class="form-control" id="edit-receiver" type="text" value="联系人">
+                    <label for="">手机号码</label>
+                    <input class="form-control" id="edit-tel" type="tel" value="11122223333">
+                    <label for="">详细地址</label>
+                    <textarea class="form-control" name="" id="edit-address" rows="4"
+                        style="resize: none;">详细地址详细地址详细地址详细地址详细地址详细地址详细地址</textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="edit-addr-btn" data-dismiss="modal"
+                        onclick="saveEditInfo()">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 弹出来的确认删除 -->
+    <div class="modal" id="confirm-delete-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h5 class="modal-title" id="exampleModalLabel">删除</h5>
+                </div>
+                <div class="modal-body">
+                    <h4>确认删除？</h4>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" id="delete-confirm" data-dismiss="modal" onclick="deleteConfirm()">确认</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <button onclick="loadAddressInfo(adds,1)">生成html</button>
+</body>
+
+<script type="text/javascript">
+
+    var adds = {{ address_list }};
+    console.log(adds);
+
+    //分页栏
+    $(".pagination li").click(function () {
+        var pageCount = $(".pagination li").length - 2;
+        var activeIndex = $(".pagination .active").index();
+        if ($(this).hasClass("prev-page")) {
+            if (activeIndex > 1) {
+                $(".pagination li").eq(activeIndex).removeClass("active");
+                $(".pagination li").eq(activeIndex - 1).addClass("active");
+            }
+        } else if ($(this).hasClass("next-page")) {
+            if (activeIndex < pageCount) {
+                $(".pagination li").eq(activeIndex).removeClass("active");
+                $(".pagination li").eq(activeIndex + 1).addClass("active");
+            }
+        } else {
+            $(this).addClass("active");
+            $(this).siblings().removeClass("active");
+        }
+    });
+
+
+    //全局变量
+    let theButton;
+    let addrId;
+
+    //删除一个地址
+    function deleteAddr(button) {
+        theButton = $(button);
+        let addrIdStr = theButton.parent().parent().attr("id");
+        addrId = addrIdStr.substring(5);
+        console.log(addrId);
+    }
+
+    //确认删除
+    function deleteConfirm() {
+        console.log(addrId);
+        theButton.parent().parent().remove();
+        window.open("/address_delete/"+addrId, "_self");
+
+        //发送ajax
+        /*$.ajax({
+            type: "POST",
+            url: "/add_address/",
+            data: { deletedAddrId: addrId },
+            dataType: "json",
+            success: function (data) {
+                //window.open("finish_order.html", "_self");
+            },
+            error: function (data) {
+            },
+        });*/
+    }
+
+    //新增一个地址，点击保存时触发
+    function addAddr() {
+        console.log($("#new-receiver").val() +
+            $("#new-tel").val() +
+            $("#new-address").val());
+
+
+        //清空原有信息
+
+
+        $.ajax({
+            type: "POST",
+            url: "/add_address/",
+            data: {
+                receiver: $("#new-receiver").val(),
+                phone: $("#new-tel").val(),
+                address: $("#new-address").val(),
+            },
+            dataType: "json",
+            success: function (data) {
+                if (data.status == 'success') {
+                    console.log("success");
+                    window.open("/user_address/", "_self");
+                } else {
+                    console.log("error");
+                }
+            },
+            error: function (data) {
+                console.log("error")
+            },
+        });
+
+        //发送完数据后将这个地址信息显示出来
+        let newAddr = [{
+            id: 0000,
+            receiver: $("#new-receiver").val(),
+            address: $("#new-address").val(),
+            tel: $("#new-tel").val(),
+        }];
+
+        console.log("len:" + newAddr.length);
+
+        //loadinfo 0表示非初始化，不应该清空表格
+        loadAddressInfo(newAddr, 0);
+
+        //清空信息，下次写的时候是空的
+        $("#new-receiver").val("");
+        $("#new-tel").val("");
+        $("#new-address").val("");
+    }
+
+
+    //编辑一个地址
+    function editAddr(button) {
+        theButton = $(button);
+
+        let addrIdStr = theButton.parent().parent().attr("id");
+        addrId = addrIdStr.substring(5);
+
+        console.log("wdnmd");
+
+        //编辑前载入原有信息
+        $("#edit-receiver").val(theButton.parent().siblings(".receiver").text());
+        $("#edit-tel").val(theButton.parent().siblings(".tel").text());
+        $("#edit-address").val(theButton.parent().siblings(".address").text().trim());
+    }
+
+    //点击保存时保存编辑的信息；
+    function saveEditInfo() {
+        console.log(addrId + $("#edit-receiver").val() +
+            $("#edit-tel").val() +
+            $("#edit-address").val());
+        //发送ajax
+        $.ajax({
+            type: "POST",
+            url: "/address_update/"+addrId,
+            data: {
+                receiver: $("#edit-receiver").val(),
+                phone: $("#edit-tel").val(),
+                address: $("#edit-address").val(),
+            },
+            dataType: "json",
+            success: function (data) {
+                if (data.status == 'success') {
+                    console.log("success");
+                    window.open("/user_address/", "_self");
+                } else {
+                    console.log("error");
+                }
+            },
+            error: function (data) {
+                console.log("error")
+            },
+        });
+        //编辑完成后显示新信息
+        theButton.parent().siblings(".receiver").text($("#edit-receiver").val());
+        theButton.parent().siblings(".tel").text($("#edit-tel").val());
+        theButton.parent().siblings(".address").text($("#edit-address").val());
+    }
+
+
+
+    //将地址设为默认
+    function setDefault(button) {
+        let theButton = $(button);
+
+        let addrIdStr = theButton.parent().parent().attr("id");
+        let addrId = addrIdStr.substring(5);
+
+        console.log("set addr defalut:" + addrId);
+
+        //改变按钮自身的样式
+        theButton.attr("disabled", "true");
+        theButton.text("默认地址");
+        theButton.attr("class", "btn btn-default");
+
+        //让原本的默认地址变为可编辑
+        let originDefaultBtn = theButton.parent().parent().siblings().find(".btn-default");
+        originDefaultBtn.removeAttr("disabled");
+        originDefaultBtn.attr("class", "btn btn-primary");
+        originDefaultBtn.text("设为默认")
+
+        //发送ajax
+        $.ajax({
+            type: "POST",
+            url: "",
+            data: {
+                defalutAddrId: addrId,
+            },
+            dataType: "json",
+            success: function (data) {
+                //window.open("finish_order.html", "_self");
+            },
+            error: function (data) {
+            },
+        });
+    }
+
+
+    var addressList = [{
+        id: 1234564876,
+        receiver: "收获人人",
+        address: "详细地址详细地址详细地址详细地址详细地址详细地址",
+        tel: "11122223333",
+    },
+    {
+        id: 1234564876,
+        receiver: "收获人人",
+        address: "详细地址详细地址详细地址详细地址详细地址详细地址",
+        tel: "11122223333",
+    },
+    {
+        id: 1234564876,
+        receiver: "收获人人",
+        address: "详细地址详细地址详细地址详细地址详细地址详细地址",
+        tel: "11122223333",
+    },
+    {
+        id: 1234564876,
+        receiver: "收获人3",
+        address: "详细地址详细地址详细地址详细地址详细地址1234431",
+        tel: "12345678900",
+    }
+    ];
+
+    //生产html
+    function loadAddressInfo(adds, init) {
+        let tbody = $("#address-table tbody");
+        if (init == 1) {//如果是初始化，则清空表格
+            tbody.html("");
+        }
+        $.each(adds, function (i, item) {
+            let tableRow = document.createElement("tr");
+            tableRow.id = "addr-" + item.pk;
+            tbody.append(tableRow);
+
+            let receiverTd = document.createElement("td");
+            receiverTd.setAttribute("class", "receiver");
+            receiverTd.innerHTML = item.fields.receiver;
+            tableRow.append(receiverTd);
+
+            let addressTd = document.createElement("td");
+            addressTd.setAttribute("class", "address");
+            addressTd.innerHTML = item.fields.address;
+            tableRow.append(addressTd);
+
+            let telTd = document.createElement("td");
+            telTd.setAttribute("class", "tel");
+            telTd.innerHTML = item.fields.receive_phone;
+            tableRow.append(telTd);
+
+            let editTd = document.createElement("td");
+            editTd.setAttribute("class", "");
+            editTd.innerHTML = "<button type=\"button\" class=\"btn btn-warning\" data-toggle=\"modal\" data-target=\"#modify-addr-modal\" onclick=\"editAddr(this)\">编辑</button>";
+            tableRow.append(editTd);
+
+            let deleteTd = document.createElement("td");
+            deleteTd.setAttribute("class", "");
+            deleteTd.innerHTML = "<button type=\"button\" class=\"btn btn-danger\" data-toggle=\"modal\" data-target=\"#confirm-delete-modal\" onclick=\"deleteAddr(this)\">删除</button>";
+            tableRow.append(deleteTd);
+
+            let defaultTd = document.createElement("td");
+            defaultTd.setAttribute("class", "");
+            /* defaultTd.innerHTML = "<button type=\"button\" class=\"btn btn-danger\">删除</button>"; */
+            tableRow.append(defaultTd);
+
+            let defaultBtn = document.createElement("button");
+            defaultBtn.setAttribute("type", "button");
+            if (i == 0 && init == 1) {
+                defaultBtn.setAttribute("class", "btn btn-default");
+                defaultBtn.setAttribute("disabled", "true");
+                defaultBtn.innerHTML = "默认地址";
+            } else {
+                defaultBtn.setAttribute("class", "btn btn-primary");
+                defaultBtn.innerHTML = "设为默认";
+            }
+            defaultBtn.setAttribute("onclick", "setDefault(this)");
+            defaultTd.append(defaultBtn);
+        });
+    }
+
+
+</script>
+
+</html>

@@ -1,52 +1,251 @@
-{% extends 'user/base.html' %}
 {% load static %}
-{% block title %}
-    收藏夹
-{% endblock %}
-{% block main %}
+{% load user_extras %}
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8" />
+<title>收藏夹</title>
+
+<!-- Bootstrap -->
+<link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css">
+
+<link rel="stylesheet" href="{% static 'user/css/all.css' %}" />
+<link rel="stylesheet" href="{% static 'user/css/index.css' %}" />
+
+<script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
+<script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<style>
+    button {
+        border-radius: 0 !important;
+    }
+
+
+
+    .imgFrame {
+        position: relative;
+        width: 100%;
+        height: 0;
+        padding-top: 100%;
+        /* 宽高比例为1：1 */
+    }
+
+    .imgFrame img {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        border: 1px wheat solid;
+    }
+
+    /* body {
+             background-color: wheat;
+            background-image: url("../../images/background/bg2.jpg");
+            background-repeat: no-repeat;
+            background-size:100% ;
+
+        } */
+</style>
+
+<style>
+
+</style>
+
+</head>
+
+<body>
     <!-- 导航栏 -->
-    <div id="nav_part"></div>
+    {% show_nav_part %}
 
     <!-- 主体部分 -->
-    <main>
+    <main style="margin-top: 50px">
         <div class="container">
-            <div class="row" style="margin-top: 45px">
-                <div class="row row-goods">
-                    <div class="col-md-12 title">
-                        <div class="col-md-5 ">
-                            <div class="k-border">
-                                <div class="border bor-l">
-                                    <div class="border bor-r">
-                                        <div class="bor-m"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-2 ">收藏夹</div>
-                        <div class="col-md-5 ">
-                            <div class="k-border">
-                                <div class="border bor-l">
-                                    <div class="border bor-r">
-                                        <div class="bor-m"></div>
-                                    </div>
+            <div class="row">
+                <div class="col-md-12 title">
+                    <div class="col-md-5 ">
+                        <div class="k-border">
+                            <div class="border bor-l">
+                                <div class="border bor-r">
+                                    <div class="bor-m"></div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    {% for fav in favorites %}
-                        <div class="col-md-2" style="margin-top: 20px;">
-                            <a href="{% url 'user:product' fav.product_id %}"><img src="/static/{{ fav.image }}" alt=""></a>
-                            <form action="{% url 'user:cancel_favorite' fav.product_id %}">
-                                <button type="submit" class="btn btn-warning " style="width: 100%;">删除</button>
-                            </form>
-
+                    <div class="col-md-2 ">收藏夹</div>
+                    <div class="col-md-5 ">
+                        <div class="k-border">
+                            <div class="border bor-l">
+                                <div class="border bor-r">
+                                    <div class="bor-m"></div>
+                                </div>
+                            </div>
                         </div>
-                    {% endfor %}
+                    </div>
+                </div>
+                <div class="row row-goods">
+                    <div class="col-md-2" style="margin-top: 20px;" id="favo-1">
+                        <div class="imgFrame">
+                            <a href="product.html"><img src="../images/index/1.jpg" alt=""></a>
+                        </div>
+                        <button type="button" class="btn btn-warning delete-btn" style="width: 100%;"
+                            data-toggle="modal" data-target="#confirm-Modal" onclick="deleteFavo(this)">删除</button>
+                    </div>
+                    <div class="col-md-2" style="margin-top: 20px;" id="favo-1">
+                        <div class="imgFrame">
+                            <a href="product.html"><img src="../images/index/2.jpg" alt=""></a>
+                        </div>
+                        <button type="button" class="btn btn-warning delete-btn" style="width: 100%;"
+                            data-toggle="modal" data-target="#confirm-Modal" onclick="deleteFavo(this)">删除</button>
+                    </div>
+                    <div class="col-md-2" style="margin-top: 20px;" id="favo-1">
+                        <div class="imgFrame">
+                            <a href="product.html"><img src="../images/index/3.jpg" alt=""></a>
+                        </div>
+                        <button type="button" class="btn btn-warning delete-btn" style="width: 100%;"
+                            data-toggle="modal" data-target="#confirm-Modal" onclick="deleteFavo(this)">删除</button>
+                    </div>
+                    <div class="col-md-2" style="margin-top: 20px;" id="favo-1">
+                        <div class="imgFrame">
+                            <a href="product.html"><img src="../images/index/4.jpg" alt=""></a>
+                        </div>
+                        <button type="button" class="btn btn-warning delete-btn" style="width: 100%;"
+                            data-toggle="modal" data-target="#confirm-Modal" onclick="deleteFavo(this)">删除</button>
+                    </div>
+                </div>
+            </div>
+    </main>
 
-
-
+    <!-- 弹出来的确认删除 -->
+    <div class="modal" id="confirm-Modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h5 class="modal-title" id="exampleModalLabel">删除</h5>
+                </div>
+                <div class="modal-body">
+                    <h4>确认删除？</h4>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" id="delete-confirm" data-dismiss="modal"
+                        onclick="deleteConfirm()">确认</button>
                 </div>
             </div>
         </div>
-    </main>
-{% endblock %}
+    </div>
+    <!-- 页脚 -->
+    {% show_footer %}
+
+    <button onclick="loadFavos()">生成html</button>
+
+</body>
+<script type="text/javascript">
+
+
+    //用一个全局变量表示按钮参数和
+    let theButton;
+    let favoId;
+
+    //点击删除按钮
+    function deleteFavo(button) {
+        theButton = $(button);
+        let favoIdStr = theButton.parent().attr("id");
+        favoId = favoIdStr.substring(5);
+
+        console.log(favoId);
+
+    }
+
+    //点击确认删除按钮
+    function deleteConfirm() {
+        theButton.parent().remove();
+        //发送删除的id
+        window.open("/cancel_favorite/"+favoId, "_self");
+        /*$.ajax({
+            type: "POST",
+            url: "/cancel_favorite/"+favoId+"/",
+            data: { deletedFavoId: favoId },
+            dataType: "json",
+            success: function (data) {
+                //window.open("finish_order.html", "_self");
+            },
+            error: function (data) {
+            },
+        });*/
+
+    }
+
+    var favorites = {{ favorites }};
+    var fav_images = {{ fav_images }};
+    console.log(favorites);
+    console.log(fav_images);
+
+    var favosList = [{
+        id: 1234564876,
+        imgUrl: "../images/cart/749e8fce6291f8c8.jpg",
+        goodLink: "product.html",
+        goodName: "咖啡",
+        goodDescrip: "马来西亚进口咖啡咖啡咖啡咖啡咖啡咖啡咖啡咖啡",
+        unitPrice: 199,
+        goodsCount: 1,
+    },
+    {
+        id: 123456487,
+        imgUrl: "../images/cart/50e2c594f34bef9c.jpg",
+        goodLink: "product.html",
+        goodName: "咖啡",
+        goodDescrip: "马来西亚进口咖啡咖啡咖啡咖啡咖啡咖啡咖啡咖啡",
+        unitPrice: 199,
+        goodsCount: 1,
+    },
+    {
+        id: 12345648,
+        imgUrl: "../images/index/1.jpg",
+        goodLink: "product.html",
+        goodName: "咖啡",
+        goodDescrip: "马来西亚进口咖啡咖啡咖啡咖啡咖啡咖啡咖啡咖啡",
+        unitPrice: 199,
+        goodsCount: 1,
+    }];
+
+
+    function loadFavos() {
+        $(".row-goods").html("");
+        let favoListDiv = $(".row-goods");
+        $.each(favorites, function (i, item) {
+            let favoDiv = document.createElement("div");
+            favoDiv.id = "favo-" + item.fields.product_id;
+            favoDiv.setAttribute("class", "col-md-2");
+            favoDiv.setAttribute("style", "margin-top: 20px;");
+            favoListDiv.append(favoDiv);
+
+            let imgFrameDiv = document.createElement("div");
+            imgFrameDiv.setAttribute("class", "imgFrame");
+            favoDiv.append(imgFrameDiv);
+
+            let favoLink = document.createElement("a");
+            favoLink.href = '/product/'+item.fields.product_id;
+            imgFrameDiv.append(favoLink);
+
+
+            let image = document.createElement("img");
+            image.src = '/static/'+fav_images[item.fields.product_id];
+            favoLink.append(image);
+
+            let deleteBtn = document.createElement("button");
+            deleteBtn.setAttribute("type", "button");
+            deleteBtn.setAttribute("class", "btn btn-warning delete-btn");
+            deleteBtn.setAttribute("style", "width: 100%;");
+            deleteBtn.setAttribute("data-toggle", "modal");
+            deleteBtn.setAttribute("data-target", "#confirm-Modal");
+            deleteBtn.setAttribute("onclick", "deleteFavo(this)");
+            deleteBtn.innerHTML = "删除";
+            favoDiv.append(deleteBtn);
+        });
+    }
+</script>
+
+</html>

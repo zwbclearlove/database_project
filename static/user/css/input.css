@@ -1,6 +1,5 @@
 input {
     color: black;
-    font-size: 15px;
     padding-left: 12px;
     margin: 8px 0;
     outline: 0;
@@ -12,7 +11,6 @@ input {
 
 input[type=text]:focus,
 input[type=password]:focus {
-    background-color: rgb(244, 246, 246);
     border-color: #66afe9;
     outline: 0;
     -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 15px rgba(102, 175, 233, .6);
@@ -22,7 +20,6 @@ input[type=password]:focus {
 input[type=submit] {
 
     color: white;
-    font-size: 0.8em;
     cursor: pointer;
 }
 
@@ -32,13 +29,11 @@ input[type=submit]:hover {
 
 .inputTips {
     margin-bottom: 5px;
-    font-size: 80%;
 }
 
 .inputText {
     width: 100%;
     height: 40px;
-
     margin-bottom: 20px;
 }
 

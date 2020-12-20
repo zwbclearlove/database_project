@@ -1,32 +1,45 @@
-{% extends 'user/base.html' %}
 {% load static %}
-{% block title %}
-    下单成功
-{% endblock %}
-{% block main %}
-    <link rel="stylesheet" href="{% static 'user/css/finish_order.css' %}">
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-offset-3 col-sm-6">
-                <div class="tick">
-                    <div class="tickimg"></div>
-                    <p>购买成功</p>
-                </div>
-                <ul style="margin-top: 10px" class="list-group">
-                    <li class="list-group-item">
-                        {% for order_id in order_list %}
-                             <p class="mark">
-                                <span class="des-label">订单号：</span>
-                                <span>{{ order_id }}</span>
-                            </p>
-                        {% endfor %}
-                    </li>
-                </ul>
+{% load user_extras %}
 
-                <button type="button" class="btn btn-success col-sm-offset-1 col-sm-4"
-                    onclick="window.location.href='{% url 'user:index' %}'">继续购物</button>
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>结算完成</title>
+    <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'user/css/all.css' %}" />
+    <link rel="stylesheet" href="{% static 'user/css/finish_order.css' %}" />
+    <script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
+    <script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+    <!-- 导航栏 -->
+    {% show_nav_part %}
+
+    <main style="margin-top: 130px;">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-offset-3 col-sm-6">
+                    <div class="tick">
+                        <div class="tickimg"></div>
+                        <p>购买成功</p>
+                    </div>
+                    <button type="button" class="btn btn-success col-sm-offset-2 col-sm-8"
+                        onclick="window.location.href='/index/'" style="margin-top: 80px;">继续购物</button>
+                </div>
             </div>
         </div>
-    </div>
-{% endblock %}
+    </main>
 
+    <!-- 页脚 -->
+    {% show_footer %}
+</body>
+
+<script type="text/javascript">
+
+</script>
+
+</html>

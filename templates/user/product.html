@@ -1,88 +1,322 @@
-{% extends 'user/base.html' %}
 {% load static %}
-{% block title %}
-    {{ product.name }}
-{% endblock %}
+{% load user_extras %}
+<!DOCTYPE html>
 
-{% block main %}
-    <link rel="stylesheet" href="{% static 'user/css/product.css' %}">
-    <div class="productBox">
-        <table class="productTable" border="0" cellpadding="0" cellspacing="10">
-            <tr>
-                <td>
-                    <img style="width: 400px;height: 500px;" src="/static/{{ product.image }}" alt="">
-                </td>
-                <td>
-                    <h1 class="descrip">{{ product.name }}</h1>
-                    <div class="amount">价格</div>
-                    <div class="amountValue">{{ product.price }} CNY</div>
-                    <br>
+<head>
+    <meta charset="utf-8" />
+    <title>商品详情</title>
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css">
 
-                    <div class="colour">描述</div>
-                    <div class="colourValue">{{ product.description }}</div>
-                    <br>
-                    <div class="count">数量</div>
-                    <div class="countValue">
-                        <button name="button" type="button" class="minusButton">-</button>
-                        <input type="tel" name="count" min="1" value="1" class="countInput">
-                        <button name="button" type="button" class="plusButton">+</button>
-                    </div>
+    <link rel="stylesheet" href="{% static 'user/css/all.css' %}" />
 
+    <script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
+    <script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <style>
+        #good-img {
+            width: 100%;
+            height: 100%;
+            border: 1px wheat solid;
+        }
 
-                    <div class="buttonDiv">
-                        {% if favorited %}
-                            <form method="post" action='{% url 'user:cancel_favorite' product.id %}'>
-                                {% csrf_token %}
-                                <button type="submit">取消收藏</button>
-                            </form>
-                        {% else %}
-                            <form method="post" action='{% url 'user:add_to_favorite' product.id %}'>
-                                {% csrf_token %}
-                                <button type="submit">添加到收藏夹</button>
-                            </form>
-                        {% endif %}
+        .avatar {
+            width: 60%;
+            border-radius: 50%;
+            border: 1px wheat solid;
+        }
 
-                        <form method="post" action='{% url 'user:add_to_cart' product.id %}'>
-                            {% csrf_token %}
-                            <button type="submit">添加到购物车</button>
-                        </form>
-                    </div>
-                </td>
-            </tr>
+        .commenter {
+            color: cadetblue;
+            font-size: large;
+            font-weight: bold;
+        }
 
-        </table>
+        .comment {
+            margin-top: 10px;
+            font-size: 100%;
+            line-height: 140%;
+        }
+
+        .comment-time {
+            margin-top: 10px;
+            color: #bbb;
+        }
+    </style>
+
+</head>
+
+<body>
+    <!-- 导航栏 -->
+    {% show_nav_part %}
+
+    <div class="row">
+        <div class="col-md-12" style="height: 50px;background: #f66060"></div>
     </div>
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
 
-    <div class="commentTip">所有评价：</div>
-        <div class="commentBox">
-            <div class="allComments">
-                {% for comment in comment_list %}
-                    <div class="oneComent">
-                        <div class="commenter">
-                            <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-person" fill="currentColor"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path fill-rule="evenodd"
-                                    d="M10 5a2 2 0 1 1-4 0 2 2 0 0 1 4 0zM8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm6 5c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z" />
-                            </svg>
-                            {{ comment.nickname }}
-                        </div>
-                        <div class="commentContent">{{ comment.content }}</div>
-                        <div class="commentTime">{{ comment.create_time }}</div>
-                    </div>
-                {% endfor %}
-
+    <main style="margin-top: 60px;">
+        <div class="container-fluid">
+            <div id="prompt">
 
             </div>
         </div>
-    <h3>发表评论</h3>
-    <form action="{% url 'user:comment' product.id %}" method="post">
-        {% csrf_token %}
-        <input type="text" class="form-control" name="score" placeholder="评分">
-        <input type="text" class="form-control" name="content" placeholder="评论">
-        <button type="submit" class="btn btn-default" >发表</button>
-    </form>
 
-{% endblock %}
+        <div class="container">
+            <div class="row">
+                <div class="col-md-10 col-md-offset-1">
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <img src="/static/{{ product.image }}" alt="" id="good-img">
+                        </div>
 
+                        <div class="col-md-5 col-md-offset-1">
+                            <h3 id="good-name">{{ product.name }}</h3>
+                            <hr>
+                            {% if on_sale %}
+                                <div>
+                                    <del>
+                                        ￥ <span id="unit-price">{{ product.price }}</span>
+                                    </del>
+                                </div>
+
+                                <div style="color: red;">
+                                    ￥ <span id="unit-price">{{ product.on_sale_price }}</span>
+                                </div>
+                            {% else %}
+                                <div style="color: red;">
+                                    ￥ <span id="unit-price">{{ product.price }}</span>
+                                </div>
+                            {% endif %}
+
+
+                            <hr>
+                            <div id="good-descrip">{{ product.description }}</div>
+                            <hr>
+                            库存<span id="inventory">{{ product.stock }}</span>件
+                            <hr>
+                            <button type="button" class="btn btn-sm add-btn" data-operator='increase'>+</button>
+                            <button type="button" class="btn btn-sm  disabled count" data-name='qty'>1</button>
+                            <button type="button" class="btn btn-sm sub-btn" data-operator='decrease'>-</button>
+                            <hr>
+                            {% if not favorited %}
+                                <button class="btn btn-primary col-md-5" id="add-favo">收藏</button>
+                            {% else %}
+                                <button class="btn btn-primary col-md-5" id="remove-favo">取消收藏</button>
+                            {% endif %}
+
+                            <button class="btn btn-success col-md-5 col-md-offset-1" id="add-cart">加入购物车</button>
+                        </div>
+                    </div>
+                    <hr>
+                    <div>
+                        <h4
+                            style="font-size: larger; font-weight: bold; color: cadetblue;  font-family: 'Times New Roman', Times, serif;">
+                            {{ product.shopId.shopName }}</h4>
+                        {% if not shop_followed%}
+                            <a href="/follow/{{ product.shopId.id }}">关注店铺</a>
+                        {% else %}
+                            <a href="/unfollow/{{ product.shopId.id }}">取消关注</a>
+                        {% endif %}
+                        <a href="/shopinfo/{{ product.shopId.id }}">进店逛逛</a>
+                    </div>
+                    <div style="margin-top: 60px; margin-bottom: 10px; font-size: large;">
+                        全部评价
+                    </div>
+                    <div class="row" style="margin-top: 0px;">
+                        <table class="table" id="comment-table"
+                            style="table-layout:fixed ;border-bottom: 1px solid #ddd;">
+                            <thead>
+                                <tr>
+                                    <th width="10%"></th>
+                                    <th width="90%"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="text-align: center;">
+                                        <img src="../images/index/6.jpg" alt="" class="avatar">
+                                    </td>
+                                    <td>
+                                        <div style="padding-left: 1em;">
+                                            <div class="commenter">张文斌</div>
+                                            <div class="comment">
+                                                我IE记法好QUI唯一入口撒谎发
+                                            </div>
+                                            <div class="comment-time">2020-12-06 19:30</div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: center;">
+                                        <div>
+                                            <img src="../images/index/7.jpg" alt="" class="avatar">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div style="padding-left: 1em;">
+                                            <div class="commenter">qqq</div>
+                                            <div class="comment">
+                                                文法净化器weUR逾期未见客户反馈和骄傲我也锐器盒撒娇防控疫情位于荣佛球儿以肉眼市场价卡士大夫，。地方去和各分管萌妃驾到奇怪吗，沙丁鱼法语马萨很反感，手动滑稽分工好一天，。
+                                            </div>
+                                            <div class="comment-time">2020-12-06 19:30</div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: center;">
+                                        <div>
+                                            <img src="../images/index/4.jpg" alt="" class="avatar">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div style="padding-left: 1em;">
+                                            <div class="commenter">yxy</div>
+                                            <div class="comment">
+                                                真的很好吃。
+                                            </div>
+                                            <div class="comment-time">2020-12-06 19:30</div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: center;">
+                                        <div>
+                                            <img src="../images/index/8.jpg" alt="" class="avatar">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div style="padding-left: 1em;">
+                                            <div class="commenter">张文斌</div>
+                                            <div class="comment">
+                                                放弃越野何润锋，地区为羽绒服，超QUI一万二，加括号的覅去医院问UR云趣园，，。
+                                            </div>
+                                            <div class="comment-time">2020-12-06 19:30</div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h3>发表评价</h3>
+                    <form action="{% url 'user:comment' product.id %}" method="post">
+                        {% csrf_token %}
+                        <input type="text" class="form-control" name="score" placeholder="评分">
+                        <input type="text" class="form-control" name="content" placeholder="评论">
+                        <button type="submit" class="btn btn-default" >发表</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- 页脚 -->
+    {% show_footer %}
+    <button onclick="loadComments()">生成评论</button>
+</body>
+
+<script type="text/javascript">
+
+
+    let prompt = document.getElementById("prompt");
+
+    let closePromptBtn = document.createElement("button");
+    closePromptBtn.setAttribute("type", "button");
+    closePromptBtn.setAttribute("class", "close");
+    closePromptBtn.setAttribute("data-dismiss", "alert");
+    closePromptBtn.innerHTML = "&times;"
+
+    $("#add-favo").click(function () {
+        window.open("/add_to_favorite/{{ product.id }}/", "_self");
+    });
+
+    $("#remove-favo").click(function () {
+        window.open("/cancel_favorite/{{ product.id }}/", "_self");
+    });
+
+    $("#add-cart").click(function () {
+        window.open("/add_to_cart/{{ product.id }}/", "_self");
+    });
+
+    //+或-按钮的效果
+    $(".add-btn,.sub-btn").click(function () {
+        //变化数量
+        var countStr = $(this).siblings(".count").text();
+        var count = parseInt(countStr);
+        if ($(this).hasClass("add-btn")) {
+            count++;
+        } else {
+            if (count > 0) {
+                count--;
+                $(this).siblings(".count").text(count);
+            }
+        }
+
+        $(this).siblings(".count").text(count);
+    });
+
+
+    var comments = {{ comment_list }};
+    var comment_names = {{ comment_name_list }};
+    var comment_images = {{ comment_image_list }};
+
+    console.log(comments);
+    console.log(comment_names);
+    console.log(comment_images);
+
+
+    function loadComments() {
+        let tbody = $("#comment-table tbody");
+        tbody.html("");
+        $.each(comments, function (i, item) {
+            let tableRow = document.createElement("tr");
+            tbody.append(tableRow);
+
+            let imageTd = document.createElement("td");
+            imageTd.setAttribute("style", "text-align: center;")
+            tableRow.append(imageTd);
+
+            let image = document.createElement("img");
+            image.setAttribute("class", "avatar");
+            image.src = '/static/'+comment_images[item.fields.user_id];
+            imageTd.append(image);
+
+            let commentDetailTd = document.createElement("td");
+            tableRow.append(commentDetailTd);
+
+            let commentDetailDiv = document.createElement("div");
+            commentDetailDiv.setAttribute("style", "padding-left: 1em;");
+            commentDetailTd.append(commentDetailDiv);
+
+            let commenterDiv = document.createElement("div");
+            commenterDiv.setAttribute("class", "commenter");
+            commenterDiv.innerHTML = comment_names[item.fields.user_id];
+            commentDetailDiv.append(commenterDiv);
+
+            let commentDiv = document.createElement("div");
+            commentDiv.setAttribute("class", "comment");
+            commentDiv.innerHTML = item.fields.content;
+            commentDetailDiv.append(commentDiv);
+
+            let commentTimeDiv = document.createElement("div");
+            commentTimeDiv.setAttribute("class", "comment-time");
+            commentTimeDiv.innerHTML = item.fields.create_time;
+            commentDetailDiv.append(commentTimeDiv);
+        });
+    }
+
+</script>
+
+</html>
 
 

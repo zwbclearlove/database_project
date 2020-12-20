@@ -7,7 +7,8 @@ from django.utils import timezone
 from django.contrib.auth import authenticate, login, logout
 from django.http import JsonResponse
 from django.shortcuts import render, HttpResponseRedirect, redirect
-from shop.models import User,Shop,ShopType,Product,ProductType,Comment
+from shop.models import User,Shop,ShopType,Product,ProductType,Comment,Coupon,Follow,Message
+from user.models import Order
 
 # Create your views here.
 
@@ -68,9 +69,9 @@ def login(request):
                     result["status"] = "success"
                     result["data"] = "登录成功"
                     response = HttpResponseRedirect('/shop/index/',locals())
-                    response.set_cookie("username", user.username)
-                    response.set_cookie("userId", user.id)
-                    request.session["username"] = user.username
+                    response.set_cookie("shop_username", user.username)
+                    response.set_cookie("shop_userId", user.id)
+                    request.session["shop_username"] = user.username
 
                     shop = Shop.objects.filter(userId=user.id).first()
                     if shop:
@@ -93,8 +94,8 @@ def login(request):
 def loginValid(fun):
     def inner(request,*args,**kwargs):
         # 获取成功登录后的cookie和session
-        c_user = request.COOKIES.get("username")
-        s_user = request.session.get("username")
+        c_user = request.COOKIES.get("shop_username")
+        s_user = request.session.get("shop_username")
         # 如果cookie和session都存在并且值都相同
         if c_user and s_user and c_user == s_user:
             # 通过c_user查询数据库
@@ -108,7 +109,7 @@ def loginValid(fun):
 
 @loginValid
 def index(request):
-    userId = request.COOKIES.get("userId")
+    userId = request.COOKIES.get("shop_userId")
     if userId:
         userId = int(userId)
     else:
@@ -121,7 +122,7 @@ def exit(request):
     response = HttpResponseRedirect("/shop/login/")
     for key in request.COOKIES:
         response.delete_cookie(key)
-    del request.session["username"]
+    del request.session["shop_username"]
     # 跳转到登录
     return response
 
@@ -134,7 +135,7 @@ def shop_register(request):
         address = post_data.get("address")
         description = post_data.get("description")
         phone = post_data.get("phoneNumber")
-        user_id = int(request.COOKIES.get("userId"))
+        user_id = int(request.COOKIES.get("shop_userId"))
         type_lst = post_data.getlist("type")
         logo = request.FILES.get("avatar")
 
@@ -167,7 +168,7 @@ def shop_update(request):
         address = post_data.get("address")
         description = post_data.get("description")
         phone = post_data.get("phoneNumber")
-        user_id = int(request.COOKIES.get("userId"))
+        user_id = int(request.COOKIES.get("shop_userId"))
         type_lst = post_data.getlist("type")
         logo = request.FILES.get("avatar")
 
@@ -196,8 +197,9 @@ def add_product(request):
         description = postdata.get("description")
         stock = postdata.get("stock")
         image = request.FILES.get("image")
+
         date = timezone.now()
-        user_id = int(request.COOKIES.get("userId"))
+        user_id = int(request.COOKIES.get("shop_userId"))
         shop = Shop.objects.filter(userId=user_id).first()
         product = Product()
         product.name = name
@@ -206,7 +208,10 @@ def add_product(request):
         product.stock = stock
         product.createdDate = date
         product.shopId = shop
-        product.image = image
+        if image:
+            product.image = image
+        else :
+            product.image = 'shop/images/no_image.png'
         product.save()
         return HttpResponseRedirect("/shop/index/")
 
@@ -222,7 +227,7 @@ def product_list(request):
         plist = Product.objects.filter(shopId=shop,name__contains=keywords)
     else:
         plist = Product.objects.filter(shopId=shop)
-    paginator = Paginator(plist,3)
+    paginator = Paginator(plist,10)
     page = paginator.page(int(page_num))
     page_range = paginator.page_range
     return render(request,"shop/product_list.html",locals())
@@ -305,6 +310,78 @@ def ptype_delete(request, ptid):
     ptype.delete()
     return HttpResponseRedirect('/shop/index/')
 
+def coupon_add(request):
+    if request.method == 'POST':
+        postdata = request.POST
+        end_time = postdata.get('end_time')
+        product_id = postdata.get('product_id')
+        discount = postdata.get('discount')
+
+        new_coupon = Coupon()
+        new_coupon.create_time = timezone.now()
+        new_coupon.end_time = end_time
+        new_coupon.discount = discount
+        new_coupon.product_id = product_id
+        new_coupon.save()
+
+        shop_id = request.COOKIES.get('shop_userId')
+        follower_list = Follow.objects.filter(shop_id=shop_id)
+        for follower in follower_list:
+            new_message = Message()
+            new_message.message_time = timezone.now()
+            new_message.message_type = 1
+            new_message.from_id = shop_id
+            new_message.to_id = follower.user_id
+            new_message.content = "您关注的商店有一款商品降价了"
+            new_message.save()
+        return HttpResponseRedirect("/shop/index/")
+    return render(request,"shop/coupon_add.html")
+
+def coupon_delete(request, cid):
+    coupon = Coupon.objects.get(id=cid)
+    coupon.delete()
+    return HttpResponseRedirect('/shop/index/')
+
+def comment_delete(request,cid):
+    current_comment = Comment.objects.get(id=cid)
+    current_comment.delete()
+    messages.add_message(request,messages.SUCCESS,'评论删除成功',extra_tags='success')
+    referer = request.META.get("HTTP_REFERER")
+    return  HttpResponseRedirect(referer)
+
+#发货
+def ship_product(request,order_id):
+    corder = Order.objects.get(id=order_id)
+    corder.order_status = 1
+    corder.save()
+    new_message = Message()
+    new_message.message_type = 1
+    new_message.message_time = timezone.now()
+    new_message.from_id = corder.order_shop
+    new_message.to_id = corder.order_user.id
+    new_message.content = "您的订单已经发货"
+    new_message.save()
+    referer = request.META.get("HTTP_REFERER")
+    return  HttpResponseRedirect(referer)
+
+
+#提醒用户评价
+def urge_comment(request,order_id):
+    corder = Order.objects.get(id=order_id)
+    new_message = Message()
+    new_message.message_type = 1
+    new_message.message_time = timezone.now()
+    new_message.from_id = corder.order_shop
+    new_message.to_id = corder.order_user.id
+    new_message.content = "您有一个订单需要评价"
+    new_message.save()
+    referer = request.META.get("HTTP_REFERER")
+    return  HttpResponseRedirect(referer)
+
+def message_list(request):
+    shop_id = request.COOKIES.get('shop_registered')
+    user_message_list = Message.objects.filter(message_type=2,to_id=shop_id).order_by('-message_time')
+    return render(request,'shop/message_list.html',locals())
 
 
 

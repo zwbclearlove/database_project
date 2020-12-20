@@ -1,0 +1,249 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>网上购物系统</title>
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css">
+
+    <link type="text/css" rel="stylesheet" href="../css/all.css" />
+    <link type="text/css" rel="stylesheet" href="../css/cart.css" />
+
+    <script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
+    <script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <style>
+        body {
+            background-image: url("http://www.w3school.com.cn/clouds.gif");
+        }
+
+        main>.container {
+            border-radius: 1%;
+            border: #fff 1px solid;
+            background-color: whitesmoke;
+        }
+
+        img {
+            width: 100%;
+        }
+
+        #avatarImg {
+            border: greenyellow 1px solid;
+        }
+
+        ul {
+            border: 0;
+        }
+
+        .nav-pills a {
+            border-bottom: 1px solid #ddd;
+
+        }
+
+        .panel-default>.panel-heading {
+            background-color: lightblue;
+        }
+
+        .panel-default {
+            border-color: #fff;
+        }
+
+        .panel-group .panel-heading+.panel-collapse>.panel-body {
+            border-top: 1px solid #fff;
+        }
+
+        .save {
+            padding: 6px 30px;
+        }
+
+        .nav-list .active {
+            color: blue;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 导航栏 -->
+    <div id="nav_part"></div>
+
+    <!--主体内容-->
+    <main style="margin-top: 60px;">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3">
+                    <ul class="nav nav-pills nav-stacked">
+                        <li class="active"><a href="">我的信息</a></li>
+                        <li><a href="my_address.html">我的地址</a></li>
+                        <li><a href="my_orders_list.html">我的订单</a></li>
+                        <li><a href="my_coupons.html">我的优惠券</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-md-9">
+                    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+
+
+                        <div class="panel panel-default">
+                            <div class="panel-heading" role="tab" id="headingOne">
+                                <h4 class="panel-title">
+                                    <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne"
+                                        aria-expanded="true" aria-controls="collapseOne">
+                                        基本信息
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel"
+                                aria-labelledby="headingOne">
+                                <div class="panel-body">
+                                    <div class="col-md-offset-1 col-md-7">
+                                        <div class="row">
+                                            <div class="col-md-offset-2 col-md-3">
+                                                <img src="../images/index/4.jpg" class="img-circle" id="avatarImg"
+                                                    alt="" style="width:100%; height: 100%;">
+                                            </div>
+                                        </div>
+                                        <form class="form-horizontal" style="margin-top: 40px">
+                                            <div class="form-group">
+                                                <div class="col-sm-3" style="font-weight: bold; text-align: right;">
+                                                    用户名:
+                                                </div>
+                                                <div class="col-sm-9" id="username">
+                                                    username
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+
+                                                <div class="col-sm-3" style="font-weight: bold; text-align: right;">
+                                                    昵&emsp;称:
+                                                </div>
+                                                <div class="col-sm-9" id="nickname">
+                                                    lsp
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-sm-3" style="font-weight: bold; text-align: right;">
+                                                    手&emsp;机:
+                                                </div>
+                                                <div class="col-sm-9" id="tel">
+                                                    11122223333
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-sm-3" style="font-weight: bold; text-align: right;">
+                                                    邮&emsp;箱:
+                                                </div>
+                                                <div class="col-sm-9" id="mail">
+                                                    111222333@qq.com
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                        <div class="panel panel-default">
+                            <div class="panel-heading" role="tab" id="headingTwo">
+                                <h4 class="panel-title">
+                                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion"
+                                        href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                        编辑资料
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel"
+                                aria-labelledby="headingTwo">
+                                <div class="panel-body">
+                                    <div class="col-md-offset-1 col-md-8">
+                                        <form class="form-horizontal" style="margin-top: 40px">
+                                            <div class="form-group">
+                                                <label for="input6" class="col-sm-2 control-label">用户名</label>
+                                                <div class="col-sm-10">
+                                                    <input type="text" class="form-control" id="username-input"
+                                                        placeholder="用户名">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="input6" class="col-sm-2 control-label">昵&emsp;称</label>
+                                                <div class="col-sm-10">
+                                                    <input type="text" class="form-control" id="nickname-input"
+                                                        placeholder="昵称">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="input7" class="col-sm-2 control-label">手&emsp;机</label>
+                                                <div class="col-sm-10">
+                                                    <input type="text" class="form-control" id="tel-input"
+                                                        placeholder="手机号码">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="input8" class="col-sm-2 control-label">邮&emsp;箱</label>
+                                                <div class="col-sm-10">
+                                                    <input type="text" class="form-control" id="mail-input"
+                                                        placeholder="邮箱">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <div class="col-md-10 col-md-offset-2">
+                                                    <button type="button" class="btn btn-success save"
+                                                        style="width: 100%;">保存</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- 页脚 -->
+    <div id="footer_part"></div>
+
+    <button onclick="loadInfo()">生成html</button>
+</body>
+
+<script type="text/javascript">
+    $("#nav_part").load("nav_part.html");
+    $("#footer_part").load("footer_part.html");
+
+    setOriginInfo();
+
+    function setOriginInfo() {
+        $("#username-input").val($("#username").text().trim());
+        $("#nickname-input").val($("#nickname").text().trim());
+        $("#tel-input").val($("#tel").text().trim());
+        $("#mail-input").val($("#mail").text().trim());
+    }
+
+
+    var myInfo = {
+        id: 1234564876,
+        avatarUrl: "../images/cart/749e8fce6291f8c8.jpg",
+        username: "username",
+        nickname: "product.html",
+        telephone: "咖啡",
+        mail: "马来西亚进口咖啡咖啡咖啡咖啡咖啡咖啡咖啡咖啡",
+    };
+
+    function loadInfo() {
+        $("#avatarImg").attr("src", myInfo.avatarUrl);
+        $("#username").text(myInfo.username);
+        $("#nickname").text(myInfo.nickname);
+        $("#tel").text(myInfo.telephone);
+        $("#mail").text(myInfo.mail);
+
+        setOriginInfo();//设置修改时的默认信息
+    }
+</script>
+
+</html>

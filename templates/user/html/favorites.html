@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8" />
+<title>依托谢特-我的购物车</title>
+
+<!-- Bootstrap -->
+<link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css">
+
+<link type="text/css" rel="stylesheet" href="../css/all.css" />
+<link rel="stylesheet" href="../css/index.css">
+
+<script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
+<script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<style>
+    button {
+        border-radius: 0 !important;
+    }
+
+    img {
+        width: 100%;
+        height: 100%;
+        border: 1px wheat solid;
+    }
+</style>
+
+
+
+</head>
+
+<body>
+    <!-- 导航栏 -->
+    <div id="nav_part"></div>
+
+    <!-- 主体部分 -->
+    <main style="margin-top: 50px">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 title">
+                    <div class="col-md-5 ">
+                        <div class="k-border">
+                            <div class="border bor-l">
+                                <div class="border bor-r">
+                                    <div class="bor-m"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2 ">收藏夹</div>
+                    <div class="col-md-5 ">
+                        <div class="k-border">
+                            <div class="border bor-l">
+                                <div class="border bor-r">
+                                    <div class="bor-m"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row row-goods">
+                    <div class="col-md-2" style="margin-top: 20px;">
+                        <a href="product.html"><img src="../images/index/4.jpg" alt=""></a>
+                        <button type="button" class="btn btn-warning delete-btn" style="width: 100%;"
+                            data-toggle="modal" data-target="#confirm-Modal">删除</button>
+                    </div>
+                    <div class="col-md-2" style="margin-top: 20px;">
+                        <a href="product.html"><img src="../images/index/5.jpg" alt=""></a>
+                        <button type="button" class="btn btn-warning delete-btn" style="width: 100%;"
+                            data-toggle="modal" data-target="#confirm-Modal">删除</button>
+                    </div>
+                    <div class="col-md-2" style="margin-top: 20px;">
+                        <a href="product.html"><img src="../images/index/6.jpg" alt=""></a>
+                        <button type="button" class="btn btn-warning delete-btn" style="width: 100%;"
+                            data-toggle="modal" data-target="#confirm-Modal">删除</button>
+                    </div>
+                    <div class="col-md-2" style="margin-top: 20px;">
+                        <a href="product.html"><img src="../images/index/7.jpg" alt=""></a>
+                        <button type="button" class="btn btn-warning delete-btn" style="width: 100%;"
+                            data-toggle="modal" data-target="#confirm-Modal">删除</button>
+                    </div>
+                    <div class="col-md-2" style="margin-top: 20px;">
+                        <a href="product.html"><img src="../images/index/8.jpg" alt=""></a>
+                        <button type="button" class="btn btn-warning delete-btn" style="width: 100%;"
+                            data-toggle="modal" data-target="#confirm-Modal">删除</button>
+                    </div>
+                    <div class="col-md-2" style="margin-top: 20px;">
+                        <a href="product.html"><img src="../images/index/8.jpg" alt=""></a>
+                        <button type="button" class="btn btn-warning delete-btn" style="width: 100%;"
+                            data-toggle="modal" data-target="#confirm-Modal">删除</button>
+                    </div>
+                    <div class="col-md-2" style="margin-top: 20px;">
+                        <a href="product.html"><img src="../images/index/8.jpg" alt=""></a>
+                        <button type="button" class="btn btn-warning delete-btn" style="width: 100%;"
+                            data-toggle="modal" data-target="#confirm-Modal">删除</button>
+                    </div>
+                    <div class="col-md-2" style="margin-top: 20px;">
+                        <a href="product.html"><img src="../images/index/8.jpg" alt=""></a>
+                        <button type="button" class="btn btn-warning delete-btn" style="width: 100%;"
+                            data-toggle="modal" data-target="#confirm-Modal">删除</button>
+                    </div>
+                </div>
+            </div>
+    </main>
+
+    <!-- 弹出来的确认收货 -->
+    <div class="modal" id="confirm-Modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h5 class="modal-title" id="exampleModalLabel">删除</h5>
+                </div>
+                <div class="modal-body">
+                    <h4>确认删除？</h4>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default">取消</button>
+                    <button type="button" class="btn btn-primary">确认</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 页脚 -->
+    <div id="footer_part"></div>
+
+    <button onclick="loadFavos()">生成html</button>
+
+</body>
+<script type="text/javascript">
+    $("#nav_part").load("nav_part.html");
+    $("#footer_part").load("footer_part.html");
+
+
+    function deleteFavo(button) {
+        let theButton = $(button);
+        theButton.parent().remove();
+    }
+    $(".btn").click(function () {
+        $(this).parent().remove();
+    });
+
+    var favosList = [{
+        id: 1234564876,
+        imgUrl: "../images/cart/749e8fce6291f8c8.jpg",
+        goodLink: "product.html",
+        goodName: "咖啡",
+        goodDescrip: "马来西亚进口咖啡咖啡咖啡咖啡咖啡咖啡咖啡咖啡",
+        unitPrice: 199,
+        goodsCount: 1,
+    },
+    {
+        id: 1234564876,
+        imgUrl: "../images/cart/50e2c594f34bef9c.jpg",
+        goodLink: "product.html",
+        goodName: "咖啡",
+        goodDescrip: "马来西亚进口咖啡咖啡咖啡咖啡咖啡咖啡咖啡咖啡",
+        unitPrice: 199,
+        goodsCount: 1,
+    },
+    {
+        id: 1234564876,
+        imgUrl: "../images/cart/50e2c594f34bef9c.jpg",
+        goodLink: "product.html",
+        goodName: "咖啡",
+        goodDescrip: "马来西亚进口咖啡咖啡咖啡咖啡咖啡咖啡咖啡咖啡",
+        unitPrice: 199,
+        goodsCount: 1,
+    },
+    {
+        id: 1234564876,
+        imgUrl: "../images/cart/50e2c594f34bef9c.jpg",
+        goodLink: "product.html",
+        goodName: "咖啡",
+        goodDescrip: "马来西亚进口咖啡咖啡咖啡咖啡咖啡咖啡咖啡咖啡",
+        unitPrice: 199,
+        goodsCount: 1,
+    },
+    {
+        id: 1234564876,
+        imgUrl: "../images/cart/50e2c594f34bef9c.jpg",
+        goodLink: "product.html",
+        goodName: "咖啡",
+        goodDescrip: "马来西亚进口咖啡咖啡咖啡咖啡咖啡咖啡咖啡咖啡",
+        unitPrice: 199,
+        goodsCount: 1,
+    },
+    {
+        id: 1234564876,
+        imgUrl: "../images/cart/749e8fce6291f8c8.jpg",
+        goodLink: "product.html",
+        goodName: "咖啡",
+        goodDescrip: "马来西亚进口咖啡咖啡咖啡咖啡咖啡咖啡咖啡咖啡",
+        unitPrice: 199,
+        goodsCount: 1,
+    }];
+
+
+    function loadFavos() {
+        $(".row-goods").html("");
+        let favoListDiv = $(".row-goods");
+        $.each(favosList, function (i, item) {
+            let favoDiv = document.createElement("div");
+            favoDiv.setAttribute("class", "col-md-2");
+            favoDiv.setAttribute("style", "margin-top: 20px;");
+            favoListDiv.append(favoDiv);
+
+            let favoLink = document.createElement("a");
+            favoLink.href = item.goodLink;
+            favoDiv.append(favoLink);
+
+            let image = document.createElement("img");
+            image.src = item.imgUrl;
+            favoLink.append(image);
+
+            let deleteBtn = document.createElement("button");
+            deleteBtn.setAttribute("type", "button");
+            deleteBtn.setAttribute("class", "btn btn-warning delete-btn");
+            deleteBtn.setAttribute("style", "width: 100%;");
+            deleteBtn.setAttribute("data-toggle", "modal");
+            deleteBtn.setAttribute("data-target", "#confirm-Modal");
+            deleteBtn.setAttribute("onclick", "deleteFavo(this)");
+            deleteBtn.innerHTML = "删除";
+            favoDiv.append(deleteBtn);
+        });
+    }
+</script>
+
+</html>

@@ -1,0 +1,44 @@
+hr {
+    margin: 0;
+}
+
+img {
+    width: 100%;
+}
+
+ul {
+    border: 0;
+}
+
+
+.table>tbody>tr>th {
+    text-align: center;
+    border-bottom: 0;
+    border-top: 0;
+    background: #fafafa url(http://s8.mogucdn.com/pic/140909/1blhwf_ieydemldmy4tombtmmytambqgiyde_5x40.gif) repeat-x;
+}
+
+.table>tbody>tr>td {
+    position: relative;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+}
+
+.table>tbody>tr>td:first-child {
+    border-left: 1px solid #ddd;
+}
+
+.table>tbody>tr>td:last-child {
+    border-right: 1px solid #ddd;
+}
+
+table tr td img {
+    width: 80px;
+    height: 80px;
+}
+
+
+.list-group .col-md-3{
+    padding: 0;
+}
+

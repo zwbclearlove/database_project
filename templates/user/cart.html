@@ -1,68 +1,483 @@
-{% extends 'user/base.html' %}
 {% load static %}
+{% load user_extras %}
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8" />
+<title>我的购物车</title>
 
-{% block title %}
-    {{ user.username }}的购物车
-{% endblock %}
+<!-- Bootstrap -->
+<link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css">
+
+<link rel="stylesheet" href="{% static 'user/css/all.css' %}" />
+<link rel="stylesheet" href="{% static 'user/css/index.css' %}" />
+
+<script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
+<script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<style>
+    img {
+        width: 100%;
+
+        border: 1px wheat solid;
+
+    }
+
+    th,
+    td {
+        vertical-align: middle !important;
+        text-align: center;
+    }
 
 
-{% block main %}
-    <link rel="stylesheet" href="{% static 'user/css/cart.css' %}">
-    <main>
-        <div class="cartBox">
-            <div class="welcome">
-                我的购物车
+    .good-name,
+    .good-descrip {
+        word-wrap: break-word;
+    }
+</style>
+</head>
+
+<body>
+    <!-- 导航栏 -->
+    {% show_nav_part %}
+
+    <!-- 主体部分 -->
+    <main style="margin-top: 50px;">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 title">
+                    <div class="col-md-5 ">
+                        <div class="k-border">
+                            <div class="border bor-l">
+                                <div class="border bor-r">
+                                    <div class="bor-m"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2 ">我的购物车</div>
+                    <div class="col-md-5 ">
+                        <div class="k-border">
+                            <div class="border bor-l">
+                                <div class="border bor-r">
+                                    <div class="bor-m"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <table class="cartTable" border="0" cellpadding="10" cellspacing="0">
-                <tr>
+            <div class="row">
+                <div class="col-md-12">
+                    <table class="table"
+                        style="table-layout:fixed ; text-align: center; border-bottom: 1px solid #ddd;">
+                        <thead>
+                            <tr>
+                                <th style="width: 12%; "></th>
+                                <th style="width: 10%;">名称</th>
+                                <th style="width: 40%;">描述</th>
+                                <th style="width: 10%;">单价</th>
+                                <th style="width: 12%;">数量</th>
+                                <th style="width: 8%;">小计</th>
+                                <th style="width: 8%;">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody style="overflow-y: auto;">
+                            <tr id="good-1234">
+                                <td> <a href="product.html"><img src="../images/cart/50e2c594f34bef9c.jpg" alt=""></a>
+                                </td>
+                                <td class="good-name">咖啡</td>
+                                <td class="good-descrip">马来西亚进口 零涩 蓝山风味速溶三合一咖啡</td>
 
-                    <th class="cartImage">产品描述</th>
-                    <th class="cartDescrip"></th>
-                    <th class="cartPrice">价格</th>
-                    <th class="cartCount">数量</th>
-                    <th class="cartTotal">金额</th>
-                    <th></th>
-                </tr>
+                                <td>
+                                    ￥ <span class="unit-price">59.99</span>
+                                </td>
 
-                {% for ci in cart_item_list %}
-                    <tr>
-                        <td>
-                            <img style="width: 200px;height: 200px;" src="/static/{{ ci.image }}" alt="">
-                        </td>
-                        <td>
-                            {{ ci.product_name }}<br>
-                        </td>
-                        <td>￥{{ ci.product_price }}</td>
-                        <td>{{ ci.product_number }}</td>
-                        <td>￥{{ ci.total_price }}</td>
-                        <td>
-                            <a href="{% url 'user:delete_cart_item' ci.product_id %}" class="delete-icon">
-                                <svg width="2em" height="2em" viewBox="1 0 16 16" class="bi bi-trash" fill="currentColor"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                        d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
-                                    <path fill-rule="evenodd"
-                                        d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
-                                </svg>
-                            </a>
-                        </td>
-                    </tr>
-                {% endfor %}
+                                <td>
+                                    <button type="button" class="btn btn-sm add-btn" data-operator='increase'>+</button>
+                                    <button type="button" class="btn btn-sm  disabled count" data-name='qty'>0</button>
+                                    <button type="button" class="btn btn-sm sub-btn" data-operator='decrease'>-</button>
+                                </td>
 
+                                <td>
+                                    ￥<span class="subtotal">0</span>
+                                </td>
 
-            </table>
-            <div class="totalMoney">￥{{ total_price }}</div>
-            <div class="subTotal">合计</div>
+                                <td>
+                                    <button class="delete-item" style="border: none; background-color: white;">
+                                        <svg width="1.6em" height="1.6em" viewBox="0 0 16 16" fill="#0074c2">
+                                            <path
+                                                d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
+                                            <path fill-rule="evenodd"
+                                                d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
+                                        </svg>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr id="good-12345">
+                                <td> <a href="product.html"><img src="../images/cart/749e8fce6291f8c8.jpg" alt=""></a>
+                                </td>
+                                <td class="good-name">高斯键盘</td>
+                                <td class="good-descrip">GANSS 高斯GS87C/GS104C 87键/104键原厂樱桃轴PBT键帽背光机械键盘 游戏键盘啡</td>
 
+                                <td>
+                                    ￥ <span class="unit-price">299.99</span>
+                                </td>
 
-            <button type="button" class="btn btn-success col-sm-offset-9 col-sm-3">
-                <a href="{% url 'user:checkout' %}">结算</a>
-            </button>
+                                <td>
+                                    <button type="button" class="btn btn-sm add-btn" data-operator='increase'>+</button>
+                                    <button type="button" class="btn btn-sm  disabled count" data-name='qty'>0</button>
+                                    <button type="button" class="btn btn-sm sub-btn" data-operator='decrease'>-</button>
+                                </td>
 
+                                <td>
+                                    ￥<span class="subtotal">0</span>
+                                </td>
 
+                                <td>
+                                    <button class="delete-item" style="border: none; background-color: white;">
+                                        <svg width="1.6em" height="1.6em" viewBox="0 0 16 16" fill="#0074c2">
+                                            <path
+                                                d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
+                                            <path fill-rule="evenodd"
+                                                d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
+                                        </svg>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr id="good-12346">
+                                <td> <a href="product.html"><img src="../images/cart/749e8fce6291f8c8.jpg" alt=""></a>
+                                </td>
+                                <td class="good-name">高斯键盘</td>
+                                <td class="good-descrip">GANSS 高斯GS87C/GS104C 87键/104键原厂樱桃轴PBT键帽背光机械键盘 游戏键盘啡</td>
 
+                                <td>
+                                    ￥ <span class="unit-price">299.99</span>
+                                </td>
 
-        </div>
+                                <td>
+                                    <button type="button" class="btn btn-sm add-btn">+</button>
+                                    <button type="button" class="btn btn-sm  disabled count">0</button>
+                                    <button type="button" class="btn btn-sm sub-btn">-</button>
+                                </td>
+
+                                <td>
+                                    ￥<span class="subtotal">0</span>
+                                </td>
+
+                                <td>
+                                    <button class="delete-item" style="border: none; background-color: white;">
+                                        <svg width="1.6em" height="1.6em" viewBox="0 0 16 16" fill="#0074c2">
+                                            <path
+                                                d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
+                                            <path fill-rule="evenodd"
+                                                d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
+                                        </svg>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md 4 col-sm-offset-8">
+                    <div class="row">
+                        <div class="col-md-3 col-md-offset-3">合计</div>
+                        <div class="col-md-6" style="color: red;">￥ <span class="total-price">{{ total_price }}</span> </div>
+
+                        <div class="col-md-12" style="margin-top: 10px;"></div>
+
+                        <button type="button" class="btn btn-success col-sm-offset-3 col-sm-8"
+                            onclick="checkout()">结算</button>
+                    </div>
+                </div>
+            </div>
     </main>
-{% endblock %}
+
+    <!-- 页脚 -->
+    {% show_footer %}
+    <button onclick="genGoods(goodsList)">生成html</button>
+
+</body>
+<script type="text/javascript">
+
+    var total_price = {{ total_price }};
+    var cart_item_list = {{ cart_items }};
+    var cart_item_iamge_list = {{ cart_item_images }};
+
+    var goodsList = [{
+        id: 1234564876,
+        imgUrl: "../images/cart/749e8fce6291f8c8.jpg",
+        goodLink: "product.html",
+        goodName: "咖啡",
+        goodDescrip: "马来西亚进口咖啡咖啡咖啡咖啡咖啡咖啡咖啡咖啡",
+        unitPrice: 199,
+        goodsCount: 1,
+    },
+    {
+        id: 1234564,
+        imgUrl: "../images/cart/50e2c594f34bef9c.jpg",
+        goodLink: "product.html",
+        goodName: "咖啡",
+        goodDescrip: "马来西亚进口咖啡咖啡咖啡咖啡咖啡咖啡咖啡咖啡",
+        unitPrice: 199,
+        goodsCount: 1,
+    },
+    {
+        id: 12345648,
+        imgUrl: "../images/cart/749e8fce6291f8c8.jpg",
+        goodLink: "product.html",
+        goodName: "咖啡",
+        goodDescrip: "马来西亚进口咖啡咖啡咖啡咖啡咖啡咖啡咖啡咖啡",
+        unitPrice: 199,
+        goodsCount: 1,
+    }];
+
+    //加载导航栏和页脚
+
+
+    getTotalPrice();
+
+    //删除一个商品
+
+    function deleteGood(deleteButton) {
+        var theDeleteButton = $(deleteButton);
+        theDeleteButton.parent().parent().remove();
+        getTotalPrice();
+    }
+
+
+
+    //+或-按钮的效果
+    function addAndSubButton(button) {
+        /* $(".add-btn,.sub-btn").click(function () */
+        //变化数量
+        var theButton = $(button);
+        var countStr = theButton.siblings(".count").text();
+        var count = parseInt(countStr);
+        if (theButton.hasClass("add-btn")) {
+            count++;
+        } else {
+            if (count > 0) {
+                count--;
+                theButton.siblings(".count").text(count);
+            }
+        }
+
+        theButton.siblings(".count").text(count);
+
+        //获得小计
+        var unitPriceStr = theButton.parent().siblings().find(".unit-price").text();
+
+        var unitPrice = parseFloat(unitPriceStr);
+        var totalPrice = (unitPrice * count).toFixed(2);
+        theButton.parent().siblings().find(".subtotal").text(totalPrice);
+        getTotalPrice();
+    };
+
+
+    //获得总计
+    function getTotalPrice() {
+        var totalPrice = 0;
+        $("tbody").find(".subtotal").each(function () {
+            totalPrice += parseFloat($(this).text())
+        }
+        );
+        $(".total-price").text(totalPrice.toFixed(2));
+    }
+
+
+    //分页栏
+    $(".pagination li").click(function () {
+        var pageCount = $(".pagination li").length - 2;
+        var activeIndex = $(".pagination .active").index();
+        if ($(this).hasClass("prev-page")) {
+            if (activeIndex > 1) {
+                $(".pagination li").eq(activeIndex).removeClass("active");
+                $(".pagination li").eq(activeIndex - 1).addClass("active");
+            }
+        } else if ($(this).hasClass("next-page")) {
+            if (activeIndex < pageCount) {
+                $(".pagination li").eq(activeIndex).removeClass("active");
+                $(".pagination li").eq(activeIndex + 1).addClass("active");
+            }
+        } else {
+            $(this).addClass("active");
+            $(this).siblings().removeClass("active");
+        }
+    });
+
+    //生成商品
+    function genGoods(goodsList) {
+        $("tbody").empty();
+        let tbody = $("tbody");
+        //alert("wdnmd");
+        $.each(cart_item_list, function (i, item) {
+            //alert("wdnmd");
+            //let item = goodsList[0];
+
+            let tableRow = document.createElement("tr");
+            tableRow.id = "good-" + item.fields.product_id;
+            tbody.append(tableRow);
+
+            let imageTd = document.createElement("td");
+            tableRow.append(imageTd);
+
+            let imageURL = document.createElement("a");
+            imageURL.setAttribute("href", "/product/"+item.fields.product_id);
+            imageTd.append(imageURL);
+
+            let image = document.createElement("img");
+            image.src = "/static/"+cart_item_iamge_list[item.fields.product_id];
+            imageURL.append(image);
+
+
+            let nameTd = document.createElement("td");
+            nameTd.setAttribute("class", "good-name");
+            nameTd.innerHTML = item.fields.product_name;
+            tableRow.append(nameTd);
+
+
+            let descripTd = document.createElement("td");
+            descripTd.setAttribute("class", "good-descrip");
+            descripTd.innerHTML = item.fields.product_name;
+            tableRow.append(descripTd);
+
+            let unitPriceTd = document.createElement("td");
+            unitPriceTd.append("￥");
+            tableRow.append(unitPriceTd);
+
+            let unitPriceSpan = document.createElement("span");
+            unitPriceSpan.setAttribute("class", "unit-price");
+            unitPriceSpan.innerHTML = item.fields.product_price;
+            unitPriceTd.append(unitPriceSpan);
+
+            let countTd = document.createElement("td");
+            tableRow.append(countTd);
+
+            let countIncreaseBtn = document.createElement("button");
+            countIncreaseBtn.setAttribute("class", "btn btn-sm add-btn");
+            countIncreaseBtn.setAttribute("onclick", "addAndSubButton(this)");
+            countIncreaseBtn.innerHTML = "+";
+            countTd.append(countIncreaseBtn);
+
+            let countBtn = document.createElement("button");
+            countBtn.setAttribute("class", "btn btn-sm disabled count");
+            countBtn.innerHTML = item.fields.product_number;
+            countTd.append(countBtn)
+
+            let countDecreaseBtn = document.createElement("button");
+            countDecreaseBtn.setAttribute("class", "btn btn-sm sub-btn");
+            countDecreaseBtn.setAttribute("onclick", "addAndSubButton(this)");
+            countDecreaseBtn.innerHTML = "-";
+            countTd.append(countDecreaseBtn);
+
+
+            let subTotalTd = document.createElement("td");
+            subTotalTd.append("￥");
+            tableRow.append(subTotalTd);
+
+            let subTotalSpan = document.createElement("span");
+            subTotalSpan.setAttribute("class", "subtotal");
+            subTotalSpan.innerHTML = item.fields.total_price;
+            subTotalTd.append(subTotalSpan);
+
+            let deleteTd = document.createElement("td");
+            tableRow.append(deleteTd);
+
+            let deleteBtn = document.createElement("button");
+            deleteBtn.setAttribute("class", "delete-item");
+            deleteBtn.setAttribute("style", "border: none; background-color: white;");
+            deleteBtn.setAttribute("onclick", "deleteGood(this)");
+            deleteBtn.innerHTML = "<svg width=\"1.6em\" height=\"1.6em\" viewBox=\"0 0 16 16\" fill=\"#0074c2\">" +
+                "<path d=\"M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z\" />" +
+                "<path fill-rule=\"evenodd\" d=\"M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z\" />" +
+                "</svg>";
+            deleteTd.append(deleteBtn);
+        });
+
+
+
+
+
+    }
+
+    //窗口加载时，显示商品
+    window.onload = function () {
+        $.ajax({
+            type: "GET",
+            url: "",
+            dataType: "json",
+            success: function (data) {
+                /*  window.location.href("index.html"); */
+                genGoods(data);
+            },
+            error: function (data) {
+
+            },
+        });
+    }
+
+    //点击checkout时的操作,返回商品id和商品个数
+    //数据是这样的
+    /* [{
+        goodId:***,
+        goodCount:***
+    },
+    {
+        goodId:***,
+        goodCount:***
+    },
+    {
+        goodId:***,
+        goodCount:***
+    },
+    ] */
+    function checkout() {
+        let tbody = $("tbody");
+        // alert("wdnmd");
+
+        let returnArray = new Array();
+
+        tbody.children().each(function (i, item) {
+            let goodIdStr = item.id;
+            let goodId = goodIdStr.substring(5);
+
+            let goodCountStr = $(item).find(".count").text();
+            let goodCount = parseInt(goodCountStr)
+            //alert(goodId+":"+goodCount);
+
+            if (goodCount != 0) {
+                let newJson = {
+                    goodId: goodId,
+                    goodCount: goodCount
+                }
+                returnArray.push(newJson);
+            }
+        });
+        //window.open("checkout.html", "_self");
+         for(let i=0;i<returnArray.length;i++){
+            console.log(returnArray[i].goodCount+":"+returnArray[i].goodId)
+        }
+        console.log(returnArray);
+
+        $.ajax({
+            type: "POST",
+            url: "/process/",
+            data: {rer_arr : returnArray},
+            dataType: "json",
+            success: function (data) {
+                window.open("/checkout/", "_self");
+
+                console.log("success");
+            },
+            error: function (data) {
+                console.log("error");
+            },
+        });
+    }
+
+</script>
+
+</html>

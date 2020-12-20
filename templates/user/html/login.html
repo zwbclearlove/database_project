@@ -1,0 +1,114 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8" />
+<title>欢迎登录</title>
+
+<!-- Bootstrap -->
+<link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css">
+
+<link type="text/css" rel="stylesheet" href="{% static 'user/css/all.css' %}" />
+
+<script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
+<script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+
+    <!-- 主体部分 -->
+    <main style="margin-top: 150px;">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8">
+                    <img src="{% static 'user/images/login/pngsucai_324660_8e29d5.png' %}" alt="">
+
+                </div>
+
+                <div class="col-md-4"
+                    style="border: 1px solid #ddd; border-radius: 2%; background-color: rgb(253, 252, 252);">
+
+                    
+                    <h3 style="text-align: center; margin-bottom: 20px;">欢迎登录</h3>
+
+                    <div id="prompt">
+                        
+                    </div>
+                    <div class="form">
+                        <div class="form-group">
+                            <label for="input6" class="control-label">用户名</label>
+                            <input type="text" class="form-control" id="username" name="username" placeholder="username">
+                        </div>
+                        <div class="form-group">
+                            <label for="input6" class="control-label">密码</label>
+                            <input type="password" class="form-control" id="password" name="username" placeholder="password">
+                        </div>
+
+                        <div style="margin-top:30px;"></div>
+                        <button type="submit" class="btn btn-success" id="login" style="width: 100%;">登录</button>
+                        <div style="margin-top:10px;"></div>
+                        
+                        <p>还没有账号？ <a href="{% url 'user:register' %}">注册一个</a></p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- 页脚 -->
+    <footer >
+        Copyright&nbsp;&copy;&nbsp;2020&nbsp;&nbsp;buaa_database&nbsp;版权所有
+    </footer>
+
+</body>
+<script type="text/javascript">
+    //加载导航栏和页脚
+    {# $("#footer_part").load("{% static 'user/html/footer_part.html' %}");#}
+    
+    
+
+    $("#login").click(function () {
+
+
+        //prompt.setAttribute("class","alert alert-danger");
+        //prompt.innerHTML=("用户名不存在或密码错误!");
+        /*window.open("index.html", "_self");*/
+        var username = $('#username').val();
+        var password = $('#password').val();
+        console.log(username);
+        console.log(password);
+        $.ajax({
+            type: "POST",
+            url: "{% url 'user:login' %}",
+            data: {
+                username: username,
+                password: password
+            },
+            dataType: "json",
+            success: function (result) {
+
+                console.log(result.data);
+                if (result.data.status == "success") {
+                    console.log("success");
+                    window.open("{% url 'user:index' %}", "_self");
+                    //window.location.href("");
+                } else {
+                    console.log("error");
+                    let prompt=document.getElementById("prompt");
+                    prompt.setAttribute("class","alert alert-danger");
+                    prompt.innerHTML=result.data.data;
+                }
+
+            },
+            error: function (result) {
+                console.log(result)
+                var data = {{ result|safe }};
+                console.log(data)
+                //window.location.href("{% url 'user:login' %}");
+            },
+        })
+    });
+
+</script>
+
+</html>

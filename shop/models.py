@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 
 # Create your models here.
 
@@ -48,6 +49,7 @@ class Product(models.Model):
     price = models.FloatField(verbose_name="商品价格")
     image = models.ImageField(upload_to="shop/images", verbose_name="商品图片")
     stock = models.IntegerField(verbose_name="库存")
+    sales = models.IntegerField(verbose_name="销量", default=0)
     description = models.TextField(verbose_name="商品描述")
     createdDate = models.DateField(verbose_name="上架时间")
     product_type = models.ForeignKey(to=ProductType,on_delete=models.CASCADE,verbose_name="商品类型",default=1)
@@ -70,3 +72,52 @@ class Comment(models.Model):
 
     def __str__(self):
         return self.content
+
+class Message(models.Model):
+    content = models.TextField(verbose_name="消息内容")
+    message_type = models.IntegerField(verbose_name="消息类型")
+    # 1- shop-to-user 2- user-to-shop
+    message_time = models.DateTimeField(verbose_name="生成时间",default=timezone.now())
+    from_id = models.IntegerField(verbose_name="发送者")
+    to_id = models.IntegerField(verbose_name="接收人")
+    have_read = models.BooleanField(verbose_name="已读",default=False)
+
+    def __str__(self):
+        return self.content
+
+class Follow(models.Model):
+    follow_time = models.DateTimeField(verbose_name="关注时间")
+    user_id = models.IntegerField(verbose_name="关注者")
+    shop = models.ForeignKey(to=Shop,on_delete=models.CASCADE,verbose_name="关注店铺")
+    def __str__(self):
+        return self.shop.shopName
+
+class Coupon(models.Model):
+    create_time = models.DateTimeField(default=timezone.now(),verbose_name="创建时间")
+    product = models.ForeignKey(to=Product,on_delete=models.CASCADE,verbose_name="所属商品")
+    end_time = models.DateTimeField(default=timezone.now(),verbose_name="截止时间")
+    discount = models.FloatField(verbose_name="优惠金额")
+
+    def __str__(self):
+        return str(self.product)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

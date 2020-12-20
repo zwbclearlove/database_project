@@ -1,0 +1,235 @@
+{% load static %}
+{% load user_extras %}
+
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>网上购物系统</title>
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css">
+
+    <link rel="stylesheet" href="{% static 'user/css/all.css' %}" />
+
+    <script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
+    <script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <style>
+        body {
+            /* background-color: wheat; */
+            background-image: url("{% static 'user/images/background/bg2.jpg' %}");
+            background-repeat: no-repeat;
+            background-size: 100%;
+            background-position: 0 -30px;
+
+        }
+
+        main>.container {
+            background: whitesmoke;
+        }
+
+        img {
+            width: 100%;
+        }
+
+        ul {
+            border: 0;
+        }
+
+        #address-table tr {
+            height: 30px;
+        }
+
+        .nav-pills a {
+            border-bottom: 1px solid #ddd;
+
+        }
+
+        .panel-default>.panel-heading {
+            background-color: lightblue;
+        }
+
+        .panel-default {
+            border-color: #fff;
+        }
+
+        .panel-group .panel-heading+.panel-collapse>.panel-body {
+            border-top: 1px solid #fff;
+        }
+
+        .save {
+            padding: 6px 30px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 导航栏 -->
+    {% show_nav_part %}
+    <div class="row">
+        <div class="col-md-12" style="height: 50px;background: #f66060"></div>
+    </div>
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <!--主体内容-->
+    <main style="margin-top: 60px;">
+        <div class="container">
+
+            <div class="row">
+                <div class="col-md-3">
+                    <ul class="nav nav-pills nav-stacked">
+                        <li><a href="{% url 'user:user_info' %}">我的信息</a></li>
+                        <li><a href="{% url 'user:user_address' %}">我的地址</a></li>
+                        <li><a href="{% url 'user:order_list'%}">我的订单</a></li>
+                        <li class="active"><a href="{% url 'user:user_coupon' %}">我的优惠券</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-9">
+                    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                        <div class="panel panel-default">
+                            <div class="panel-heading" role="tab" id="headingOne">
+                                <h4 class="panel-title">
+                                    <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne"
+                                        aria-expanded="true" aria-controls="collapseOne">
+                                        我的优惠券
+                                    </a>
+                                </h4>
+                            </div>
+
+
+                            <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel"
+                                aria-labelledby="headingOne">
+                                <div class="panel-body">
+                                    <div class="col-md-12">
+                                        <table class="table" style="border-bottom: 1px solid #ddd;" id="address-table">
+                                            <thead>
+                                                <tr style="text-align: center !important;">
+                                                    <th style="width: 10%;">图片</th>
+                                                    <th style="width: 30%;">店铺</th>
+                                                    <th style="width: 35%;">商品名</th>
+                                                    <th>金额</th>
+                                                    <th>数量</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody style="height: 60px; overflow-y: auto; " style="text-align: center;">
+                                                <tr>
+                                                    <td>
+                                                        <img src="{% static 'user/images/coupon.jpg' %}" alt="">
+                                                    </td>
+                                                    <td>
+                                                        店铺名称店铺名称
+                                                    </td>
+                                                    <td>
+                                                        商品名商品名
+                                                    </td>
+                                                    <td>
+                                                        ￥5
+                                                    </td>
+                                                    <td>
+                                                        1
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- 页脚 -->
+    {% show_footer %}
+
+    <button onclick="loadCouponsInfo()">生成html</button>
+</body>
+
+<script type="text/javascript">
+    var coupons = {{ coupons }};
+    var product_names = {{ product_names }};
+    var shop_names = {{ shop_names }};
+    console.log(coupons);
+    console.log(product_names);
+    console.log(shop_names);
+
+    var couponList = [{
+        id: 1234564876,
+        shopName: "店铺名-驱蚊器群",
+        goodName: "商品名商品名",
+        discount: 5,
+        count: 1
+    },
+    {
+        id: 1234564876,
+        shopName: "店铺名-驱蚊器群",
+        goodName: "商品名商品名",
+        discount: 5,
+        count: 1
+    },
+    {
+        id: 1234564876,
+        shopName: "店铺名-驱蚊器群",
+        goodName: "商品名商品名",
+        discount: 5,
+        count: 2
+    },
+    {
+        id: 1234564876,
+        shopName: "店铺名-驱蚊器群",
+        goodName: "商品名商品名",
+        discount: 5,
+        count: 13
+    },
+    ];
+    function loadCouponsInfo() {
+
+        let tbody = $("table tbody");
+        tbody.html("")
+        $.each(coupons, function (i, item) {
+            let tableRow = document.createElement("tr");
+            tbody.append(tableRow);
+
+            let imageTd = document.createElement("td");
+            imageTd.innerHTML = "<img src=\"{% static 'user/images/coupon.jpg' %}\">";
+            tableRow.append(imageTd);
+
+            let shopNameTd = document.createElement("td");
+            shopNameTd.innerHTML = shop_names[item.fields.product];
+            tableRow.append(shopNameTd);
+
+            let goodNameTd = document.createElement("td");
+            goodNameTd.innerHTML = product_names[item.fields.product];
+            tableRow.append(goodNameTd);
+
+            let discountTd = document.createElement("td");
+            discountTd.innerHTML = "￥" + item.fields.discount;
+            tableRow.append(discountTd);
+
+            let countTd = document.createElement("td");
+            countTd.innerHTML = "1";
+            tableRow.append(countTd);
+        });
+    }
+
+
+</script>
+
+</html>

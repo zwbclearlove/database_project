@@ -1,0 +1,522 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>网上购物系统</title>
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css">
+
+    <link type="text/css" rel="stylesheet" href="../css/all.css" />
+    <link type="text/css" rel="stylesheet" href="../css/index.css" />
+    <link type="text/css" rel="stylesheet" href="../css/order.css" />
+
+    <script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
+    <script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <script src="../js/test.js"></script>
+
+    <style>
+        table td {
+            vertical-align: middle !important;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- 导航栏 -->
+    <div id="nav_part"></div>
+    <main style="margin-top: 50px;">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 title">
+                    <div class="col-md-5 ">
+                        <div class="k-border">
+                            <div class="border bor-l">
+                                <div class="border bor-r">
+                                    <div class="bor-m"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2 ">我的订单</div>
+                    <div class="col-md-5 ">
+                        <div class="k-border">
+                            <div class="border bor-l">
+                                <div class="border bor-r">
+                                    <div class="bor-m"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <ul class="nav nav-tabs">
+                        <li class="active">
+                            <a href="#panel-all" data-toggle="tab">全部订单</a>
+                        </li>
+                        <li>
+                            <a href="#panel-to-deliver" data-toggle="tab">待发货</a>
+                        </li>
+                        <li>
+                            <a href="#panel-to-receive" data-toggle="tab">待收货</a>
+                        </li>
+                        <li>
+                            <a href="#panel-to-comment" data-toggle="tab">待评价</a>
+                        </li>
+                        <li>
+                            <a href="#panel-commented" data-toggle="tab">已评价</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="panel-all">
+                            <table class="table">
+                                <tbody>
+                                    <tr>
+                                        <th colspan="3">商品信息</th>
+                                        <th>单价</th>
+                                        <th>数量</th>
+                                        <th>实付款</th>
+                                        <th>交易状态</th>
+                                        <th>操作</th>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="8" style="border: 0"></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="8" style="text-align: left;background-color: rgb(190, 224, 229)">
+                                            订单编号：<span class="order-id">12222212212</span>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;下单时间：<span
+                                                class="order-time">12222222222</span> </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="10%">
+                                            <a href="product.html"><img src="../../images/index/4.jpg" alt=""></a>
+                                        </td>
+                                        <td width="10%">商品名称</td>
+                                        <td width="30%">商品描述商品描述商品描述商品描述商品描述商品描述商品描述商品描述商品描述</td>
+                                        <td width="10%">￥<span>199</span></td>
+                                        <td width="8%">1</td>
+                                        <td width="10%">￥ <span>199</span> </td>
+                                        <td width="10%">待评价</td>
+                                        <td width="12%"><button type="button" class="btn btn-primary"
+                                                data-toggle="modal" data-target="#exampleModal">
+                                                评价
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="tab-pane" id="panel-to-deliver">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th colspan="3">商品信息</th>
+                                        <th>单价</th>
+                                        <th>数量</th>
+                                        <th>实付款</th>
+                                        <th>交易状态</th>
+                                        <th>操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    <tr>
+                                        <td colspan="8" style="border: 0"></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="8" style="text-align: left;background-color: rgb(190, 224, 229)">
+                                            订单编号：12222212212&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;下单时间：12222222222</td>
+                                    </tr>
+                                    <tr>
+                                        <td width="10%">
+                                            <img src="../../images/index/4.jpg" alt="">
+                                        </td>
+                                        <td width="10%">商品名称</td>
+                                        <td width="30%">商品描述商品描述商品描述商品描述商品描述商品描述商品描述商品描述商品描述</td>
+                                        <td width="10%">￥<span>199</span></td>
+                                        <td width="8%">1</td>
+                                        <td width="10%">￥ <span>199</span> </td>
+                                        <td width="10%">待发货</td>
+                                        <td width="12%"><button type="button" class="btn btn-default" disabled="true"
+                                                data-toggle="modal" data-target="#exampleModal">
+                                                待发货
+                                            </button></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="tab-pane" id="panel-to-receive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th colspan="3">商品信息</th>
+                                        <th>单价</th>
+                                        <th>数量</th>
+                                        <th>实付款</th>
+                                        <th>交易状态</th>
+                                        <th>操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td colspan="8" style="border: 0"></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="8" style="text-align: left;background-color: rgb(190, 224, 229)">
+                                            订单编号：12222212212&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;下单时间：12222222222</td>
+                                    </tr>
+                                    <tr>
+                                        <td width="10%">
+                                            <img src="../../images/index/4.jpg" alt="">
+                                        </td>
+                                        <td width="10%">商品名称</td>
+                                        <td width="30%">商品描述商品描述商品描述商品描述商品描述商品描述商品描述商品描述商品描述</td>
+                                        <td width="10%">￥<span>199</span></td>
+                                        <td width="8%">1</td>
+                                        <td width="10%">￥ <span>199</span> </td>
+                                        <td width="10%">待收货</td>
+                                        <td width="12%"><button type="button" class="btn btn-warning"
+                                                data-toggle="modal" data-target="#confirm-Modal">
+                                                确认收货
+                                            </button></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="tab-pane" id="panel-to-comment">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th colspan="3">商品信息</th>
+                                        <th>单价</th>
+                                        <th>数量</th>
+                                        <th>实付款</th>
+                                        <th>交易状态</th>
+                                        <th>操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td colspan="8" style="border: 0"></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="8" style="text-align: left;background-color: rgb(190, 224, 229)">
+                                            订单编号：12222212212&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;下单时间：12222222222</td>
+                                    </tr>
+                                    <tr>
+                                        <td width="10%">
+                                            <img src="../../images/index/4.jpg" alt="">
+                                        </td>
+                                        <td width="10%">商品名称</td>
+                                        <td width="30%">商品描述商品描述商品描述商品描述商品描述商品描述商品描述商品描述商品描述</td>
+                                        <td width="10%">￥<span>199</span></td>
+                                        <td width="8%">1</td>
+                                        <td width="10%">￥ <span>199</span> </td>
+                                        <td width="10%">待评价</td>
+                                        <td width="12%"><button type="button" class="btn btn-primary"
+                                                data-toggle="modal" data-target="#exampleModal">
+                                                评价
+                                            </button></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="tab-pane" id="panel-commented">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th colspan="3">商品信息</th>
+                                        <th>单价</th>
+                                        <th>数量</th>
+                                        <th>实付款</th>
+                                        <th>交易状态</th>
+                                        <th>操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td colspan="8" style="border: 0"></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="8" style="text-align: left;background-color: rgb(190, 224, 229)">
+                                            订单编号：12222212212&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;下单时间：12222222222</td>
+                                    </tr>
+                                    <tr>
+                                        <td width="10%">
+                                            <img src="../../images/index/4.jpg" alt="">
+                                        </td>
+                                        <td width="10%">商品名称</td>
+                                        <td width="30%">商品描述商品描述商品描述商品描述商品描述商品描述商品描述商品描述商品描述</td>
+                                        <td width="10%">￥<span>199</span></td>
+                                        <td width="8%">1</td>
+                                        <td width="10%">￥ <span>199</span> </td>
+                                        <td width="10%">已评价</td>
+                                        <td width="12%"><button type="button" class="btn btn-default" disabled="true"
+                                                data-toggle="modal" data-target="#exampleModal">
+                                                已评价
+                                            </button></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+
+                        <div class="col-md-12" style="text-align: center;">
+                            <ul class="pagination">
+                                <li class="prev-page"><a href="#">&laquo;</a></li>
+                                <li class="active"><a href="#">1</a></li>
+                                <li><a href="#">2</a></li>
+                                <li><a href="#">3</a></li>
+                                <li><a href="#">4</a></li>
+                                <li><a href="#">5</a></li>
+                                <li class="next-page"><a href="#">&raquo;</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+
+    <!-- Modal -->
+    <!-- 弹出来的评价框 -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h5 class="modal-title" id="exampleModalLabel">评价此订单</h5>
+                </div>
+                <div class="modal-body">
+                    <textarea class="form-control" name="" id="" rows="8" placeholder="请输入评价内容"
+                        style="resize: none;"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary">评价</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 弹出来的确认收货 -->
+    <div class="modal fade" id="confirm-Modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h5 class="modal-title" id="exampleModalLabel">确认收货</h5>
+                </div>
+                <div class="modal-body">
+                    <h4>是否确认收货？</h4>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default">取消</button>
+                    <button type="button" class="btn btn-primary">确认</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 页脚 -->
+    <div id="footer_part"></div>
+
+    <button onclick="loadOrders()">生成html</button>
+</body>
+
+<script type="text/javascript">
+    $("#nav_part").load("nav_part.html");
+    $("#footer_part").load("footer_part.html");
+
+
+
+    //分页栏
+    $(".pagination li").click(function () {
+        var pageCount = $(".pagination li").length - 2;
+        var activeIndex = $(".pagination .active").index();
+        if ($(this).hasClass("prev-page")) {
+            if (activeIndex > 1) {
+                $(".pagination li").eq(activeIndex).removeClass("active");
+                $(".pagination li").eq(activeIndex - 1).addClass("active");
+            }
+        } else if ($(this).hasClass("next-page")) {
+            if (activeIndex < pageCount) {
+                $(".pagination li").eq(activeIndex).removeClass("active");
+                $(".pagination li").eq(activeIndex + 1).addClass("active");
+            }
+        } else {
+            $(this).addClass("active");
+            $(this).siblings().removeClass("active");
+        }
+    });
+
+
+    var orderList = [{
+        id: 1234564876,
+        buyTime: "2020-20-20",
+        imageURL: "../../images/index/4.jpg",
+        goodName: "商品名称",
+        goodLink: "product.html",
+        goodDescrip: "商品描述商品描述商品描述商品描述商品描述商品描述",
+        unitPrice: 123,
+        count: 1,
+        payment: 123,
+        status: "待发货",
+    },
+    {
+        id: 1234564876,
+        buyTime: "2020-20-20",
+        imageURL: "../../images/index/4.jpg",
+        goodName: "商品名称",
+        goodLink: "product.html",
+        goodDescrip: "商品描述商品描述商品描述商品描述商品描述商品描述",
+        unitPrice: 123,
+        count: 1,
+        payment: 123,
+        status: "待收货",
+    },
+    {
+        id: 1234564876,
+        buyTime: "2020-20-20",
+        imageURL: "../../images/index/4.jpg",
+        goodName: "商品名称",
+        goodLink: "product.html",
+        goodDescrip: "商品描述商品描述商品描述商品描述商品描述商品描述",
+        unitPrice: 123,
+        count: 1,
+        payment: 123,
+        status: "待评价",
+    },
+    {
+        id: 1234564876,
+        buyTime: "2020-20-20",
+        imageURL: "../../images/index/4.jpg",
+        goodName: "商品名称",
+        goodLink: "product.html",
+        goodDescrip: "商品描述商品描述商品描述商品描述商品描述商品描述",
+        unitPrice: 123,
+        count: 1,
+        payment: 123,
+        status: "已评价",
+    },
+    ];
+
+    //生成html
+    function loadOrders() {
+
+        let tbody = $("#panel-all table tbody");
+        tbody.html("");
+
+        let headerTr = document.createElement("tr");
+        headerTr.innerHTML = "<th colspan=\"3\">商品信息</th><th>单价</th><th>数量</th><th>实付款</th><th>交易状态</th><th>操作</th>";
+        tbody.append(headerTr);
+
+        $.each(orderList, function (i, item) {
+            //alert("wdnmd");
+            //let item = goodsList[0];
+
+            let blankTr = document.createElement("tr");
+            blankTr.innerHTML = "<td colspan=\"8\" style=\"border: 0\"></td>";
+            tbody.append(blankTr);
+
+            let orderHeadTr = document.createElement("tr");
+            tbody.append(orderHeadTr);
+
+            let orderHeadTd = document.createElement("td");
+            orderHeadTd.setAttribute("colspan", "8");
+            orderHeadTd.setAttribute("style", "text-align: left;background-color: rgb(190, 224, 229)");
+            orderHeadTd.innerHTML = "订单编号：" + item.id + "    " + "下单时间：" + item.buyTime;/* 这里可以再改一下 */
+            orderHeadTr.append(orderHeadTd);
+
+            let orderDetailTr = document.createElement("tr");
+            tbody.append(orderDetailTr);
+
+            let imageTd = document.createElement("td");
+            imageTd.setAttribute("width", "10%");
+            orderDetailTr.append(imageTd);
+
+            let imageLinkA = document.createElement("a");
+            imageLinkA.href = item.goodLink;
+            imageTd.append(imageLinkA);
+
+            let image = document.createElement("img");
+            image.src = item.imageURL;
+            imageLinkA.append(image);
+
+            let nameTd = document.createElement("td");
+            nameTd.setAttribute("width", "10%");
+            nameTd.innerHTML = item.goodName;
+            orderDetailTr.append(nameTd);
+
+            let descripTd = document.createElement("td");
+            descripTd.setAttribute("width", "30%");
+            descripTd.innerHTML = item.goodDescrip;
+            orderDetailTr.append(descripTd);
+
+            let unitPriceTd = document.createElement("td");
+            unitPriceTd.setAttribute("width", "10%");
+            unitPriceTd.innerHTML = "￥" + item.unitPrice;
+            orderDetailTr.append(unitPriceTd);
+
+            let countTd = document.createElement("td");
+            countTd.setAttribute("width", "8%");
+            countTd.innerHTML = item.count;
+            orderDetailTr.append(countTd);
+
+            let paymentTd = document.createElement("td");
+            paymentTd.setAttribute("width", "10%");
+            paymentTd.innerHTML = "￥" + item.payment;
+            orderDetailTr.append(paymentTd);
+
+            let statusTd = document.createElement("td");
+            statusTd.setAttribute("width", "10%");
+            statusTd.innerHTML = item.status;
+            orderDetailTr.append(statusTd);
+
+            let operaTd = document.createElement("td");
+            operaTd.setAttribute("width", "12%");
+            //operaTd.innerHTML = item.status;
+            orderDetailTr.append(operaTd);
+
+            let operaBtn = document.createElement("button");
+            operaBtn.setAttribute("type", "button");
+            operaBtn.setAttribute("data-toggle", "modal");
+           
+            if (item.status == "待发货") {
+                operaBtn.setAttribute("class", "btn btn-default");
+                operaBtn.setAttribute("disabled", "true");
+                operaBtn.innerHTML = "待发货";
+            } else if (item.status == "待收货") {
+                operaBtn.setAttribute("class", "btn btn-warning");
+                //operaBtn.setAttribute("disabled","true");
+                operaBtn.setAttribute("data-target", "#confirm-Modal");
+                operaBtn.innerHTML = "确认收货";
+            } else if (item.status == "待评价") {
+                operaBtn.setAttribute("class", "btn btn-primary");
+                //operaBtn.setAttribute("disabled", "true");
+                operaBtn.setAttribute("data-target", "#exampleModal");
+                operaBtn.innerHTML = "去评价";
+            } else if (item.status == "已评价") {
+                operaBtn.setAttribute("class", "btn btn-default");
+                operaBtn.setAttribute("disabled", "true");
+                operaBtn.innerHTML = "已评价";
+            }
+            operaTd.append(operaBtn);
+        });
+    }
+
+</script>
+
+</html>
