@@ -84,10 +84,13 @@
                         </div>
                     </div>
                     {% for foot in footprints %}
-                        <div class="col-md-2" style="margin-top: 20px;">
-                            <a href="{% url 'user:product' foot.product_id %}"><img src="/static/{{ foot.image }}" alt=""></a>
-                            {{ foot.create_time }}
+                    <div class="col-md-2" style="margin-top: 20px;">
+                        <div class="img-frame">
+                            <a href="{% url 'user:product' foot.product_id %}"><img src="/static/{{ foot.image }}"
+                                    alt=""></a>
                         </div>
+                        {{ foot.create_time }}
+                    </div>
                     {% endfor %}
 
 

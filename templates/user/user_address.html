@@ -68,23 +68,21 @@
 <body>
     <!-- 导航栏 -->
     {% show_nav_part %}
-    <div class="row">
-        <div class="col-md-12" style="height: 50px;background: #f66060"></div>
-    </div>
-    {% if messages %}
-        {% for message in messages %}
+    <!--主体内容-->
+    <main style="margin-top: 60px;">
+        <div class="container-fluid">
+            {% if messages %}
+            {% for message in messages %}
             <div class="alert alert-{{ message.tags }} alert-dismissible" role="alert">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
                 {{ message }}
             </div>
-        {% endfor %}
-    {% endif %}
-    <!--主体内容-->
-    <main style="margin-top: 60px;">
+            {% endfor %}
+            {% endif %}
+        </div>
         <div class="container">
-
             <div class="row">
                 <div class="col-md-3">
                     <ul class="nav nav-pills nav-stacked">
@@ -258,7 +256,8 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                    <button type="button" class="btn btn-primary" id="delete-confirm" data-dismiss="modal" onclick="deleteConfirm()">确认</button>
+                    <button type="button" class="btn btn-primary" id="delete-confirm" data-dismiss="modal"
+                        onclick="deleteConfirm()">确认</button>
                 </div>
             </div>
         </div>
@@ -271,6 +270,11 @@
 
     var adds = {{ address_list }};
     console.log(adds);
+
+
+    window.onload = function () {
+        loadAddressInfo(adds, 1);
+    }
 
     //分页栏
     $(".pagination li").click(function () {
@@ -309,7 +313,7 @@
     function deleteConfirm() {
         console.log(addrId);
         theButton.parent().parent().remove();
-        window.open("/address_delete/"+addrId, "_self");
+        window.open("/address_delete/" + addrId, "_self");
 
         //发送ajax
         /*$.ajax({
@@ -400,7 +404,7 @@
         //发送ajax
         $.ajax({
             type: "POST",
-            url: "/address_update/"+addrId,
+            url: "/address_update/" + addrId,
             data: {
                 receiver: $("#edit-receiver").val(),
                 phone: $("#edit-tel").val(),

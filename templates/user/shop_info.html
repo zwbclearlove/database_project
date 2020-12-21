@@ -57,6 +57,21 @@
 
         font-size: smaller;
     }
+
+    .img-frame {
+        position: relative;
+        width: 100%;
+        padding-top: 100%;
+        /* 宽高比例为1：1 */
+    }
+
+    .img-frame img {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+    }
 </style>
 
 <body>
@@ -92,17 +107,17 @@
 
             <div class="row">
                 {% for product in products %}
-                    <div class="col-md-3 ">
-                        <div class="good-frame">
-                            <div class=" title">{{ product.name }}</div>
-                            <div>
-                                <a href="/product/{{ product.id }}/"><img src="/static/{{ product.image }}" alt=""></a>
-                            </div>
-                            <div class="see-more">
-                                <a href="/product/{{ product.id }}/">查看详情</a>
-                            </div>
+                <div class="col-md-3 ">
+                    <div class="good-frame">
+                        <div class=" title">{{ product.name }}</div>
+                        <div class="img-frame">
+                            <a href="/product/{{ product.id }}/"><img src="/static/{{ product.image }}" alt=""></a>
+                        </div>
+                        <div class="see-more">
+                            <a href="/product/{{ product.id }}/">查看详情</a>
                         </div>
                     </div>
+                </div>
                 {% endfor %}
             </div>
         </div>

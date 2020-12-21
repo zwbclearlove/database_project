@@ -139,12 +139,16 @@
     <!-- 页脚 -->
     {% show_footer %}
 
-    <button onclick="loadFavos()">生成html</button>
+    <!-- <button onclick="loadFavos()">生成html</button> -->
 
 </body>
 <script type="text/javascript">
 
 
+    //打开窗口时自动生成
+    window.onload = function () {
+        loadFavos();
+    }
     //用一个全局变量表示按钮参数和
     let theButton;
     let favoId;
@@ -163,7 +167,7 @@
     function deleteConfirm() {
         theButton.parent().remove();
         //发送删除的id
-        window.open("/cancel_favorite/"+favoId, "_self");
+        window.open("/cancel_favorite/" + favoId, "_self");
         /*$.ajax({
             type: "POST",
             url: "/cancel_favorite/"+favoId+"/",
@@ -227,12 +231,12 @@
             favoDiv.append(imgFrameDiv);
 
             let favoLink = document.createElement("a");
-            favoLink.href = '/product/'+item.fields.product_id;
+            favoLink.href = '/product/' + item.fields.product_id;
             imgFrameDiv.append(favoLink);
 
 
             let image = document.createElement("img");
-            image.src = '/static/'+fav_images[item.fields.product_id];
+            image.src = '/static/' + fav_images[item.fields.product_id];
             favoLink.append(image);
 
             let deleteBtn = document.createElement("button");
