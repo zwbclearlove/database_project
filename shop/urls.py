@@ -16,4 +16,5 @@ urlpatterns = [
     path('product/<int:pid>/', product, name='product'),
     path('update_product/<int:pid>/', update_product, name='update_product'),
     path('product_state_change/<str:state>/', change_product_state, name='product_state_change'),
+
 ]

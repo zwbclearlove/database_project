@@ -139,11 +139,14 @@
     <!-- 页脚 -->
     {% show_footer %}
 
-    <button onclick="loadFavos()">生成html</button>
+     <!-- <button onclick="loadFavos()">生成html</button> -->
 
 </body>
 <script type="text/javascript">
-
+    //打开窗口时自动生成
+    window.onload = function () {
+        loadFavos();
+    }
 
     //用一个全局变量表示按钮参数和
     let theButton;

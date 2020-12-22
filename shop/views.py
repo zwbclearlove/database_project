@@ -1,17 +1,21 @@
 import hashlib
+import json
+from random import randrange
 
+from rest_framework.decorators import api_view
+from rest_framework.views import APIView
 from django.core.paginator import Paginator
 from django.shortcuts import render, redirect,get_object_or_404
 from django.contrib import messages
 from django.utils import timezone
-from django.contrib.auth import authenticate, login, logout
-from django.http import JsonResponse
+from django.http import JsonResponse,HttpResponse
 from django.shortcuts import render, HttpResponseRedirect, redirect
 from shop.models import User,Shop,ShopType,Product,ProductType,Comment,Coupon,Follow,Message
 from user.models import Order
 
+from pyecharts import options as opts
+from pyecharts.charts import Bar
 # Create your views here.
-
 
 def setPassword(password):
     md5 = hashlib.md5()

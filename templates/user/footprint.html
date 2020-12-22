@@ -37,13 +37,6 @@
         border: 1px wheat solid;
     }
 
-    /* body {
-             background-color: wheat;
-            background-image: url("../../images/background/bg2.jpg");
-            background-repeat: no-repeat;
-            background-size:100% ;
-
-        } */
 </style>
 
 <style>
@@ -84,8 +77,11 @@
                         </div>
                     </div>
                     {% for foot in footprints %}
+
                         <div class="col-md-2" style="margin-top: 20px;">
-                            <a href="{% url 'user:product' foot.product_id %}"><img src="/static/{{ foot.image }}" alt=""></a>
+                            <div class="imgFrame">
+                                <a href="{% url 'user:product' foot.product_id %}"><img src="/static/{{ foot.image }}" alt=""></a>
+                            </div>
                             {{ foot.create_time }}
                         </div>
                     {% endfor %}
@@ -101,7 +97,7 @@
     <!-- 页脚 -->
     {% show_footer %}
 
-    <button onclick="loadFavos()">生成html</button>
+
 
 </body>
 

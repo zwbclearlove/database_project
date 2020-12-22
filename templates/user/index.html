@@ -11,7 +11,7 @@
 
     <title>网上购物系统</title>
     <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css">
-    <link type="text/css" rel="stylesheet" href="{% static 'user/css/all.css' %}" />
+    <link type="text/css" rel="stylesheet" href="{% static 'user/css/all.css' %}"/>
     <link rel="stylesheet" href="{% static 'user/css/index.css' %}">
     <link rel="stylesheet" href="{% static 'user/css/sub_menu.css' %}">
     <script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
@@ -57,135 +57,152 @@
 
         font-size: smaller;
     }
+
+    .img-frame {
+        position: relative;
+        width: 100%;
+        padding-top: 100%;
+        /* 宽高比例为1：1 */
+    }
+    .img-frame img {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+
 </style>
 
 <body>
-    <!-- 导航栏 -->
-    {% show_nav_part %}
+<!-- 导航栏 -->
+{% show_nav_part %}
 
-    <!--主体内容-->
-    <main style="margin-top: 55px;">
-        <div class="container">
+<!--主体内容-->
+<main style="margin-top: 55px;">
+    <div class="container">
 
-            <!--二级菜单、图片轮播-->
+        <!--二级菜单、图片轮播-->
+        <div class="row">
             <div class="row">
-                <div class="row">
-                    <div class="col-md-3" style="margin-top: 45px;padding-left: 33px !important;">
-                        <div class="toptitle">
-                            <a href="{% url 'user:product_list' %}" style="padding-left:30px ;color:#fff;">全部商品分类</a>
-                        </div>
-                        <ul class="topmenu" id="topmenu">
-                            <li><a href="#">服饰鞋帽</a></li>
-                            <li><a href="#">图书音像</a></li>
-                            <li><a href="#">文具办公</a></li>
-                            <li><a href="#">手机数码</a></li>
-                            <li><a href="#">日常用品</a></li>
-                            <li><a href="#">零食小吃</a></li>
-                            <li><a href="#">儿童玩具</a></li>
-                            <li><a href="#">医药保健</a></li>
-
-                        </ul>
+                <div class="col-md-3" style="margin-top: 45px;padding-left: 33px !important;">
+                    <div class="toptitle">
+                        <a href="{% url 'user:product_list' %}" style="padding-left:30px ;color:#fff;">全部商品分类</a>
                     </div>
+                    <ul class="topmenu" id="topmenu">
+                        {% for pt in product_type_list %}
+                            <li><a href="/product_list/{{ pt.id }}/">{{ pt.product_type }}</a></li>
+                        {% endfor %}
 
-                    <!-- 图片轮流播放 -->
-                    <div class="col-md-6">
-                        <div id="carousel-explorer" class="carousel slide" data-ride="carousel">
-                            <ol class="carousel-indicators">
-                                <li data-target="#carousel-explorer" data-slide-to="0" class="active"></li>
-                                <li data-target="#carousel-explorer" data-slide-to="1"></li>
-                                <li data-target="#carousel-explorer" data-slide-to="2"></li>
-                            </ol>
-                            <div class="carousel-inner" role="listbox">
-                                <div class="item active">
-                                    <img src="{% static 'user/images/index/1.jpg' %}" alt="...">
-                                    <div class="carousel-caption">
-                                    </div>
-                                </div>
-                                <div class="item">
-                                    <img src="{% static 'user/images/index/2.jpg' %}" alt="...">
-                                    <div class="carousel-caption">
-                                    </div>
-                                </div>
-                                <div class="item">
-                                    <img src="{% static 'user/images/index/3.jpg' %}" alt="...">
-                                    <div class="carousel-caption">
-                                    </div>
+
+                    </ul>
+                </div>
+
+                <!-- 图片轮流播放 -->
+                <div class="col-md-6">
+                    <div id="carousel-explorer" class="carousel slide" data-ride="carousel">
+                        <ol class="carousel-indicators">
+                            <li data-target="#carousel-explorer" data-slide-to="0" class="active"></li>
+                            <li data-target="#carousel-explorer" data-slide-to="1"></li>
+                            <li data-target="#carousel-explorer" data-slide-to="2"></li>
+                        </ol>
+                        <div class="carousel-inner" role="listbox">
+                            <div class="item active">
+                                <img src="{% static 'user/images/index/1.jpg' %}" alt="...">
+                                <div class="carousel-caption">
                                 </div>
                             </div>
-                            <a class="left carousel-control" href="#carousel-explorer" role="button" data-slide="prev">
-                                <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-                                <span class="sr-only">Previous</span>
-                            </a>
-                            <a class="right carousel-control" href="#carousel-explorer" role="button" data-slide="next">
-                                <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-                                <span class="sr-only">Next</span>
-                            </a>
+                            <div class="item">
+                                <img src="{% static 'user/images/index/2.jpg' %}" alt="...">
+                                <div class="carousel-caption">
+                                </div>
+                            </div>
+                            <div class="item">
+                                <img src="{% static 'user/images/index/3.jpg' %}" alt="...">
+                                <div class="carousel-caption">
+                                </div>
+                            </div>
                         </div>
+                        <a class="left carousel-control" href="#carousel-explorer" role="button" data-slide="prev">
+                            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="right carousel-control" href="#carousel-explorer" role="button" data-slide="next">
+                            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
                     </div>
-                    <div class="col-md-3" style="height: 423px; width: 22.5%; background-color: rgb(226, 214, 230); color: rgb(107, 144, 179);">
-                        <h3>欢迎来到这里购物</h3>
-                        <img src="{% static 'user/images/login/pngsucai_324660_8e29d5.png' %}" alt="">
-                        <h4>您正在访问购物网站，在可以这里你可以购买你想要的商品。</h4>
+                </div>
+                <div class="col-md-3"
+                     style="height: 423px; width: 22.5%; background-color: rgb(226, 214, 230); color: rgb(107, 144, 179);">
+                    <h3>欢迎来到这里购物</h3>
+                    <img src="{% static 'user/images/login/pngsucai_324660_8e29d5.png' %}" alt="">
+                    <h4>您正在访问购物网站，在可以这里你可以购买你想要的商品。</h4>
+                </div>
+            </div>
+        </div>
+
+        <div class="row" style="margin-left: 0px; margin-right: 0px; ">
+            <div class="col-md-12" style="background-color: white; margin-top: 20px;  margin-bottom: 20px; ">
+                <div class="col-md-12">
+                    <h4 style="font-size: larger; font-weight: bold; text-align: center;">今日热销</h4>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            {% for pro in best_sales %}
+            <div class="col-md-3 ">
+                <div class="good-frame">
+                    <div class=" title">{{ pro.name }}</div>
+                    <div class="img-frame">
+                        <a href="/product/{{ pro.id }}"><img src="/static/{{ pro.image }}" alt=""></a>
+                    </div>
+                    <div class="see-more">
+                        <a href="/product/{{ pro.id }}">查看更多</a> 销量：{{ pro.sales }}
                     </div>
                 </div>
             </div>
+            {% endfor %}
+        </div>
 
-            <div class="row" style="margin-left: 0px; margin-right: 0px; ">
-                <div class="col-md-12" style="background-color: white; margin-top: 20px;  margin-bottom: 20px; ">
-                    <div class="col-md-12">
-                        <h4 style="font-size: larger; font-weight: bold; text-align: center;">今日热销</h4>
-                    </div>
+
+        <div class="row" style="margin-left: 0px; margin-right: 0px; ">
+            <div class="col-md-12" style="background-color: white;  padding-bottom: 30px;">
+                <div class="col-md-12">
+                    <h3>商品上新</h3>
                 </div>
-            </div>
-
-            <div class="row">
-                {% for pro in best_sales %}
-                    <div class="col-md-3 ">
-                    <div class="good-frame">
-                        <div class=" title">{{ pro.name }}</div>
-                        <div>
-                            <a href="/product/{{ pro.id }}"><img src="/static/{{ pro.image }}" alt=""></a>
-                        </div>
-                        <div class="see-more">
-                            <a href="/product/{{ pro.id }}">查看更多</a>     销量：{{ pro.sales }}
-                        </div>
+                {% for pro in product_list1 %}
+                <div class="col-md-2">
+                    <div class="img-frame">
+                    <a href="/product/{{ pro.id }}"><img src="/static/{{ pro.image }}" alt=""></a>
                     </div>
                 </div>
                 {% endfor %}
             </div>
+        </div>
 
-
-
-            <div class="row" style="margin-left: 0px; margin-right: 0px; ">
-                <div class="col-md-12" style="background-color: white;  padding-bottom: 30px;">
-                    <div class="col-md-12">
-                        <h3>商品上新</h3>
-                    </div>
-                    {% for pro in product_list1 %}
-                        <div class="col-md-2">
-                        <a href="/product/{{ pro.id }}"><img src="/static/{{ pro.image }}" alt=""></a>
-                    </div>
-                    {% endfor %}
+        <div class="row" style="margin-left: 0px; margin-right: 0px; margin-top: 20px;">
+            <div class="col-md-12" style="background-color: white;  padding-bottom: 30px;">
+                <div class="col-md-12">
+                    <h3>特价精品</h3>
                 </div>
-            </div>
-
-            <div class="row" style="margin-left: 0px; margin-right: 0px; margin-top: 20px;">
-                <div class="col-md-12" style="background-color: white;  padding-bottom: 30px;">
-                    <div class="col-md-12">
-                        <h3>特价精品</h3>
-                    </div>
-                    {% for pro in product_list2 %}
-                        <div class="col-md-2">
+                {% for pro in product_list2 %}
+                <div class="col-md-2">
+                    <div class="img-frame">
                         <a href="/product/{{ pro.id }}"><img src="/static/{{ pro.image }}" alt=""></a>
+                        </div>
+
                     </div>
                     {% endfor %}
                 </div>
             </div>
         </div>
 
-    </main>
-    <!-- 页脚 -->
-    {% show_footer %}
+</main>
+<!-- 页脚 -->
+{% show_footer %}
 </body>
 
 <!-- 鼠标移到左边的topMenu，就会悬浮显示详细分类 -->
@@ -201,11 +218,15 @@
             }
         }
     }
+
+
 </script>
 
 <script type="text/javascript">
     $("#nav_part").load("nav_part.html");
     $("#footer_part").load("footer_part.html");
+
+
 </script>
 
 </html>

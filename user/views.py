@@ -311,13 +311,14 @@ def address_delete(request,add_id):
     messages.add_message(request,messages.SUCCESS,'地址删除成功',extra_tags='success')
     return HttpResponseRedirect('/user_address/')
 
-def product_list(request):
+def product_list(request, type_id=0):
     keyword = request.GET.get("keyword","")
     if keyword:
         plist = Product.objects.filter(name__contains=keyword)
     else:
         plist = Product.objects.all()
-
+    if type_id != 0 :
+        plist = plist.filter(product_type_id=type_id)
     products = serializers.serialize('json',plist)
     return render(request,"user/product_list.html",{
         "product_list":mark_safe(products),

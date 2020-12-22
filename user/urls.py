@@ -18,6 +18,7 @@ urlpatterns = [
     path('address_update/<int:add_id>',address_update,name='address_update'),
     path('address_delete/<int:add_id>',address_delete,name='address_delete'),
     path('product_list/',product_list,name='product_list'),
+    path('product_list/<int:type_id>/',product_list,name='product_list'),
     path('product/<int:pid>/',product,name='product'),
     path('cart/',cart,name='cart'),
     path('process/',process_cart_info,name='process_cart_info'),
