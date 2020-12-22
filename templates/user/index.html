@@ -91,9 +91,11 @@
                         <a href="{% url 'user:product_list' %}" style="padding-left:30px ;color:#fff;">全部商品分类</a>
                     </div>
                     <ul class="topmenu" id="topmenu">
+
                         {% for pt in product_type_list %}
                             <li><a href="/product_list/{{ pt.id }}/">{{ pt.product_type }}</a></li>
                         {% endfor %}
+
 
 
                     </ul>
@@ -177,7 +179,10 @@
                 <div class="col-md-2">
                     <div class="img-frame">
                     <a href="/product/{{ pro.id }}"><img src="/static/{{ pro.image }}" alt=""></a>
+
                     </div>
+
+
                 </div>
                 {% endfor %}
             </div>
@@ -192,7 +197,11 @@
                 <div class="col-md-2">
                     <div class="img-frame">
                         <a href="/product/{{ pro.id }}"><img src="/static/{{ pro.image }}" alt=""></a>
+
                         </div>
+
+
+
 
                     </div>
                     {% endfor %}

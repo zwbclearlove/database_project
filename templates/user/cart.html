@@ -32,6 +32,22 @@
     .good-descrip {
         word-wrap: break-word;
     }
+
+    .img-frame {
+        position: relative;
+        width: 100%;
+        padding-top: 100%;
+        /* 宽高比例为1：1 */
+    }
+
+    .img-frame img {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        border: 1px wheat solid;
+    }
 </style>
 </head>
 
@@ -83,7 +99,11 @@
                         </thead>
                         <tbody style="overflow-y: auto;">
                             <tr id="good-1234">
-                                <td> <a href="product.html"><img src="../images/cart/50e2c594f34bef9c.jpg" alt=""></a>
+                                <td>
+                                    <div class="img-frame">
+                                        <a href="product.html"><img src="../images/cart/50e2c594f34bef9c.jpg"
+                                                alt=""></a>
+                                    </div>
                                 </td>
                                 <td class="good-name">咖啡</td>
                                 <td class="good-descrip">马来西亚进口 零涩 蓝山风味速溶三合一咖啡</td>
@@ -114,7 +134,11 @@
                                 </td>
                             </tr>
                             <tr id="good-12345">
-                                <td> <a href="product.html"><img src="../images/cart/749e8fce6291f8c8.jpg" alt=""></a>
+                                <td>
+                                    <div class="img-frame">
+                                        <a href="product.html"><img src="../images/cart/749e8fce6291f8c8.jpg"
+                                                alt=""></a>
+                                    </div>
                                 </td>
                                 <td class="good-name">高斯键盘</td>
                                 <td class="good-descrip">GANSS 高斯GS87C/GS104C 87键/104键原厂樱桃轴PBT键帽背光机械键盘 游戏键盘啡</td>
@@ -145,7 +169,11 @@
                                 </td>
                             </tr>
                             <tr id="good-12346">
-                                <td> <a href="product.html"><img src="../images/cart/749e8fce6291f8c8.jpg" alt=""></a>
+                                <td>
+                                    <div class="img-frame">
+                                        <a href="product.html"><img src="../images/cart/749e8fce6291f8c8.jpg"
+                                                alt=""></a>
+                                    </div>
                                 </td>
                                 <td class="good-name">高斯键盘</td>
                                 <td class="good-descrip">GANSS 高斯GS87C/GS104C 87键/104键原厂樱桃轴PBT键帽背光机械键盘 游戏键盘啡</td>
@@ -184,7 +212,8 @@
                 <div class="col-md 4 col-sm-offset-8">
                     <div class="row">
                         <div class="col-md-3 col-md-offset-3">合计</div>
-                        <div class="col-md-6" style="color: red;">￥ <span class="total-price">{{ total_price }}</span> </div>
+                        <div class="col-md-6" style="color: red;">￥ <span class="total-price">{{ total_price }}</span>
+                        </div>
 
                         <div class="col-md-12" style="margin-top: 10px;"></div>
 
@@ -197,7 +226,7 @@
 
     <!-- 页脚 -->
     {% show_footer %}
-    <button onclick="genGoods(goodsList)">生成html</button>
+    <button onclick="genGoods()">生成html</button>
 
 </body>
 <script type="text/javascript">
@@ -234,10 +263,23 @@
         goodsCount: 1,
     }];
 
-    //加载导航栏和页脚
+    //窗口加载时，显示商品
+    window.onload = function () {
+        $.ajax({
+            type: "GET",
+            url: "",
+            dataType: "json",
+            success: function (data) {
+                /*  window.location.href("index.html"); */
+                genGoods(data);
+            },
+            error: function (data) {
 
-
-    getTotalPrice();
+            },
+        });
+        genGoods();
+        getTotalPrice();
+    }
 
     //删除一个商品
 
@@ -246,7 +288,6 @@
         theDeleteButton.parent().parent().remove();
         getTotalPrice();
     }
-
 
 
     //+或-按钮的效果
@@ -259,7 +300,7 @@
         if (theButton.hasClass("add-btn")) {
             count++;
         } else {
-            if (count > 0) {
+            if (count > 1) {
                 count--;
                 theButton.siblings(".count").text(count);
             }
@@ -309,7 +350,7 @@
     });
 
     //生成商品
-    function genGoods(goodsList) {
+    function genGoods() {
         $("tbody").empty();
         let tbody = $("tbody");
         //alert("wdnmd");
@@ -324,13 +365,17 @@
             let imageTd = document.createElement("td");
             tableRow.append(imageTd);
 
-            let imageURL = document.createElement("a");
-            imageURL.setAttribute("href", "/product/"+item.fields.product_id);
-            imageTd.append(imageURL);
+            let imgFrameDiv = document.createElement("div");
+            imgFrameDiv.setAttribute("class", "img-frame");
+            imageTd.append(imgFrameDiv);
+
+            let imageLinkA = document.createElement("a");
+            imageLinkA.setAttribute("href", "/product/" + item.fields.product_id);
+            imgFrameDiv.append(imageLinkA);
 
             let image = document.createElement("img");
-            image.src = "/static/"+cart_item_iamge_list[item.fields.product_id];
-            imageURL.append(image);
+            image.src = "/static/" + cart_item_iamge_list[item.fields.product_id];
+            imageLinkA.append(image);
 
 
             let nameTd = document.createElement("td");
@@ -396,28 +441,9 @@
                 "</svg>";
             deleteTd.append(deleteBtn);
         });
-
-
-
-
-
     }
 
-    //窗口加载时，显示商品
-    window.onload = function () {
-        $.ajax({
-            type: "GET",
-            url: "",
-            dataType: "json",
-            success: function (data) {
-                /*  window.location.href("index.html"); */
-                genGoods(data);
-            },
-            error: function (data) {
 
-            },
-        });
-    }
 
     //点击checkout时的操作,返回商品id和商品个数
     //数据是这样的
@@ -457,15 +483,15 @@
             }
         });
         //window.open("checkout.html", "_self");
-         for(let i=0;i<returnArray.length;i++){
-            console.log(returnArray[i].goodCount+":"+returnArray[i].goodId)
+        for (let i = 0; i < returnArray.length; i++) {
+            console.log(returnArray[i].goodCount + ":" + returnArray[i].goodId)
         }
         console.log(returnArray);
 
         $.ajax({
             type: "POST",
             url: "/process/",
-            data: {rer_arr : returnArray},
+            data: { rer_arr: returnArray },
             dataType: "json",
             success: function (data) {
                 window.open("/checkout/", "_self");

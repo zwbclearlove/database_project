@@ -31,35 +31,35 @@
             <div class="col-sm-12">
                 <h3 class="title">确认收货地址</h3>
                 <ul class="list-address">
-                    <li class="col-sm-3" id="address-1111">
+                    <li class="col-sm-3" id="address-1111" onclick="choseAddress(this)">
                         <h4>姓名</h4>
                         <div style="padding-top: 5px">
                             <p>址详细地址详细地址详细地址详细地址详细地址详细地址</p>
                             <p>15027100106</p>
                         </div>
                     </li>
-                    <li class="col-sm-3 active" id="address-1112">
+                    <li class="col-sm-3 active" id="address-1112" onclick="choseAddress(this)">
                         <h4>姓名</h4>
                         <div style="padding-top: 5px">
                             <p>址详细地址详细地址详细地址详细地址详细地址详细地址</p>
                             <p>15027100106</p>
                         </div>
                     </li>
-                    <li class="col-sm-3" id="address-1113">
+                    <li class="col-sm-3" id="address-1113" onclick="choseAddress(this)">
                         <h4>姓名</h4>
                         <div style="padding-top: 5px">
                             <p>址详细地址详细地址详细地址详细地址详细地址详细地址</p>
                             <p>15027100106</p>
                         </div>
                     </li>
-                    <li class="col-sm-3" id="address-1114">
+                    <li class="col-sm-3" id="address-1114" onclick="choseAddress(this)">
                         <h4>姓名</h4>
                         <div style="padding-top: 5px">
                             <p>址详细地址详细地址详细地址详细地址详细地址详细地址</p>
                             <p>15027100106</p>
                         </div>
                     </li>
-                    <li class="col-sm-3" id="address-1114">
+                    <li class="col-sm-3" id="address-1114" onclick="choseAddress(this)">
                         <h4>姓名</h4>
                         <div style="padding-top: 5px">
                             <p>址详细地址详细地址详细地址详细地址详细地址详细地址</p>
@@ -123,13 +123,18 @@
 
 <script type="text/javascript">
 
-    getTotal();
-
-    //选择地址的js
-    $(".list-address li").click(function () {
-        $(this).addClass("active");
-        $(this).siblings().removeClass("active");
-    });
+    window.onload = function () {
+        loadAddresses();
+        loadOrders();
+        getTotal();
+    }
+    
+    //选择地址的函数
+    function choseAddress(li) {
+        let theLi = $(li);
+        theLi.addClass("active");
+        theLi.siblings().removeClass("active");
+    }
 
     //获得个数和总计
     function getTotal() {
@@ -245,6 +250,7 @@
             if (i == 0) {
                 addressLi.setAttribute("class", "col-sm-3 active");
             }
+            addressLi.setAttribute("onclick", "choseAddress(this)");
             addressLi.id = "address-" + item.pk;
             addressUl.append(addressLi);
 
@@ -352,4 +358,3 @@
 </script>
 
 </html>
-
