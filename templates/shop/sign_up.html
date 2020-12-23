@@ -1,74 +1,112 @@
+{% load static %}
+{% load user_extras %}
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>sign_up</title>
+<html>
+<meta charset="utf-8" />
+<title>欢迎注册</title>
+
+<!-- Bootstrap -->
+<link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css">
+
+<link rel="stylesheet" href="{% static 'user/css/all.css' %}" />
+
+<script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
+<script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 </head>
+<style>
+    body {
+        /* background-color: wheat; */
+        background-image: url("{% static 'user/images/background/bg1_yellow.jpg' %}");
+        background-repeat: no-repeat;
+        background-size: 100%;
+        background-position: 0 -280px;
+
+    }
+</style>
 <body>
 
-<h1>please sign up</h1>
-<div>
-    <div>
-        <div>
-            <div>
-                <strong>用户注册</strong>
-            </div>
-            {% if result.status == "error" %}
-                <h5>{{ result.data }}</h5>
-            {% endif %}
-            <div>
-                <form method="post">
-                    {% csrf_token %}
-                    <input type="text" name="username" value="{{ username }}" placeholder="请输入用户名">
-                    <br>
-                    <input type="text" name="nickname" value="{{ nickname }}" placeholder="请输入昵称">
-                    <br>
-                    <input type="password" name="password" placeholder="请输入密码">
-                    <br>
-                    <input type="password" name="password2" placeholder="请重复密码">
-                    <br>
-                    <input type="submit" name="" value="注册">
-                </form>
+    <!-- 主体部分 -->
+    <main style="margin-top: 120px;">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 col-md-offset-4"
+                    style="border: 1px solid #ddd; border-radius: 2%; background-color: rgb(253, 252, 252);">
+                    <h3 style="text-align: center; margin-bottom: 20px;">注册商家</h3>
+
+                    <div id="prompt">
+
+                    </div>
+                    <div class="form">
+                        <div class="form-group">
+                            <label for="input6" class="control-label">用户名</label>
+                            <input type="text" class="form-control" id="username" placeholder="username">
+                        </div>
+                        <div class="form-group">
+                            <label for="input6" class="control-label">邮箱</label>
+                            <input type="text" class="form-control" id="email" placeholder="email">
+                        </div>
+                        <div class="form-group">
+                            <label for="input6" class="control-label">密码</label>
+                            <input type="password" class="form-control" id="password" placeholder="password">
+                        </div>
+                        <div class="form-group">
+                            <label for="input6" class="control-label">确认密码</label>
+                            <input type="password" class="form-control" id="password_confirm" placeholder="password_confirm">
+                        </div>
+
+                        <div style="margin-top:30px;"></div>
+                        <button type="submit" id="signup" class="btn btn-success" style="width: 100%;">注册</button>
+                        <div style="margin-top:10px;"></div>
+                        <p>已有账号？ 去<a href="/shop/login/">登录</a></p>
+                    </div>
+
+                </div>
             </div>
         </div>
-    </div>
-</div>
+    </main>
 
+    <!-- 页脚 -->
+    {% show_footer %}
 
 </body>
-</html>
-<script>
-      $("#username").blur(
-          function () {
-              var username = $("#username").val();
-              var csrfmiddlewaretoken = '{{ csrf_token }}';
-              var url = "/shop/ajax/";
-              send_data = {
-                  "username":username,
-                  "csrfmiddlewaretoken":csrfmiddlewaretoken
-              };
-              $.ajax(
-                  {
-                      url: url,
-                      type: "post",
-                      data: send_data,
-                      success: function (data) {
-                          var status = data.status;
-                          $("#sign").text(data.data);
-                          if(status == "error"){
-                              $("#submit").attr("disabled",true)
-                          }else {
-                              $("#submit").attr("disabled",false)
-                          }
-                          {#alert(data.data)#}
-                          {#console.log(data)#}
-                      },
-                      error: function (error) {
-                          console.log(error)
-                      }
-                  }
-              )
-          }
-      )
+<script type="text/javascript">
+    //加载导航栏和页脚
+
+    let prompt = document.getElementById("prompt");
+    $("#signup").click(function () {
+
+        $.ajax({
+            type: "POST",
+            url: "/shop/sign_up/",
+            data: {
+                username: $("#username").val(),
+                password: $("#password").val(),
+                confirm_password: $("#password_confirm").val(),
+                email: $("#email").val(),
+            },
+            dataType: "json",
+            success: function (result) {
+                console.log(result);
+                if (result.data.status=="success") {
+                    prompt.setAttribute("class", "alert alert-success");
+                    prompt.innerHTML = ("注册成功!马上<a href=\"/shop/login/\" class=\"alert-link\">登录</a>");
+                } else {
+                    prompt.setAttribute("class", "alert alert-danger");
+                    prompt.innerHTML = (result.data.data);
+                }
+            },
+            error: function (data) {
+
+            },
+
+        })
+
+
+
+
+    });
+
 
 </script>
+
+</html>

@@ -75,40 +75,37 @@
                 <table class="table" style="margin-top: 10px;" id="confirm-table">
                     <tbody>
                         <tr>
+                            <th>商店名</th>
                             <th colspan="3">商品信息</th>
                             <th>单价</th>
                             <th>数量</th>
                             <th>优惠</th>
                             <th>小计</th>
                         </tr>
-                        <tr>
-                            <td width="10%">
-                                <img src="../images/index/4.jpg" alt="">
-                            </td>
-                            <td width="10%">商品名</td>
-                            <td width="40%">商品描述商品描述商品描述商品描述商品描述商品描述商品描述商品描述商品描述商品描述</td>
-                            <td width="10%">￥<span>59.00</span> </td>
-                            <td width="10%" class="unit-count">1</td>
-                            <td width="10%">无</td>
-                            <td width="10%">￥<span class="subtotal">59.00</span></td>
-                        </tr>
-                        <tr>
-                            <td width="10%">
-                                <img src="../images/index/5.jpg" alt="">
-                            </td>
-                            <td width="10%">商品名</td>
-                            <td width="40%">商品描述商品描述商品描述商品描述商品描述商品描述商品描述商品描述商品描述商品描述</td>
-                            <td width="10%">￥<span>59.00</span> </td>
-                            <td width="10%" class="unit-count">1</td>
-                            <td width="10%">无</td>
-                            <td width="10%">￥<span class="subtotal">59.00</span></td>
-                        </tr>
+                        {% for name,order in order_list.items %}
+                            <tr>{{ name }}</tr>
+                            {% for pro in order %}
+                                <tr>
+
+                                    <td width="10%">
+                                        <img src="/static/{{ pro.image }}" alt="">
+                                    </td>
+                                    <td width="10%">{{ pro.product_name }}</td>
+                                    <td width="30%">{{ pro.desc }}</td>
+                                    <td width="10%">￥<span>{{ pro.product_price }}</span> </td>
+                                    <td width="10%" class="unit-count">{{ pro.product_number }}</td>
+                                    <td width="10%">无</td>
+                                    <td width="10%">￥<span class="subtotal">{{ pro.total_price }}</span></td>
+                                </tr>
+                            {% endfor %}
+
+                        {% endfor %}
                     </tbody>
                 </table>
             </div>
             <div class="col-md-4 col-md-offset-8" style="text-align: right;">
-                共有<span id="total-count" style="color: #f71117 ">2</span>件商品，共计：
-                <span id="total-price" style="color: #f71117;font-size: 1.2em;">159.98</span>元
+                共有<span id="total-count" style="color: #f71117 ">{{ product_number }}</span>件商品，共计：
+                <span id="total-price" style="color: #f71117;font-size: 1.2em;">{{ total_price }}</span>元
                 <button class="btn btn-success btn-lg" onclick="checkout()">确认付款</button>
             </div>
         </div>
@@ -116,8 +113,6 @@
     <!-- 页脚 -->
     {% show_footer %}
 
-    <button onclick="loadAddresses()">生成地址</button>
-    <button onclick="loadOrders()">生成订单</button>
 
 </body>
 
@@ -125,8 +120,8 @@
 
     window.onload = function () {
         loadAddresses();
-        loadOrders();
-        getTotal();
+        //loadOrders();
+        //getTotal();
     }
     
     //选择地址的函数

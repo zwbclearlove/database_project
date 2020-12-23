@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>图像信息更改</title>
+
+    <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
+    <script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <form class="form" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="input6" class="control-label" name="logo"><h3>选择图片</h3></label> <br>
+            <img style="width: 200px;height: 200px;" src="/static/{{ show_image }}">
+            <br>
+            <label for="file" class=" btn btn-default">
+                <input type="file" name="image" placeholder="选择图片">
+            </label>
+
+        </div>
+        <div style="margin-top:30px;"></div>
+            <button type="submit" class="btn btn-success" style="width: 5%;">保存</button>
+        <div style="margin-top:10px;"></div>
+    </form>
+</body>
+</html>

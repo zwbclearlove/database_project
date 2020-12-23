@@ -163,14 +163,16 @@ def user_avatar_update(request):
     user_id = request.COOKIES.get("user_userId")
     user = User.objects.filter(id=user_id).first()
     if request.method == "POST":
-        image = request.FILES.get("avatar")
+        image = request.FILES.get("image")
         print(image)
         if image:
             user.avatar = image
+            messages.add_message(request,messages.SUCCESS,'头像修改成功',extra_tags='success')
         user.save()
-        messages.add_message(request,messages.SUCCESS,'头像修改成功',extra_tags='success')
-        return  JsonResponse({"status":"success"})
-    return  JsonResponse({"status":"error"})
+
+        return HttpResponseRedirect('/user_info/')
+    show_image = user.avatar
+    return render(request,'image_update.html',locals())
 
 @csrf_exempt
 def user_info_update(request):
@@ -312,6 +314,8 @@ def address_delete(request,add_id):
     return HttpResponseRedirect('/user_address/')
 
 def product_list(request, type_id=0):
+    if type_id != 0 :
+        pt = ProductType.objects.get(id=type_id)
     keyword = request.GET.get("keyword","")
     if keyword:
         plist = Product.objects.filter(name__contains=keyword)
@@ -323,6 +327,7 @@ def product_list(request, type_id=0):
     return render(request,"user/product_list.html",{
         "product_list":mark_safe(products),
         "keyword": mark_safe('"'+keyword+'"'),
+        'pt':pt,
     })
 
 def product(request,pid):
@@ -480,6 +485,7 @@ def gen_order(request):
         shop_name = Shop.objects.get(id=ci.shop_id)
         pro = Product.objects.get(id=ci.product_id)
         ci.image = pro.image
+        ci.desc = pro.description
         if order_list.get(shop_name):
             order_list.get(shop_name).append(ci)
         else:
@@ -517,6 +523,9 @@ def gen_order(request):
                     oi.product_price = ci.product_price
                 oi.total_price = oi.product_number * oi.product_price
                 oi.save()
+                cp = Product.objects.get(id=ci.product_id)
+                cp.sales += ci.product_number
+                cp.save()
             new_message = Message()
             new_message.message_type = 2
             new_message.message_time = timezone.now()
@@ -532,6 +541,9 @@ def gen_order(request):
 
     return render(request,"user/checkout.html",{
         'addresses':mark_safe(adds),
+        'order_list':order_list,
+        'product_number':product_number,
+        'total_price':total_price
     })
 
 def order(request,order_id):
@@ -615,25 +627,44 @@ def order_list(request):
     user_id = request.COOKIES.get("user_userId")
     user = User.objects.get(id=user_id)
     orders = Order.objects.filter(order_user=user).order_by('-order_date')
+    order_pro_list = {}
+    shop_name_list = {}
+    pro_desc_list = {}
+    pro_image_list = {}
 
     for o in orders:
         shop = Shop.objects.get(id=o.order_shop)
+        shop_name_list[shop.id] = shop.shopName
         o.shop_name = shop.shopName
         o.item_list = OrderItem.objects.filter(order=o)
+        pro_list = []
         for pro in o.item_list:
             prod = Product.objects.get(id=pro.product_id)
-            pro.image = prod.image
-            pro.desc = prod.description
+            pro_image_list[pro.product_id] = str(prod.image)
+            pro_desc_list[pro.product_id] = prod.description
+            pro_list.append(pro)
+        pro_list = serializers.serialize('json',pro_list)
+        order_pro_list[o.id] = pro_list
 
-    orders = serializers.serialize('json',orders);
+
+    orders = serializers.serialize('json',orders)
+    opl = json.dumps(order_pro_list)
+    snl = json.dumps(shop_name_list)
+    pdl = json.dumps(pro_desc_list)
+    pil = json.dumps(pro_image_list)
     return render(request,"user/order_list.html",{
         'orders': mark_safe(orders),
+        'order_pro_list' : mark_safe(opl),
+        'shop_name_list':mark_safe(snl),
+        'pro_desc_list':mark_safe(pdl),
+        'pro_image_list' : mark_safe(pil)
     })
 
 def place_order_success(request):
 
     return render(request,'user/place_order_success.html',locals())
 
+@csrf_exempt
 def comment(request, pid):
     user_id = request.COOKIES.get('user_userId')
     product = get_object_or_404(Product,id=pid)
@@ -648,9 +679,9 @@ def comment(request, pid):
 
     comment.save()
 
-    messages.add_message(request,messages.SUCCESS,'评论程坤',extra_tags='success')
+    messages.add_message(request,messages.SUCCESS,'评论成功',extra_tags='success')
 
-    return HttpResponseRedirect('/product/%s/'%pid)
+    return JsonResponse({'status':'success'})
 
 def favorite(request):
     user_id = request.COOKIES.get('user_userId')

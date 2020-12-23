@@ -88,9 +88,16 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-10">
-                    <div style="font-size:large">
-                        关于<span style="color:skyblue; font-weight: bold;">{{ keyword }}</span>的搜索结果：
-                    </div>
+                    {% if pt %}
+                        <div style="font-size:large">
+                            商品类别：<span style="color:skyblue; font-weight: bold;">{{ pt.product_type }}</span>
+                        </div>
+                    {% else %}
+                        <div style="font-size:large">
+                            关于<span style="color:skyblue; font-weight: bold;">{{ keyword }}</span>的搜索结果：
+                        </div>
+                    {% endif %}
+
 
                     <hr>
                 </div>

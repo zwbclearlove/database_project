@@ -37,4 +37,6 @@ urlpatterns = [
     path('follow/<int:sid>/',follow_shop,name="follow_shop"),
     path('unfollow/<int:sid>/',cancel_follow,name="unfollow_shop"),
     path('shopinfo/<int:sid>/',shop_info,name="shop_info"),
+    path('receive_product/<int:order_id>/',receive_product),
+    path('finish_order/<int:order_id>/',finish_order),
 ]

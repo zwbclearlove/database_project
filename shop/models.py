@@ -32,14 +32,14 @@ class Shop(models.Model):
     phoneNumber = models.CharField(max_length=32, verbose_name="联系电话")
 
     userId = models.IntegerField(verbose_name="店主")
-    type = models.ManyToManyField(to=ShopType, verbose_name="店铺类型")
+    type = models.ForeignKey(to=ShopType, on_delete=models.CASCADE, verbose_name="店铺类型",null=True)
     def __str__(self):
         return self.shopName
 
 class ProductType(models.Model):
     product_type = models.CharField(max_length=32, verbose_name="商品类型")
     description = models.TextField(verbose_name="详细信息")
-    picture = models.ImageField(upload_to="shop/images",verbose_name="首页展示图")
+    picture = models.ImageField(upload_to="shop/images",verbose_name="首页展示图",null=True)
 
     def __str__(self):
         return self.product_type
@@ -95,7 +95,7 @@ class Follow(models.Model):
 class Coupon(models.Model):
     create_time = models.DateTimeField(default=timezone.now(),verbose_name="创建时间")
     product = models.ForeignKey(to=Product,on_delete=models.CASCADE,verbose_name="所属商品")
-    end_time = models.DateTimeField(default=timezone.now(),verbose_name="截止时间")
+    #end_time = models.DateTimeField(default=timezone.now(),verbose_name="截止时间")
     discount = models.FloatField(verbose_name="优惠金额")
 
     def __str__(self):

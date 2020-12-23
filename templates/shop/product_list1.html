@@ -1,0 +1,616 @@
+{% load static %}
+{% load shop_extras %}
+
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>网上购物系统</title>
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css">
+
+    <link rel="stylesheet" href="{% static 'user/css/all.css' %}" />
+
+
+    <script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
+    <script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <style>
+        body {
+            /* background-color: wheat; */
+            background-image: url("{% static 'user/images/background/bg2_yellow.jpg' %}");
+            background-repeat: no-repeat;
+            background-size: 100%;
+            background-position: 0 -200px;
+        }
+
+        main>.container-fluid,
+        main>.container {
+            border-radius: 1%;
+            border: #fff 1px solid;
+            background-color: whitesmoke;
+        }
+
+        img {
+            width: 100%;
+        }
+
+        ul {
+            border: 0;
+        }
+
+        .nav-pills a {
+            border-bottom: 1px solid #ddd;
+
+        }
+
+        .panel-default>.panel-heading {
+            background-color: lightsteelblue;
+        }
+
+        .panel-default {
+            border-color: #fff;
+        }
+
+        .panel-group .panel-heading+.panel-collapse>.panel-body {
+            border-top: 1px solid #fff;
+        }
+
+        .save {
+            padding: 6px 30px;
+        }
+
+        main table th,
+        main table td {
+            text-align: center;
+        }
+
+        tbody {
+            border-bottom: 1px solid #ddd;
+        }
+
+        table tbody td {
+            vertical-align: middle !important;
+        }
+
+
+        .avatar {
+            width: 80%;
+            border-radius: 50%;
+            border: 1px wheat solid;
+        }
+
+        .commenter {
+            color: cadetblue;
+
+            font-weight: bold;
+        }
+
+        .comment {
+            margin-top: 5px;
+            font-size: 90%;
+            line-height: 140%;
+        }
+
+        .comment-time {
+            margin-top: 5px;
+            color: #bbb;
+        }
+
+        .modal-body {
+            overflow: auto;
+            max-height: 500px;
+        }
+
+        .panel-body {
+            overflow: auto;
+            max-height: 550px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 导航栏 -->
+    {% show_nav_part %}
+    <!--主体内容-->
+    <main style="margin-top: 55px;">
+        <div class="container-fluid">
+            {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                {{ message }}
+            </div>
+            {% endfor %}
+            {% endif %}
+        </div>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-2" id="sidebar-part">
+                    <ul class="nav nav-pills nav-stacked">
+                        <li><a href="/shop/index/">店铺信息</a></li>
+                        <li class="active"><a href="/shop/product_list/">商品管理</a></li>
+                        <li><a href="/shop/product_types/">商品类别管理</a></li>
+                        <li><a href="/shop/order_list/">订单管理</a></li>
+                        <li><a href="/shop/coupons/">优惠券管理</a></li>
+                        <li><a href="/shop/messages/">消息管理</a></li>
+                        <li><a href="/shop/extrainfo/">销售情况</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-md-10">
+                    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+
+
+                        <div class="panel panel-default">
+                            <div class="panel-heading" role="tab" id="headingOne">
+                                <h4 class="panel-title">
+                                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne"
+                                        aria-expanded="true" aria-controls="collapseOne" style="display: block; ">
+                                        全部商品
+                                    </a>
+                                </h4>
+                            </div>
+
+
+                            <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel"
+                                aria-labelledby="headingOne">
+                                <div class="panel-body">
+
+                                    <div class="col-md-2 col-md-offset-10">
+                                        <form>
+                                            <div class="form-group">
+                                                <select class="form-control" id="select" onchange="sortGoods()">
+                                                    <option value="asc">所有</option>
+                                                    <option value="desc">已上架</option>
+                                                    <option value="desc">未上架</option>
+                                                </select>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <table class="table" style="table-layout:fixed ; ">
+                                            <thead>
+                                                <tr>
+                                                    <th style="width: 10%;"></th>
+                                                    <th style="width: 10%;">名称</th>
+                                                    <th style="width: 10%;">类别</th>
+                                                    <th style="width: 10%;">价格</th>
+                                                    <th style="width: 10%;">库存</th>
+                                                    <th style="width: 10%;">销量</th>
+                                                    <th style="width: 8%;">编辑</th>
+                                                    <th style="width: 10%;">详情</th>
+                                                    <th style="width: 8%;">操作</th>
+                                                    <th style="width: 8%;">优惠</th>
+                                                    <th style="width: 8%;">删除</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody style="height: 60px; overflow-y: auto;">
+                                                {% for product in plist %}
+                                                    <tr data-id="{{ product.id }}">
+                                                        <td>
+                                                            <a href="/shop/product/{{ product.id }}/">
+                                                                <img src="/static/{{ product.image }}" alt="">
+                                                            </a>
+                                                        </td>
+                                                        <td style="word-wrap:break-word;" class="good-name">{{ product.name }}</td>
+                                                        <td style="word-wrap:break-word;" class="good-type">{{ product.product_type }}</td>
+                                                        <td class="unit-price">￥<span>{{ product.price }}</span> </td>
+                                                        <td class="inventory">{{ product.stock }}</td>
+                                                        <td>{{ product.sales }}</td>
+                                                        <td><button type=" button" class="btn  btn-warning"
+                                                                data-toggle="modal" data-target="#modify-good-modal"
+                                                                onclick="editGood(this)">编辑</button>
+                                                        </td>
+                                                        <td><button type=" button" class="btn  btn-info"
+                                                                onclick="window.open('/shop/product/{{ product.id }}/')">查看详情</button>
+                                                        </td>
+                                                        {% if product.on_sale == 1 %}
+                                                            <td><button type="button" class="btn  btn-success "
+                                                                onclick="window.location.href='/shop/product_state_change/down/?id={{ product.id }}'">下架</button>
+                                                            </td>
+                                                        {% else %}
+                                                            <td><button type="button" class="btn  btn-success "
+                                                                onclick="window.location.href='/shop/product_state_change/up/?id={{ product.id }}'">上架</button>
+                                                            </td>
+                                                        {% endif %}
+                                                        <td>
+                                                            <button type=" button" class="btn  btn-primary"
+                                                                data-toggle="modal" data-target="#set-discount-modal"
+                                                                onclick="setDiscount(this)">优惠</button>
+                                                        </td>
+                                                        <td><button type="button" class="btn btn-danger "
+                                                                data-toggle="modal" data-target="#confirm-delete-modal"
+                                                                onclick="deleteGood(this)">删除</button>
+                                                        </td>
+
+
+                                                    </tr>
+                                                {% endfor %}
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                        <div class="panel panel-default">
+                            <div class="panel-heading" role="tab" id="headingTwo">
+                                <h4 class="panel-title">
+                                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion"
+                                        href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo"
+                                        style="display: block;">
+                                        添加商品
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel"
+                                aria-labelledby="headingTwo">
+                                <div class="panel-body">
+                                    <div class="col-md-offset-1 col-md-7">
+                                        <form class="form-horizontal" style="margin-top: 40px">
+                                            <div class="form-group">
+                                                <label for="input6" class="col-sm-4 control-label">商品名称</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" id="good-name-input" class="form-control"
+                                                        id="input6" placeholder="商品名称">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="input7" class="col-sm-4 control-label">商品描述</label>
+                                                <div class="col-sm-8">
+                                                    <textarea class="form-control" id="good-descrip-input" rows="3"
+                                                        placeholder="商品描述" style="resize:none;"></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="input8" class="col-sm-4 control-label">价格</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control" id="unit-price-input"
+                                                        rows="4" placeholder="价格" style="resize:none;"></textarea>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="input8" class="col-sm-4 control-label">库存</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control" id="inventory-input"
+                                                        rows="4" placeholder="库存" style="resize:none;"></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="input8" class="col-sm-4 control-label">类型</label>
+                                                <div class="col-sm-8">
+                                                    <select class="form-control" id="good-type-input">
+                                                        {% for pt in pt_list %}
+                                                            <option>{{ pt }}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <div class="col-md-8 col-md-offset-4">
+                                                    <button type="button" class="btn btn-success save"
+                                                        style="width: 100%;" onclick="addGood()">添加</button>
+                                                </div>
+                                            </div>
+
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+
+   <!-- 弹出来的编辑商品信息 -->
+    <div class="modal fade" id="modify-good-modal" tabindex="-1" role="dialog" aria-labelledby="modifyAddrLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="modifyAddrLabel" style="color: #0074c2; font-weight: bold;">编辑商品信息</h4>
+                </div>
+                <div class="modal-body">
+                    <label for="">名称</label>
+                    <input class="form-control" id="edit-good-name" type="text" value="">
+
+                    <label for="">描述</label>
+                    <textarea class="form-control" name="" id="edit-good-descrip" rows="4"
+                        style="resize: none;"></textarea>
+                    <label for="">价格(元)</label>
+                    <input type="text" class="form-control" id="edit-unit-price" value="">
+                    <label for="">库存</label>
+                    <input type="number" class="form-control" id="edit-inventory" value="">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="edit-addr-btn" data-dismiss="modal"
+                        onclick="saveEditInfo()">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- 弹出来的选择优惠力度 -->
+    <div class="modal fade" id="set-discount-modal" tabindex="-1" role="dialog" aria-labelledby="modifyAddrLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="modifyAddrLabel" style="color: #0074c2; font-weight: bold;">添加优惠券</h4>
+                </div>
+                <div class="modal-body">
+                    <label for="">优惠额度:元</label>
+                    <input class="form-control" id="discount" type="number">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="edit-addr-btn" data-dismiss="modal"
+                        onclick="releaseDiscout()">发布</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 弹出来的确认删除 -->
+    <div class="modal" id="confirm-delete-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h5 class="modal-title" id="exampleModalLabel">删除</h5>
+                </div>
+                <div class="modal-body">
+                    <h4>确认删除商品？</h4>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" id="delete-confirm" data-dismiss="modal"
+                        onclick="deleteConfirm()">确认</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="footer-part">
+
+    </div>
+
+</body>
+<script type="text/javascript">
+
+    //全局变量便于使用
+    let goodId;
+    let theButton;
+
+    function editGood(button) {
+        theButton = $(button);
+        goodId = theButton.parent().parent().attr("data-id");
+
+        //设置编辑框里面的信息
+        let originGoodName = theButton.parent().siblings(".good-name").text().trim();
+        //let originGoodDescrip = goodDetailList[goodId];
+        let originUnitPrice = theButton.parent().siblings(".unit-price").children().text().trim();
+        let originInvetory = theButton.parent().siblings(".inventory").text().trim();
+
+        console.log(goodId);
+
+
+        //设置编辑框原始信息
+        $("#edit-good-name").val(originGoodName);
+        //$("#edit-good-descrip").val(originGoodDescrip);
+        $("#edit-unit-price").val(originUnitPrice);
+        $("#edit-inventory").val(originInvetory);
+
+
+
+    }
+
+    function saveEditInfo() {
+        let editedGoodName = $("#edit-good-name").val().trim();
+        let editedGoodDescrip = $("#edit-good-descrip").val().trim();
+        let editedUnitPrice = $("#edit-unit-price").val().trim();
+        let editedInventory = $("#edit-inventory").val();
+
+        console.log(editedGoodName);
+        console.log(editedGoodDescrip);
+        console.log(editedUnitPrice);
+        console.log(editedInventory);
+
+        //给后端发送数据
+        $.ajax({
+            type: "POST",
+            url: "/shop/update_product/"+goodId+"/",
+            data: {
+                name: editedGoodName,
+                description: editedGoodDescrip,
+                price: editedUnitPrice,
+                stock: editedInventory
+            },
+            dataType: "json",
+            success: function (data) {
+                if (data.status == 'success') {
+                    location.reload();
+                }
+            },
+            error: function (data) {
+            },
+        });
+    }
+
+    function deleteGood(button) {
+        theButton = $(button);
+        goodId = theButton.parent().parent().attr("data-id");
+        console.log(goodId);
+    }
+
+    //确认删除商品
+    function deleteConfirm() {
+        console.log("delete:" + goodId);
+        theButton.parent().parent().remove();
+        //发送ajax
+        window.location.replace("/shop/product_state_change/delete/?id="+goodId);
+    }
+
+
+    function setDiscount(button) {
+        theButton = $(button);
+        goodId = theButton.parent().parent().attr("data-id");
+        console.log(goodId);
+    }
+
+    function releaseDiscout() {
+        console.log("goodId:" + goodId + "\n" + "discount:" + $("#discount").val());
+        $.ajax({
+            type: "POST",
+            url: "/shop/coupon_add/"+goodId+'/',
+            data: {
+                discount: $("#discount").val()
+            },
+            dataType: "json",
+            success: function (data) {
+                if (data.status == 'success') {
+                    window.open("/shop/product_list/", "_self");
+                }
+
+            },
+            error: function (data) {
+            },
+        });
+    }
+
+    var commentList = [{
+        id: 1234564876,
+        imgURL: "../images/cart/749e8fce6291f8c8.jpg",
+        commenter: "上课",
+        comment: "马来西亚进口咖啡咖啡咖啡咖啡咖啡咖啡咖啡咖啡，无返回，未发货",
+        commentTime: "2020-12-20 19:30",
+
+    },
+    {
+        id: 1234564876,
+        imgURL: "../images/cart/749e8fce6291f8c8.jpg",
+        commenter: "上课",
+        comment: "马来西亚进口咖啡咖啡咖啡咖啡咖啡咖啡咖啡咖啡，无返回，未发货",
+        commentTime: "2020-12-20 19:30",
+
+    },
+    {
+        id: 1234564876,
+        imgURL: "../images/cart/749e8fce6291f8c8.jpg",
+        commenter: "上课",
+        comment: "马来西亚进口咖啡咖啡咖啡咖啡咖啡咖啡咖啡咖啡，无返回，未发货",
+        commentTime: "2020-12-20 19:30",
+
+    }];
+
+    function seeComments(button) {
+        theButton = $(button);
+        goodId = theButton.parent().parent().attr("data-id");
+
+        //获取评论列表
+        $.ajax({
+            type: "POST",
+            url: "",
+            data: {
+                goodId: goodId,
+            },
+            dataType: "json",
+            success: function (data) {
+                //commentList=111;
+            },
+            error: function (data) {
+            },
+        });
+        let tbody = $("#comment-table tbody");
+        tbody.html("");
+        $.each(commentList, function (i, item) {
+            let tableRow = document.createElement("tr");
+            tbody.append(tableRow);
+
+            let imageTd = document.createElement("td");
+            imageTd.setAttribute("style", "text-align: center;")
+            tableRow.append(imageTd);
+
+            let image = document.createElement("img");
+            image.setAttribute("class", "avatar");
+            image.src = item.imgURL;
+            imageTd.append(image);
+
+            let commentDetailTd = document.createElement("td");
+            tableRow.append(commentDetailTd);
+
+            let commentDetailDiv = document.createElement("div");
+            commentDetailDiv.setAttribute("style", "padding-left: 1em;");
+            commentDetailTd.append(commentDetailDiv);
+
+            let commenterDiv = document.createElement("div");
+            commenterDiv.setAttribute("class", "commenter");
+            commenterDiv.innerHTML = item.commenter;
+            commentDetailDiv.append(commenterDiv);
+
+            let commentDiv = document.createElement("div");
+            commentDiv.setAttribute("class", "comment");
+            commentDiv.innerHTML = item.comment;
+            commentDetailDiv.append(commentDiv);
+
+            let commentTimeDiv = document.createElement("div");
+            commentTimeDiv.setAttribute("class", "comment-time");
+            commentTimeDiv.innerHTML = item.commentTime;
+            commentDetailDiv.append(commentTimeDiv);
+        });
+
+        //加载完评论后，弹出模态框
+        $("#see-comments-modal").modal("show");
+    }
+
+    //添加商品
+    function addGood() {
+        console.log($("#good-type-input").val().trim());
+        $.ajax({
+            type: "POST",
+            url: "/shop/add_product/",
+            data: {
+                name: $("#good-name-input").val().trim(),
+                description: $("#good-descrip-input").val().trim(),
+                price: $("#unit-price-input").val().trim(),
+                stock: $("#inventory-input").val().trim(),
+                product_type: $("#good-type-input").val().trim(),
+            },
+            dataType: "json",
+            success: function (data) {
+                if (data.status == 'success') {
+                    console.log("success");
+                    window.open("/shop/product_list", "_self");
+                } else {
+                    console.log("error");
+                }
+            },
+            error: function (data) {
+            },
+        });
+    }
+
+</script>
+
+</html>

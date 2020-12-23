@@ -1,0 +1,169 @@
+{% load static %}
+{% load shop_extras %}
+
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>网上购物系统</title>
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css">
+
+    <link rel="stylesheet" href="{% static 'user/css/all.css' %}" />
+
+    <script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
+    <script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <style>
+        body {
+            /* background-color: wheat; */
+            background-image: url("{% static 'user/images/background/bg2_yellow.jpg' %}");
+            background-repeat: no-repeat;
+            background-size: 100%;
+            background-position: 0 -200px;
+        }
+
+
+        main>.container-fluid,
+        main>.container {
+            border-radius: 1%;
+            border: #fff 1px solid;
+            background-color: whitesmoke;
+        }
+
+        img {
+            width: 100%;
+        }
+
+        ul {
+            border: 0;
+        }
+
+        .nav-pills a {
+            border-bottom: 1px solid #ddd;
+
+        }
+
+        .panel-default>.panel-heading {
+            background-color: lightsteelblue;
+        }
+
+        .panel-default {
+            border-color: #fff;
+        }
+
+        .panel-group .panel-heading+.panel-collapse>.panel-body {
+            border-top: 1px solid #fff;
+        }
+
+        .save {
+            padding: 6px 30px;
+        }
+
+
+        .avatar {
+            width: 60%;
+            border-radius: 50%;
+            border: 1px wheat solid;
+        }
+
+        .sender {
+            color: lightblue;
+            font-size: large;
+            font-weight: bold;
+        }
+
+        .message {
+            margin-top: 10px;
+            font-size: 100%;
+            line-height: 140%;
+        }
+
+        .send-time {
+            margin-top: 10px;
+            color: #bbb;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 导航栏 -->
+    {% show_nav_part %}
+    <!--主体内容-->
+    <main style="margin-top: 55px;">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-2" id="sidebar-part">
+                    <ul class="nav nav-pills nav-stacked">
+                        <li><a href="/shop/index/">店铺信息</a></li>
+                        <li><a href="/shop/product_list/">商品管理</a></li>
+                        <li><a href="/shop/product_types/">商品类别管理</a></li>
+                        <li><a href="/shop/order_list/">订单管理</a></li>
+                        <li><a href="/shop/coupons/">优惠券管理</a></li>
+                        <li class="active"><a href="/shop/messages/">消息管理</a></li>
+                        <li><a href="/shop/extrainfo/">销售情况</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-10">
+                    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                        <div class="panel panel-default">
+                            <div class="panel-heading" role="tab" id="headingOne">
+                                <h4 class="panel-title">
+                                    <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne"
+                                        aria-expanded="true" aria-controls="collapseOne">
+                                        全部消息
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel"
+                                aria-labelledby="headingOne">
+                                <div class="panel-body">
+                                    <div class=" col-md-12">
+                                        <table class="table" id="message-table"
+                                            style="table-layout:fixed ;border-bottom: 1px solid #ddd;">
+                                            <thead>
+                                                <tr>
+                                                    <th width="7%"></th>
+                                                    <th width="93%"></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for message in user_message_list %}
+                                                    <tr>
+                                                        <td style="text-align: center;">
+                                                            <img src="/static/{{ message.image }}" alt="" class="avatar">
+                                                        </td>
+                                                        <td>
+                                                            <div style="padding-left: 1em;">
+                                                                <div class="sender">{{ message.name }}</div>
+                                                                <div class="message">
+                                                                    {{ message.content }}
+                                                                </div>
+                                                                <div class="send-time">{{ message.message_time }}</div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    {% show_footer %}
+</body>
+
+<script type="text/javascript">
+    $("#nav_part").load("nav-part.html");
+    $("#footer-part").load("../footer_part.html");
+</script>
+
+</html>
