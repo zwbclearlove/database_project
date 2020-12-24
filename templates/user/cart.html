@@ -16,9 +16,7 @@
 <style>
     img {
         width: 100%;
-
         border: 1px wheat solid;
-
     }
 
     th,
@@ -220,7 +218,7 @@
                 </div>
             </div>
 
-            <div class="row">
+            <div class="row" id="checkout-frame">
                 <div class="col-md 4 col-sm-offset-8">
                     <div class="row">
                         <div class="col-md-3 col-md-offset-3">合计</div>
@@ -282,6 +280,11 @@
     $(document).ready(function () {
         genGoods();
         getTotalPrice();
+
+        //如果购物车没有东西，那么不显示结算按钮
+        if (cart_item_list.length == 0) {
+            $("#checkout-frame").hide();
+        }
     });
 
     //删除一个商品

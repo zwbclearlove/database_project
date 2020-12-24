@@ -109,10 +109,10 @@
                                             <div class="col-md-3">
                                                 订单编号：<span class="order-id">12222212212</span>
                                             </div>
-                                            <div class="col-md-3">
+                                            <div class="col-md-6">
                                                 下单时间：<span class="order-time">12222222222</span>
                                             </div>
-                                            <div class="col-md-3 col-md-offset-3">
+                                            <div class="col-md-3 ">
                                                 店铺: <span>店铺名</span>
                                             </div>
                                         </td>
@@ -663,10 +663,10 @@
             orderHeadTd.innerHTML = "<div class=\"col-md-3\">" +
                 "订单编号：<span class=\"order-id\">" + item.fields.order_id + "</span>" +
                 "</div >" +
-                "<div class=\"col-md-3\">" +
+                "<div class=\"col-md-6\">" +
                 "下单时间：<span class=\"order-time\">" + item.fields.order_date + "</span>" +
                 "</div >" +
-                "<div class=\"col-md-3 col-md-offset-3\">" +
+                "<div class=\"col-md-3\">" +
                 "店铺: <span>" + shop_name_list[item.fields.order_shop] + "</span>" +
                 "</div > ";
             orderHeadTr.append(orderHeadTd);

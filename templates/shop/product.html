@@ -113,7 +113,8 @@
                             <thead>
                                 <tr>
                                     <th width="10%"></th>
-                                    <th width="90%"></th>
+                                    <th width="80%"></th>
+                                    <th width="10%"></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -131,7 +132,7 @@
                                             <div class="comment-time">{{ comment.time }}</div>
                                         </div>
                                     </td>
-                                    <td><a href="/shop/comment_delete/{{ comment.id }}/">删除</a></td>
+                                    <td style="text-align: right;"><a href="/shop/comment_delete/{{ comment.id }}/">删除</a></td>
                                 </tr>
                                 {% endfor %}
                             </tbody>

@@ -15,15 +15,21 @@ footer {
 
 
 .img-frame {
-        position: relative;
-        width: 100%;
-        padding-top: 100%;
-        /* 宽高比例为1：1 */
-    }
-    .img-frame img {
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-    }
+    position: relative;
+    width: 100%;
+    padding-top: 100%;
+    /* 宽高比例为1：1 */
+}
+
+.img-frame img {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+}
+
+
+.panel-title a {
+    display: block !important;
+}
