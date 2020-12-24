@@ -27,9 +27,22 @@
 
     <!--主体内容-->
     <div class="container" style="margin-top: 60px; ">
+        <div class="container-fluid">
+            {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                {{ message }}
+            </div>
+            {% endfor %}
+            {% endif %}
+        </div>
         <div class="row">
             <div class="col-sm-12">
                 <h3 class="title">确认收货地址</h3>
+                <hr>
                 <ul class="list-address">
                     <li class="col-sm-3" id="address-1111" onclick="choseAddress(this)">
                         <h4>姓名</h4>
@@ -68,10 +81,12 @@
                     </li>
                 </ul>
             </div>
+            <hr>
 
             <!-- 商品页面的表格 -->
             <div class="col-sm-12" style="margin-top: 30px">
                 <h3 class="title">确认商品信息</h3>
+                <hr>
                 <table class="table" style="margin-top: 10px;" id="confirm-table">
                     <tbody>
                         <tr>
@@ -85,28 +100,26 @@
                         {% for name,order in order_list.items %}
 
                             {% for pro in order %}
-                                <tr>
-                                    <td>{{ name }}</td>
-                                    <td width="10%">
-                                        <img src="/static/{{ pro.image }}" alt="">
-                                    </td>
-                                    <td width="10%">{{ pro.product_name }}</td>
-                                    <td width="30%">{{ pro.desc }}</td>
-                                    <td width="10%">￥<span>{{ pro.product_price }}</span> </td>
-                                    <td width="10%" class="unit-count">{{ pro.product_number }}</td>
-                                    <td width="10%">
-                                        {% if pro.discount %}
-                                            -￥{{ pro.discount }}
-                                        {% else %}
-                                            无
-                                        {% endif %}
-                                    </td>
-                                    <td width="10%">￥<span class="subtotal">
-
-                                        {{ pro.distp }}
-
-                                    </span></td>
-                                </tr>
+                            <tr>
+                                <td>{{ name }}</td>
+                                <td width="10%">
+                                    <img src="/static/{{ pro.image }}" alt="">
+                                </td>
+                                <td width="10%">{{ pro.product_name }}</td>
+                                <td width="30%">{{ pro.desc }}</td>
+                                <td width="10%">￥<span>{{ pro.product_price }}</span> </td>
+                                <td width="10%" class="unit-count">{{ pro.product_number }}</td>
+                                <td width="10%">
+                                    {% if pro.discount %}
+                                        -￥{{ pro.discount }}
+                                    {% else %}
+                                        无
+                                    {% endif %}
+                                </td>
+                                <td width="10%">￥<span class="subtotal">
+                                    {{ pro.distp }}
+                                </span></td>
+                            </tr>
                             {% endfor %}
 
                         {% endfor %}
@@ -127,13 +140,12 @@
 </body>
 
 <script type="text/javascript">
-
-    window.onload = function () {
+    //打开窗口时自动生成
+    $(document).ready(function () {
+        //要执行的js代码段
         loadAddresses();
-        //loadOrders();
-        //getTotal();
-    }
-    
+    });
+
     //选择地址的函数
     function choseAddress(li) {
         let theLi = $(li);
@@ -337,6 +349,7 @@
         let addressIdStr = $(".list-address").children(".active").attr("id");
         //address-1234 -> 1234
         let addressId = addressIdStr.substring(8);
+        //alert(addressId);
         //window.open("finish_order.html", "_self");
 
         $.ajax({

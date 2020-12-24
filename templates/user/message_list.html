@@ -2,9 +2,10 @@
 {% load user_extras %}
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8" />
-    <title>我的消息</title>
+    <title>消息</title>
     <!-- Bootstrap -->
     <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css">
 
@@ -13,17 +14,13 @@
     <script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
     <script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
     <style>
-        #good-img {
-            width: 100%;
-            height: 100%;
-            border: 1px wheat solid;
-        }
 
-        .avatar {
+
+        /* .avatar {
             width: 60%;
             border-radius: 50%;
             border: 1px wheat solid;
-        }
+        } */
 
         .sender {
             color: lightcoral;
@@ -51,6 +48,18 @@
 
 
     <main style="margin-top: 80px;">
+        <div class="container-fluid">
+            {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                {{ message }}
+            </div>
+            {% endfor %}
+            {% endif %}
+        </div>
         <div class="container">
             <div class="row">
                 <table class="table" id="message-table" style="table-layout:fixed ;border-bottom: 1px solid #ddd;">
@@ -77,7 +86,7 @@
                         </tr>
                         <tr>
                             <td style="text-align: center;">
-                                <div>
+                                <div class="img-frame avatar">
                                     <img src="../images/index/7.jpg" alt="" class="avatar">
                                 </div>
                             </td>
@@ -131,15 +140,13 @@
 
     <!-- 页脚 -->
     {% show_footer %}
+    <!-- <button onclick="">生成评论</button> -->
 </body>
 
 <script type="text/javascript">
-
-    window.onload = function () {
+    $(document).ready(function () {
         loadComments();
-        //loadOrders();
-        //getTotal();
-    }
+    });
 
     var messageList = [{
         id: 1234564876,
@@ -183,13 +190,17 @@
             tbody.append(tableRow);
 
             let imageTd = document.createElement("td");
-            imageTd.setAttribute("style", "text-align: center;")
+            imageTd.setAttribute("style", "text-align: center;");
             tableRow.append(imageTd);
+
+            let imageFrameDiv=document.createElement("div");
+            imageFrameDiv.setAttribute("class","img-frame");
+            imageTd.append(imageFrameDiv);
 
             let image = document.createElement("img");
             image.setAttribute("class", "avatar");
-            image.src = '/static/'+shop_images[item.fields.from_id];
-            imageTd.append(image);
+            image.src = '/static/' + shop_images[item.fields.from_id];
+            imageFrameDiv.append(image);
 
             let messageDetailTd = document.createElement("td");
             tableRow.append(messageDetailTd);

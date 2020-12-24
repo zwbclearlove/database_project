@@ -193,9 +193,10 @@
                                                 {% for product in plist %}
                                                     <tr data-id="{{ product.id }}">
                                                         <td>
-                                                            <a href="/shop/product/{{ product.id }}/">
+                                                            <!-- <a href="/shop/product/{{ product.id }}/"></a> -->
+                                                            <div class="img-frame">
                                                                 <img src="/static/{{ product.image }}" alt="">
-                                                            </a>
+                                                            </div>
                                                         </td>
                                                         <td style="word-wrap:break-word;" class="good-name">{{ product.name }}</td>
                                                         <td style="word-wrap:break-word;" class="good-type">{{ product.product_type }}</td>
@@ -601,7 +602,7 @@
             success: function (data) {
                 if (data.status == 'success') {
                     console.log("success");
-                    window.open("/shop/product_list", "_self");
+                    window.open("/shop/product_list/", "_self");
                 } else {
                     console.log("error");
                 }

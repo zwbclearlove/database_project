@@ -221,13 +221,7 @@
                         </table>
                     </div>
 
-                    <h3>发表评价</h3>
-                    <form action="{% url 'user:comment' product.id %}" method="post">
-                        {% csrf_token %}
-                        <input type="text" class="form-control" name="score" placeholder="评分">
-                        <input type="text" class="form-control" name="content" placeholder="评论">
-                        <button type="submit" class="btn btn-default">发表</button>
-                    </form>
+
                 </div>
             </div>
         </div>

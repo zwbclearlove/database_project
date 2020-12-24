@@ -95,8 +95,7 @@ def login(request):
                     result["status"] = "success"
                     result["data"] = "登录成功"
                     response = JsonResponse({"data":result})
-                    response.set_cookie("shop_username", user.username)
-                    response.set_cookie("shop_userId", user.id)
+
                     shop = Shop.objects.filter(userId=user.id).first()
                     if shop:
                         response.set_cookie("shop_registered",shop.id)
@@ -104,6 +103,8 @@ def login(request):
                         response.set_cookie("shop_registered","")
                         result["status"] = "no_shop"
                         response = JsonResponse({"data":result})
+                    response.set_cookie("shop_username", user.username)
+                    response.set_cookie("shop_userId", user.id)
                     return response
                 else:
                     result["data"] = "密码错误"
@@ -164,7 +165,7 @@ def shop_register(request):
         address = post_data.get("address")
         description = post_data.get("description")
         phone = post_data.get("phoneNumber")
-        user_id = int(request.COOKIES.get("shop_userId"))
+        user_id = request.COOKIES.get("shop_userId")
         type1 = post_data.get("type")
         logo = request.FILES.get("avatar")
 
@@ -442,6 +443,7 @@ def ship_product(request,order_id):
     new_message.to_id = corder.order_user.id
     new_message.content = "您的订单已经发货"
     new_message.save()
+    messages.add_message(request,messages.SUCCESS,'发货成功',extra_tags='success')
     referer = request.META.get("HTTP_REFERER")
     return  HttpResponseRedirect(referer)
 
@@ -456,6 +458,7 @@ def urge_comment(request,order_id):
     new_message.to_id = corder.order_user.id
     new_message.content = "您有一个订单需要评价"
     new_message.save()
+    messages.add_message(request,messages.SUCCESS,'提醒成功',extra_tags='success')
     referer = request.META.get("HTTP_REFERER")
     return  HttpResponseRedirect(referer)
 
@@ -492,7 +495,9 @@ def extra_info(request,type=0):
         plist = Product.objects.filter(shopId_id=shop_id).order_by('-sales')
         name_list = []
         sale_list = []
-        if len(plist) <= 10:
+        if len(plist) == 0:
+            return render(request,'shop/sales.html',locals())
+        elif len(plist) <= 10:
             for p in plist:
                 name_list.append(p.name)
                 sale_list.append(p.sales)

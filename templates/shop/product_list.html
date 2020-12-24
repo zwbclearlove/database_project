@@ -25,7 +25,8 @@
         <tbody>
             {% for p in page %}
             <tr>
-                <td><a href="/shop/product/{{ p.id }}">{{ p.name }}</a></td>
+                <td>
+                    <a href="/shop/product/{{ p.id }}">{{ p.name }}</a></td>
                 <td>{{ p.price }}</td>
                 <td>{{ p.stock }}</td>
                 <td>{{ p.description }}</td>

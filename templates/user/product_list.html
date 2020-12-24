@@ -85,12 +85,24 @@
 
     <!--主体内容-->
     <main style="margin-top: 60px;">
+        <div class="container-fluid">
+            {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                {{ message }}
+            </div>
+            {% endfor %}
+            {% endif %}
+        </div>
         <div class="container">
             <div class="row">
                 <div class="col-md-10">
-                    {% if current_product_type %}
+                    {% if pt %}
                         <div style="font-size:large">
-                            商品类别：<span style="color:skyblue; font-weight: bold;">{{ current_product_type.product_type }}</span>
+                            商品类别：<span style="color:skyblue; font-weight: bold;">{{ pt.product_type }}</span>
                         </div>
                     {% else %}
                         <div style="font-size:large">
@@ -114,7 +126,6 @@
                 </div>
             </div>
             <div class="row row-goods">
-
                 <div class="col-md-3 good-frame">
                     <div class="img-frame">
                         <a href="goodsinfo.html"><img src="../images/index/4.jpg" alt=""></a>
@@ -185,7 +196,7 @@
                         商品描述商品描述商品描述商品描述商品描述商
                     </div>
                 </div>
-
+>>>>>>> qqhBranch
             </div>
 
             <div class="row">

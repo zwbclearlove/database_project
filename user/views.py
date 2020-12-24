@@ -375,6 +375,7 @@ def product(request,pid):
 
     })
 
+@loginValid
 def add_to_cart(request,pid):
     print("add to cart")
     user_id = request.COOKIES.get('user_userId')
@@ -722,7 +723,7 @@ def add_to_favorite(request,pid):
     favorite = Favorite.objects.filter(user_id=user_id,product_id=pid).first()
     if favorite:
         messages.add_message(request,messages.ERROR,'添加失败',extra_tags='error')
-        return  HttpResponseRedirect('/product/%s'%pid)
+        return  HttpResponseRedirect('/product/%s/'%pid)
     else:
         favorite = Favorite()
         favorite.user_id = user_id
@@ -730,7 +731,7 @@ def add_to_favorite(request,pid):
         favorite.create_time = timezone.now()
         favorite.save()
         messages.add_message(request,messages.SUCCESS,'添加成功',extra_tags='success')
-        return  HttpResponseRedirect('/product/%s'%pid)
+        return  HttpResponseRedirect('/product/%s/'%pid)
 
 def cancel_favorite(request,pid):
     user_id = request.COOKIES.get('user_userId')

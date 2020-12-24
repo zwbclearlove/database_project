@@ -46,9 +46,10 @@
 
 </head>
 <html>
+
 <body>
-    {% show_nav_part %}
-    <main style="margin-top: 60px;">
+    <!-- {% show_nav_part %} -->
+    <main style="margin-top: 10px;">
         <div class="container-fluid">
             {% if messages %}
             {% for message in messages %}
@@ -68,7 +69,9 @@
                     <hr>
                     <div class="row">
                         <div class="col-md-6">
-                            <img src="/static/{{ product.image }}" alt="" id="good-img">
+                            <div class="img-frame">
+                                <img src="/static/{{ product.image }}" alt="" id="good-img">
+                            </div>
                         </div>
 
                         <div class="col-md-5 col-md-offset-1">
@@ -93,7 +96,8 @@
                             </div>
                             <br>
                             <hr>
-                            <button class="btn btn-primary col-md-5" id="add-favo" onclick="window.location.href='/shop/update_product_image/{{ product.id }}/'">修改图像</button>
+                            <button class="btn btn-primary col-md-5" id="add-favo"
+                                onclick="window.location.href='/shop/update_product_image/{{ product.id }}/'">修改图像</button>
 
                         </div>
                     </div>
@@ -113,7 +117,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                            {% for comment in comments %}
+                                {% for comment in comments %}
                                 <tr>
                                     <td style="text-align: center;">
                                         <img src="/static/{{ comment.image }}" alt="" class="avatar">
@@ -129,7 +133,7 @@
                                     </td>
                                     <td><a href="/shop/comment_delete/{{ comment.id }}/">删除</a></td>
                                 </tr>
-                            {% endfor %}
+                                {% endfor %}
                             </tbody>
                         </table>
                     </div>

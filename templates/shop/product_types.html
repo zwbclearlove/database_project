@@ -61,6 +61,9 @@
         .save {
             padding: 6px 30px;
         }
+        table th,table td{
+            text-align: center !important;
+        }
     </style>
 </head>
 
@@ -122,14 +125,14 @@
                                             </thead>
                                             <tbody>
                                                 {% for pt in pt_list %}
-                                                    <tr data-id="{{ pt.id }}">
-                                                        <td width="25%">{{ pt.product_type }}</td>
-                                                        <td width="50%">{{ pt.description }}</td>
-                                                        <td width="15%">{{ pt.num }}</td>
-                                                        <td width="10%"><button type="button" class="btn btn-danger"
-                                                                data-toggle="modal" data-target="#confirm-Modal"
-                                                                onclick="deleteType(this)">删除</button></td>
-                                                    </tr>
+                                                <tr data-id="{{ pt.id }}">
+                                                    <td width="25%">{{ pt.product_type }}</td>
+                                                    <td width="50%">{{ pt.description }}</td>
+                                                    <td width="15%">{{ pt.num }}</td>
+                                                    <td width="10%"><button type="button" class="btn btn-danger"
+                                                            data-toggle="modal" data-target="#confirm-Modal"
+                                                            onclick="deleteType(this)">删除</button></td>
+                                                </tr>
                                                 {% endfor %}
 
 
@@ -229,7 +232,7 @@
     function deleteConfirm() {
         console.log(typeId);
         theButton.parent().parent().remove();
-        window.window.location.href='/shop/ptype_delete/'+typeId+'/'
+        window.window.location.href = '/shop/ptype_delete/' + typeId + '/'
     }
 
     //添加类别console.log(typeId);
@@ -250,7 +253,7 @@
             dataType: "json",
             success: function (data) {
                 if (data.status == 'success') {
-                    window.open('/shop/product_types/','_self')
+                    window.open('/shop/product_types/', '_self')
                 }
             },
             error: function (data) {

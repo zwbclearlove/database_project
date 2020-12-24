@@ -60,8 +60,6 @@
         .save {
             padding: 6px 30px;
         }
-
-
     </style>
 </head>
 
@@ -114,20 +112,19 @@
                                         <form class="form-horizontal" style="margin-top: 40px">
                                             <div class="form-group">
 
-                                                <div class="col-sm-2 col-md-offset-3" id="shop-name">
+                                                <div class="col-sm-2 col-md-offset-2">
                                                     <div class="img-frame">
                                                         <img src="/static/{{ shop.avatar }}" alt=""
                                                             style="border-radius: 5%;">
                                                     </div>
-
                                                     <br>
-
                                                     <!-- 修改头像 -->
                                                     <form class="form" action="" enctype="multipart/form-data">
                                                         <div class="form-group">
                                                             <button type="button" class=" btn btn-default"
-                                                                style="margin-left: 20%;" onclick="window.window.location.href='/shop/shop_logo_update/'">
-                                                            修改logo
+                                                                style="margin-left: 20%;"
+                                                                onclick="window.location.href='/shop/shop_logo_update/'">
+                                                                修改logo
                                                             </button>
                                                         </div>
                                                     </form>
@@ -262,6 +259,7 @@
 
     //把店铺信息加载进编辑信息的输入框
     function loadOriginInfo() {
+        console.log($("#shop-name").text().trim());
         $("#shop-name-input").val($("#shop-name").text().trim());
         $("#shop-addr-input").val($("#shop-addr").text().trim());
         $("#shop-descrip-input").val($("#shop-descrip").text().trim());

@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 <meta charset="utf-8" />
-<title>我的购物车</title>
+<title>购物车</title>
 
 <!-- Bootstrap -->
 <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css">
@@ -57,6 +57,18 @@
 
     <!-- 主体部分 -->
     <main style="margin-top: 50px;">
+        <div class="container-fluid">
+            {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                {{ message }}
+            </div>
+            {% endfor %}
+            {% endif %}
+        </div>
         <div class="container">
             <div class="row">
                 <div class="col-md-12 title">
@@ -222,13 +234,17 @@
                     </div>
                 </div>
             </div>
+        </div>
     </main>
 
     <!-- 页脚 -->
     {% show_footer %}
+    <!-- <button onclick="genGoods()">生成html</button> -->
 
 </body>
 <script type="text/javascript">
+
+
 
     var total_price = {{ total_price }};
     var cart_item_list = {{ cart_items }};
@@ -263,10 +279,10 @@
     }];
 
     //窗口加载时，显示商品
-    window.onload = function () {
+    $(document).ready(function () {
         genGoods();
         getTotalPrice();
-    };
+    });
 
     //删除一个商品
 

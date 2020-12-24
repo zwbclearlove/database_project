@@ -76,7 +76,7 @@
     <!-- 导航栏 -->
     {% show_nav_part %}
     <!--主体内容-->
-    <main style="margin-top: 60px;">
+    <main style="margin-top: 55px;">
         <div class="container-fluid">
             {% if messages %}
             {% for message in messages %}
@@ -122,11 +122,15 @@
                                                 <div
                                                     style="border: 1px solid lightblue;width: 100px;height:100px;margin: 5px auto;border-radius: 50%;">
                                                     <form enctype="multipart/form-data">
-                                                        <img src="/static/{{ user.avatar }}" alt="选择并上传头像"
-                                                            id="avatar-img"
-                                                            style="width: 98px;height: 98px;border-radius: 50%;" />
-                                                        <button type="button" class="btn btn-success save"
-                                                        style="width: 100%;" onclick="window.window.location.href='/user_avatar_update/'">
+                                                        <div>
+                                                            <img src="/static/{{ user.avatar }}" alt="选择并上传头像"
+                                                                id="avatar-img"
+                                                                style="width: 98px;height: 98px;border-radius: 50%;" />
+                                                        </div>
+                                                        <br>
+                                                        <button type="button" class="btn btn-default"
+                                                            style="width: 100%;"
+                                                            onclick="window.location.href='/user_avatar_update/'">
                                                             修改头像
                                                         </button>
                                                     </form>
@@ -135,6 +139,7 @@
                                             </div>
                                         </div>
                                         <form class="form-horizontal" style="margin-top: 40px">
+                                            <br>
                                             <div class="form-group">
                                                 <div class="col-sm-3" style="font-weight: bold; text-align: right;">
                                                     用户名:
@@ -281,7 +286,7 @@
     <!-- 页脚 -->
     {% show_footer %}
 
-    <button onclick="loadInfo()">生成html</button>
+    <!-- <button onclick="loadInfo()">生成html</button> -->
 </body>
 
 <script type="text/javascript">

@@ -7,7 +7,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>网上购物系统</title>
+    <title>我的订单</title>
     <!-- Bootstrap -->
     <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css">
 
@@ -370,16 +370,10 @@
     <!-- 页脚 -->
     {% show_footer %}
 
-
+    <!-- <button onclick="loadOrders()">生成html</button> -->
 </body>
 
 <script type="text/javascript">
-
-    window.onload = function () {
-        loadOrders();
-        //loadOrders();
-        //getTotal();
-    }
 
     var orders = {{ orders }};
     var order_pro_list = {{ order_pro_list }};
@@ -393,6 +387,8 @@
     var pro_image_list = {{ pro_image_list }};
     console.log(pro_image_list);
 
+
+    loadOrders();
 
 
     //分页栏

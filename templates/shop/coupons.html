@@ -49,6 +49,7 @@
 
         table th,
         table td {
+            text-align: center;
             vertical-align: middle !important;
         }
 
@@ -133,13 +134,13 @@
                                             <tbody>
                                                 {% for coupon in coupon_list %}
                                                     <tr data-id="{{ coupon.id }}">
-                                                        <td width="10%">
+                                                        <td width="8%">
                                                             <div class="img-frame"><img src="/static/{{ coupon.product.image }}"
                                                                     alt=""></div>
                                                         </td>
                                                         <td width="35">{{ coupon.product.name }}</td>
                                                         <td width="35%">￥<span>{{ coupon.discount }}</span></td>
-                                                        <td width="20%"><button type="button" class="btn btn-danger"
+                                                        <td width="22%"><button type="button" class="btn btn-danger"
                                                                 data-toggle="modal" data-target="#confirm-Modal"
                                                                 onclick="deleteCoupon(this)">删除</button></td>
                                                     </tr>

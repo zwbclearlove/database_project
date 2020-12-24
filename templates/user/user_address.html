@@ -8,7 +8,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>网上购物系统</title>
+    <title>我的地址</title>
     <!-- Bootstrap -->
     <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css">
 
@@ -69,7 +69,7 @@
     <!-- 导航栏 -->
     {% show_nav_part %}
     <!--主体内容-->
-    <main style="margin-top: 60px;">
+    <main style="margin-top: 55px;">
         <div class="container-fluid">
             {% if messages %}
             {% for message in messages %}
@@ -123,7 +123,7 @@
                                                     <th>电话</th>
                                                     <th>编辑</th>
                                                     <th>删除</th>
-                                                    <th>默认</th>
+                                                    <!-- <th>默认</th> -->
                                                 </tr>
                                             </thead>
                                             <tbody style="height: 60px; overflow-y: auto;">
@@ -140,9 +140,9 @@
                                                             data-toggle="modal" data-target="#confirm-delete-modal"
                                                             onclick="deleteAddr(this)">删除</button>
                                                     </td>
-                                                    <td><button type="button" class="btn btn-default " disabled="true"
+                                                    <!-- <td><button type="button" class="btn btn-default " disabled="true"
                                                             onclick="setDefault(this)">默认地址</button>
-                                                    </td>
+                                                    </td> -->
                                                 </tr>
                                                 <tr id="addr-2">
                                                     <td class="receiver">收货人</td>
@@ -157,9 +157,9 @@
                                                             data-toggle="modal" data-target="#confirm-delete-modal"
                                                             onclick="deleteAddr(this)">删除</button>
                                                     </td>
-                                                    <td><button type="button" class="btn btn-primary "
+                                                    <!-- <td><button type="button" class="btn btn-primary "
                                                             onclick="setDefault(this)">设为默认</button>
-                                                    </td>
+                                                    </td> -->
                                                 </tr>
 
 
@@ -263,7 +263,7 @@
         </div>
     </div>
 
-
+    <!-- <button onclick="loadAddressInfo(adds,1)">生成html</button> -->
 </body>
 
 <script type="text/javascript">
@@ -272,9 +272,11 @@
     console.log(adds);
 
 
-    window.onload = function () {
+    $(document).ready(function () {
         loadAddressInfo(adds, 1);
-    }
+    });
+
+
 
     //分页栏
     $(".pagination li").click(function () {
@@ -530,9 +532,8 @@
             deleteTd.innerHTML = "<button type=\"button\" class=\"btn btn-danger\" data-toggle=\"modal\" data-target=\"#confirm-delete-modal\" onclick=\"deleteAddr(this)\">删除</button>";
             tableRow.append(deleteTd);
 
-            let defaultTd = document.createElement("td");
+            /* let defaultTd = document.createElement("td");
             defaultTd.setAttribute("class", "");
-            /* defaultTd.innerHTML = "<button type=\"button\" class=\"btn btn-danger\">删除</button>"; */
             tableRow.append(defaultTd);
 
             let defaultBtn = document.createElement("button");
@@ -546,7 +547,7 @@
                 defaultBtn.innerHTML = "设为默认";
             }
             defaultBtn.setAttribute("onclick", "setDefault(this)");
-            defaultTd.append(defaultBtn);
+            defaultTd.append(defaultBtn); */
         });
     }
 
