@@ -315,7 +315,9 @@ def address_delete(request,add_id):
 
 def product_list(request, type_id=0):
     if type_id != 0 :
-        pt = ProductType.objects.get(id=type_id)
+        current_product_type = ProductType.objects.get(id=type_id)
+    else :
+        current_product_type = False
     keyword = request.GET.get("keyword","")
     if keyword:
         plist = Product.objects.filter(name__contains=keyword)
@@ -327,7 +329,7 @@ def product_list(request, type_id=0):
     return render(request,"user/product_list.html",{
         "product_list":mark_safe(products),
         "keyword": mark_safe('"'+keyword+'"'),
-        'pt':pt,
+        'current_product_type' : current_product_type,
     })
 
 def product(request,pid):

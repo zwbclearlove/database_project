@@ -2,9 +2,12 @@ import hashlib
 import json
 import random
 
+from datetime import timedelta
 from django.core import serializers
 from django.utils.safestring import mark_safe
 from django.views.decorators.csrf import csrf_exempt
+from pyecharts.faker import Faker
+from pyecharts.globals import ThemeType
 from rest_framework.decorators import api_view
 from rest_framework.views import APIView
 from django.core.paginator import Paginator
@@ -19,7 +22,9 @@ from user.models import OrderItem,Favorite
 
 
 from pyecharts import options as opts
-from pyecharts.charts import Bar
+from pyecharts.charts import Bar, Pie, Line
+
+
 # Create your views here.
 
 def setPassword(password):
@@ -475,8 +480,105 @@ def product_types(request):
     return render(request,'shop/product_types.html',locals())
 
 
-def extra_info(request):
+def extra_info(request,type=0):
+    if type == 1:
+        shop_id = request.COOKIES.get('shop_registered')
+        plist = Product.objects.filter(shopId_id=shop_id).order_by('-sales')
+        name_list = []
+        sale_list = []
+        if len(plist) <= 10:
+            for p in plist:
+                name_list.append(p.name)
+                sale_list.append(p.sales)
+        else:
+            for i in range(0,9):
+                name_list.append(plist.first().name)
+                sale_list.append(plist.first().sales)
+                plist = plist.exclude(id=plist.first().id)
+            sale = 0
+            for i in plist:
+                sale += i.sales
+            name_list.append('其他')
+            sale_list.append(sale)
+        c = (
+            Pie()
+            .add("", [list(z) for z in zip(name_list, sale_list)])
+            .set_global_opts(
+                title_opts=opts.TitleOpts(title="商品销量展示"),
+                legend_opts=opts.LegendOpts(type_="scroll",pos_top="20%", pos_left="80%", orient="vertical"),
 
+                toolbox_opts=opts.ToolboxOpts(is_show=True,pos_top="top",pos_left="right",),
+            )
+            .set_series_opts(label_opts=opts.LabelOpts(formatter="{b}: {c}"))
+            .render("./templates/shop/sales.html")
+        )
+        return render(request,'shop/sales.html',locals())
+    if type == 2:
+        shop_list = Shop.objects.all()
+        shop_name = []
+        shop_earnings = []
+        for shop in shop_list:
+            shop_name.append(shop.shopName)
+            oil = OrderItem.objects.filter(shop_id=shop.id)
+            shop_earnings.append(int(sum([oi.total_price for oi in oil])))
+        c = (
+        Bar({"theme": ThemeType.MACARONS})
+        .add_xaxis(shop_name)
+        .add_yaxis("销售额", shop_earnings)
+        .set_global_opts(
+            title_opts={"text": "店铺销售额汇总"},
+            toolbox_opts=opts.ToolboxOpts(is_show=True,pos_top="top",pos_left="right",),
+        )
+        .render("./templates/shop/earning.html")
+        )
+        return render(request,'shop/earning.html',locals())
+    if type == 3:
+        x_data = []
+        y_earning = []
+        y_follows = []
+        shop_id = request.COOKIES.get('shop_registered')
+        oil = OrderItem.objects.filter(shop_id=shop_id)
+
+        fl = Follow.objects.filter(shop_id=shop_id)
+        cdate = timezone.now()
+        for i in range(0,7):
+            date_now = (cdate - timedelta(days=i))
+            print(date_now.day)
+            x_data.append(date_now.strftime('%y-%m-%d'))
+            oil1 = []
+            for oi in oil :
+                if oi.order.order_date.day == date_now.day:
+                    oil1.append(oi)
+                    print(oi.order.order_date.day)
+            y_earning.append(int(sum([oi.total_price for oi in oil1])))
+            print(oil1)
+            fl1 = []
+            for f in fl:
+                if f.follow_time.day == date_now.day:
+                    fl1.append(f)
+            print(fl1)
+            y_follows.append(len(fl1))
+        x_data.reverse()
+        y_earning.reverse()
+        y_follows.reverse()
+        (
+            Line(init_opts=opts.InitOpts(width="1400px", height="700px"))
+            .add_xaxis(xaxis_data=x_data)
+            .add_yaxis(
+                series_name="销售额变化",
+                y_axis=y_earning,
+                linestyle_opts=opts.LineStyleOpts(width=2),
+            )
+            .add_yaxis(
+                series_name="关注人数变化", y_axis=y_follows, linestyle_opts=opts.LineStyleOpts(width=2)
+            )
+            .set_global_opts(
+                title_opts=opts.TitleOpts(title="店铺信息变化"),
+                toolbox_opts=opts.ToolboxOpts(is_show=True,pos_top="top",pos_left="right",),
+            )
+            .render("./templates/shop/info_change.html")
+        )
+        return render(request,'shop/info_change.html',locals())
     return render(request,'shop/extra_info.html',locals())
 
 

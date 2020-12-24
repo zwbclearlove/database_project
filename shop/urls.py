@@ -28,5 +28,6 @@ urlpatterns = [
     path('ptype_add/',ptype_add),
     path('messages/',message_list),
     path('extrainfo/',extra_info),
+    path('extrainfo/<int:type>/',extra_info),
     path('comment_delete/<int:cid>/',comment_delete),
 ]

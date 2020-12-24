@@ -88,9 +88,9 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-10">
-                    {% if pt %}
+                    {% if current_product_type %}
                         <div style="font-size:large">
-                            商品类别：<span style="color:skyblue; font-weight: bold;">{{ pt.product_type }}</span>
+                            商品类别：<span style="color:skyblue; font-weight: bold;">{{ current_product_type.product_type }}</span>
                         </div>
                     {% else %}
                         <div style="font-size:large">
@@ -114,9 +114,7 @@
                 </div>
             </div>
             <div class="row row-goods">
-<<<<<<< HEAD
 
-=======
                 <div class="col-md-3 good-frame">
                     <div class="img-frame">
                         <a href="goodsinfo.html"><img src="../images/index/4.jpg" alt=""></a>
@@ -187,7 +185,7 @@
                         商品描述商品描述商品描述商品描述商品描述商
                     </div>
                 </div>
->>>>>>> qqhBranch
+
             </div>
 
             <div class="row">
