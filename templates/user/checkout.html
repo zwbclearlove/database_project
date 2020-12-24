@@ -83,10 +83,10 @@
                             <th>小计</th>
                         </tr>
                         {% for name,order in order_list.items %}
-                            <tr>{{ name }}</tr>
+
                             {% for pro in order %}
                                 <tr>
-
+                                    <td>{{ name }}</td>
                                     <td width="10%">
                                         <img src="/static/{{ pro.image }}" alt="">
                                     </td>
@@ -94,8 +94,18 @@
                                     <td width="30%">{{ pro.desc }}</td>
                                     <td width="10%">￥<span>{{ pro.product_price }}</span> </td>
                                     <td width="10%" class="unit-count">{{ pro.product_number }}</td>
-                                    <td width="10%">无</td>
-                                    <td width="10%">￥<span class="subtotal">{{ pro.total_price }}</span></td>
+                                    <td width="10%">
+                                        {% if pro.discount %}
+                                            -￥{{ pro.discount }}
+                                        {% else %}
+                                            无
+                                        {% endif %}
+                                    </td>
+                                    <td width="10%">￥<span class="subtotal">
+
+                                        {{ pro.distp }}
+
+                                    </span></td>
                                 </tr>
                             {% endfor %}
 
@@ -327,7 +337,6 @@
         let addressIdStr = $(".list-address").children(".active").attr("id");
         //address-1234 -> 1234
         let addressId = addressIdStr.substring(8);
-        alert(addressId);
         //window.open("finish_order.html", "_self");
 
         $.ajax({

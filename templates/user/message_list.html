@@ -131,11 +131,15 @@
 
     <!-- 页脚 -->
     {% show_footer %}
-    <button onclick="loadComments()">生成评论</button>
-    <button onclick="loadGood()">生成商品</button>
 </body>
 
 <script type="text/javascript">
+
+    window.onload = function () {
+        loadComments();
+        //loadOrders();
+        //getTotal();
+    }
 
     var messageList = [{
         id: 1234564876,

@@ -370,10 +370,16 @@
     <!-- 页脚 -->
     {% show_footer %}
 
-    <button onclick="loadOrders()">生成html</button>
+
 </body>
 
 <script type="text/javascript">
+
+    window.onload = function () {
+        loadOrders();
+        //loadOrders();
+        //getTotal();
+    }
 
     var orders = {{ orders }};
     var order_pro_list = {{ order_pro_list }};

@@ -108,8 +108,7 @@ def login(request):
 def loginValid(fun):
     def inner(request,*args,**kwargs):
         c_user = request.COOKIES.get("user_username")
-        s_user = request.session.get("user_username")
-        if c_user and s_user and c_user == s_user:
+        if c_user:
             return fun(request, *args, **kwargs)
         else:
             return HttpResponseRedirect("/login/")
@@ -131,6 +130,7 @@ def exit(request):
     # 跳转到登录
     return response
 
+@loginValid
 def user_info(request):
     user_id = request.COOKIES.get("user_userId")
     user = User.objects.filter(id=user_id).first()
@@ -416,10 +416,19 @@ def delete_cart_item(request,pid):
     messages.add_message(request,messages.SUCCESS,'已经移出购物车',extra_tags='success')
     return  HttpResponseRedirect('/cart/')
 
+def get_random_str():
+    send = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
+    mac_str = ''
+    for i in range(10):
+        mac_str += random.choice(send)
+    return mac_str
+
 def generate_order_id(user_id,shop_id):
     date = timezone.datetime.now()
-    return str(date) + str(user_id) + str(shop_id)
+    return str(date.strftime('%y%m%d')) + get_random_str()
 
+
+@loginValid
 def cart(request):
     user_id = request.COOKIES.get("user_userId")
     user = User.objects.get(id=user_id)
@@ -482,16 +491,23 @@ def gen_order(request):
     cart_item_list = CartItem.objects.filter(cart_user=user)
     address_list = Address.objects.filter(user_id=user)
     order_list = {}
-    total_price = sum([ci.total_price for ci in cart_item_list])
+
     for ci in cart_item_list:
         shop_name = Shop.objects.get(id=ci.shop_id)
         pro = Product.objects.get(id=ci.product_id)
         ci.image = pro.image
         ci.desc = pro.description
+        coupon = Coupon.objects.filter(product_id=ci.product_id).first()
+        if coupon:
+            ci.discount = coupon.discount
+            ci.distp = (ci.product_price - ci.discount) * ci.product_number
+        else:
+            ci.distp = ci.total_price
         if order_list.get(shop_name):
             order_list.get(shop_name).append(ci)
         else:
             order_list[shop_name] = [ci]
+    total_price = sum([ci.distp for ci in cart_item_list])
     order_number = len(order_list)
     product_number = len(cart_item_list)
     if request.is_ajax():
@@ -507,7 +523,7 @@ def gen_order(request):
             new_order.order_user = user
             new_order.order_shop = pro_list[0].shop_id
             new_order.order_price = sum([pro.product_price for pro in pro_list])
-            new_order.order_address = Address.objects.filter(user_id=user).first()
+            new_order.order_address = Address.objects.filter(id=address).first()
             new_order.order_date = timezone.now()
             new_order.order_status = 0 # 已下单
             new_order.save()
@@ -622,9 +638,7 @@ def set_order_status(request,order_id,status):
 
     return render(request,"user/order_list.html",locals())
 
-
-
-
+@loginValid
 def order_list(request):
     user_id = request.COOKIES.get("user_userId")
     user = User.objects.get(id=user_id)
@@ -667,6 +681,7 @@ def place_order_success(request):
     return render(request,'user/place_order_success.html',locals())
 
 @csrf_exempt
+@loginValid
 def comment(request, pid):
     user_id = request.COOKIES.get('user_userId')
     product = get_object_or_404(Product,id=pid)
@@ -685,6 +700,7 @@ def comment(request, pid):
 
     return JsonResponse({'status':'success'})
 
+@loginValid
 def favorite(request):
     user_id = request.COOKIES.get('user_userId')
     favorites = Favorite.objects.filter(user_id=user_id)
@@ -699,6 +715,7 @@ def favorite(request):
         'fav_images' : mark_safe(fis),
     })
 
+@loginValid
 def add_to_favorite(request,pid):
     user_id = request.COOKIES.get('user_userId')
     product = Product.objects.get(id=pid)
@@ -723,6 +740,7 @@ def cancel_favorite(request,pid):
     referer = request.META.get("HTTP_REFERER")
     return  HttpResponseRedirect(referer)
 
+@loginValid
 def footprint(request):
     user_id = request.COOKIES.get('user_userId')
     footprints = FootPrint.objects.filter(user_id=user_id).order_by('-create_time')[:24]
@@ -737,6 +755,7 @@ def shop_info(request, sid):
     products = Product.objects.filter(shopId=current_shop)
     return render(request,'user/shop_info.html',locals())
 
+@loginValid
 def follow_shop(request, sid):
     user_id = request.COOKIES.get('user_userId')
     new_follow = Follow()
@@ -757,6 +776,7 @@ def cancel_follow(request, sid):
     referer = request.META.get("HTTP_REFERER")
     return  HttpResponseRedirect(referer)
 
+@loginValid
 def message_list(request):
     user_id = request.COOKIES.get('user_userId')
     user_message_list = Message.objects.filter(message_type=1,to_id=user_id).order_by('-message_time')

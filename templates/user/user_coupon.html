@@ -156,11 +156,16 @@
 
     <!-- 页脚 -->
     {% show_footer %}
-
-    <button onclick="loadCouponsInfo()">生成html</button>
 </body>
 
 <script type="text/javascript">
+
+    window.onload = function () {
+        loadCouponsInfo();
+        //loadOrders();
+        //getTotal();
+    }
+
     var coupons = {{ coupons }};
     var product_names = {{ product_names }};
     var shop_names = {{ shop_names }};

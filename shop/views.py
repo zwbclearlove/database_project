@@ -124,9 +124,9 @@ def loginValid(fun):
     def inner(request,*args,**kwargs):
         # 获取成功登录后的cookie和session
         c_user = request.COOKIES.get("shop_username")
-        s_user = request.session.get("shop_username")
+
         # 如果cookie和session都存在并且值都相同
-        if c_user and s_user and c_user == s_user:
+        if c_user:
             # 通过c_user查询数据库
             user = User.objects.filter(username=c_user).first()
             # 如果有这个用户，则返回函数，这里只index
@@ -136,7 +136,7 @@ def loginValid(fun):
         return HttpResponseRedirect("/shop/login/")
     return inner
 
-
+@loginValid
 def index(request):
     userId = request.COOKIES.get("shop_userId")
     if userId:
@@ -254,6 +254,7 @@ def add_product(request):
     return  JsonResponse({"status":"error"})
 
 #get all products from current shop
+@loginValid
 def product_list(request):
     pt_list = ProductType.objects.all()
     keywords = request.GET.get("keywords","")
@@ -283,6 +284,7 @@ def products(request):
     return render(request,"shop/product_list1.html",locals())
 
 # show product info
+@loginValid
 def product(request, pid):
     product = Product.objects.filter(id=pid).first()
     comments = Comment.objects.filter(product_id=product.id).order_by('-create_time')
@@ -348,6 +350,7 @@ def change_product_state(request,state):
             messages.add_message(request,messages.SUCCESS,'状态已经变更',extra_tags='success')
     return HttpResponseRedirect(referer)
 
+@loginValid
 def order_list(request):
     user_id = request.COOKIES.get("shop_userId")
     shop = Shop.objects.get(userId=user_id)
@@ -401,7 +404,7 @@ def coupon_add(request,pid):
         new_coupon.save()
 
         favs = Favorite.objects.filter(product_id=pid)
-        shop_id = request.COOKIES.get('shop_userId')
+        shop_id = request.COOKIES.get('shop_registered')
         for fav in favs:
             new_message = Message()
             new_message.message_time = timezone.now()
@@ -456,6 +459,7 @@ def urge_comment(request,order_id):
     referer = request.META.get("HTTP_REFERER")
     return  HttpResponseRedirect(referer)
 
+@loginValid
 def message_list(request):
     shop_id = request.COOKIES.get('shop_registered')
     user_message_list = Message.objects.filter(message_type=2,to_id=shop_id).order_by('-message_time')[:20]
@@ -466,12 +470,14 @@ def message_list(request):
         me.name = user.nickname
     return render(request,'shop/messages.html',locals())
 
+@loginValid
 def coupons(request):
     shop_id = request.COOKIES.get('shop_registered')
     coupon_list = Coupon.objects.filter(product__shopId_id=shop_id)
     print(coupon_list)
     return render(request,'shop/coupons.html',locals())
 
+@loginValid
 def product_types(request):
     pt_list = ProductType.objects.all()
     for pt in pt_list:
@@ -479,7 +485,7 @@ def product_types(request):
         pt.num = len(plist)
     return render(request,'shop/product_types.html',locals())
 
-
+@loginValid
 def extra_info(request,type=0):
     if type == 1:
         shop_id = request.COOKIES.get('shop_registered')
