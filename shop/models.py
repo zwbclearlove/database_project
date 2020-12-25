@@ -30,7 +30,7 @@ class Shop(models.Model):
     description = models.TextField(verbose_name="描述")
     avatar = models.ImageField(upload_to="shop/images", verbose_name="logo")
     phoneNumber = models.CharField(max_length=32, verbose_name="联系电话")
-
+    sales = models.FloatField(verbose_name="营业额")
     userId = models.IntegerField(verbose_name="店主")
     type = models.ForeignKey(to=ShopType, on_delete=models.CASCADE, verbose_name="店铺类型",null=True)
     def __str__(self):
@@ -55,6 +55,7 @@ class Product(models.Model):
     product_type = models.ForeignKey(to=ProductType,on_delete=models.CASCADE,verbose_name="商品类型",null=True)
     shopId = models.ForeignKey(to=Shop, on_delete=models.CASCADE, verbose_name="商品店铺", null=True)
     on_sale = models.IntegerField(verbose_name="状态",default=0)
+    score = models.IntegerField(verbose_name="评分")
     def __str__(self):
         return self.name
 

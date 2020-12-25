@@ -117,9 +117,9 @@ def loginValid(fun):
 #@loginValid
 def index(request):
     product_type_list = ProductType.objects.all()
-    best_sales = Product.objects.all().order_by('-sales')[:8]
-    product_list1 = Product.objects.all().order_by('-createdDate')[:6]
-    product_list2 = Product.objects.all().order_by('price')[:6]
+    best_sales = Product.objects.filter(on_sale=1).order_by('-sales')[:8]
+    product_list1 = Product.objects.filter(on_sale=1).order_by('createdDate')[:6]
+    product_list2 = Product.objects.filter(on_sale=1).order_by('price')[:6]
     return render(request,"user/index.html",locals())
 
 def exit(request):
@@ -320,9 +320,9 @@ def product_list(request, type_id=0):
         current_product_type = False
     keyword = request.GET.get("keyword","")
     if keyword:
-        plist = Product.objects.filter(name__contains=keyword)
+        plist = Product.objects.filter(name__contains=keyword,on_sale=1)
     else:
-        plist = Product.objects.all()
+        plist = Product.objects.filter(on_sale=1)
     if type_id != 0 :
         plist = plist.filter(product_type_id=type_id)
     products = serializers.serialize('json',plist)
@@ -581,7 +581,7 @@ def receive_product(request,order_id):
     new_message.message_time = timezone.now()
     new_message.from_id = corder.order_user.id
     new_message.to_id = corder.order_shop
-    new_message.content = "卖家已经收货"
+    new_message.content = "买家已经收货"
     new_message.save()
     referer = request.META.get("HTTP_REFERER")
     return  HttpResponseRedirect(referer)

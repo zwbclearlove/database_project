@@ -7,7 +7,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>网上购物系统</title>
+    <title>销售情况</title>
     <!-- Bootstrap -->
     <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css">
 
@@ -97,18 +97,17 @@
 
                             <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel"
                                 aria-labelledby="headingOne">
-                                <div>
-                                    <div
-                                        style="height: 400px; background-color: whitesmoke;">
-                                        <a class=" btn btn-default" href="/shop/extrainfo/1/">
-                                            <h3 style="text-align: center; color: slateblue; font-weight: bold;">店铺销量展示</h3>
-                                        </a>
-                                        <a class=" btn btn-default" href="/shop/extrainfo/2/">
-                                            <h3 style="text-align: center; color: slateblue; font-weight: bold;">店铺销售额汇总</h3>
-                                        </a>
-                                        <a class=" btn btn-default" href="/shop/extrainfo/3/">
-                                            <h3 style="text-align: center; color: slateblue; font-weight: bold;">店铺信息变化</h3>
-                                        </a>
+                                <div class="col-md-12" style="margin-top: 100px; margin-bottom: 100px;">
+                                    <div class="col-md-3 ">
+                                        <button class="btn btn-lg btn-info" onclick="window.open('/shop/extrainfo/1/','_blank')" style="width: 100%;">店铺销量展示</button>
+                                    </div>
+
+                                    <div class="col-md-3 col-md-offset-1">
+                                        <button class="btn btn-lg btn-info" onclick="window.open('/shop/extrainfo/2/','_blank')" style="width: 100%;">店铺销售额汇总</button>
+                                    </div>
+
+                                    <div class="col-md-3 col-md-offset-1">
+                                        <button class="btn btn-lg btn-info" onclick="window.open('/shop/extrainfo/3/','_blank')" style="width: 100%;">店铺信息变化</button>
                                     </div>
                                 </div>
                             </div>

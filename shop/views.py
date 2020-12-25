@@ -243,6 +243,7 @@ def add_product(request):
         product.stock = stock
         product.createdDate = date
         product.shopId = shop
+        product.score = 0
         #if image:
             #product.image = image
         #else :
@@ -414,7 +415,7 @@ def coupon_add(request,pid):
             new_message.to_id = fav.user_id
             new_message.content = "您收藏的一款商品降价了"
             new_message.save()
-            messages.add_message(request,messages.SUCCESS,'优惠券发布成功',extra_tags='success')
+        messages.add_message(request,messages.SUCCESS,'优惠券发布成功',extra_tags='success')
         return JsonResponse({'status':'success'})
     return JsonResponse({'status':'error'})
 

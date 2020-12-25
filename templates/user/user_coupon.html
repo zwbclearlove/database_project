@@ -161,12 +161,15 @@
 </body>
 
 <script type="text/javascript">
+
     var coupons = {{ coupons }};
     var product_names = {{ product_names }};
     var shop_names = {{ shop_names }};
     console.log(coupons);
     console.log(product_names);
     console.log(shop_names);
+
+    loadCouponsInfo();
 
     var couponList = [{
         id: 1234564876,

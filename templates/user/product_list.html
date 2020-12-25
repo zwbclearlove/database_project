@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
 
-    <title>网上购物系统</title>
+    <title>搜索结果</title>
     <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css">
     <link rel="stylesheet" href="{% static 'user/css/all.css' %}">
 
@@ -100,14 +100,14 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-10">
-                    {% if pt %}
-                        <div style="font-size:large">
-                            商品类别：<span style="color:skyblue; font-weight: bold;">{{ pt.product_type }}</span>
-                        </div>
+                    {% if current_product_type %}
+                    <div style="font-size:large">
+                        商品类别：<span style="color:skyblue; font-weight: bold;">{{ current_product_type.product_type }}</span>
+                    </div>
                     {% else %}
-                        <div style="font-size:large">
-                            关于<span style="color:skyblue; font-weight: bold;">{{ keyword }}</span>的搜索结果：
-                        </div>
+                    <div style="font-size:large">
+                        关于<span style="color:skyblue; font-weight: bold;">{{ keyword }}</span>的搜索结果：
+                    </div>
                     {% endif %}
 
 
@@ -120,6 +120,7 @@
                             <select class="form-control" id="select" onchange="sortGoods()">
                                 <option value="asc">价格&uarr;</option>
                                 <option value="desc">价格&darr;</option>
+                                <option value="sales">销量</option>
                             </select>
                         </div>
                     </form>
@@ -196,10 +197,9 @@
                         商品描述商品描述商品描述商品描述商品描述商
                     </div>
                 </div>
->>>>>>> qqhBranch
             </div>
 
-            <div class="row">
+            <div class="row" id="page-row">
                 <div class="col-md-12" style="text-align: center;">
                     <ul class="pagination">
                         <li id="prev-page"><a onclick="prevPage()">&laquo;</a></li>
@@ -223,9 +223,7 @@
 
 <script type="text/javascript">
 
-    window.onload = function () {
-        setUp();
-    }
+
 
 
 
@@ -235,26 +233,16 @@
     console.log(product_list);
     console.log(keyword);
 
-    //打开窗口时
-    /*window.onload = function () {
-
-        //从服务器获取数据，并存在goodList中
-        $.ajax({
-            type: "GET",
-            url: "",
-            dataType: "json",
-            success: function (data) {
-                /*  window.location.href("index.html"); */
-    //goodList = data;
-    /*},
-    error: function (data) {
-
-    },
-});
-
-//然后是初始化,这里进行了分页操作
-setUp;
-};*/
+    //打开窗口时自动生成
+    $(document).ready(function () {
+        setUp();
+        //要执行的js代码段
+        if (product_list.length == 0) {
+            let rowGoodDiv = $(".row-goods");
+            rowGoodDiv.html("");
+            $(".pagination").hide();
+        }
+    });
 
     //分页栏
     let nowPage = 1;
@@ -374,14 +362,17 @@ setUp;
         maxPage = pageCount;
     }
 
-    var colId = "unitPrice";
     //升序比较函数
     var asc = function (x, y) {
-        return (x[colId] > y[colId]) ? 1 : -1
+        return x.fields.price - y.fields.price;
     }
     //降序比较函数
     var desc = function (x, y) {
-        return (x[colId] < y[colId]) ? 1 : -1
+        return y.fields.price - x.fields.price;
+    }
+    //销量降序比较函数
+    var saleDesc = function (x, y) {
+        return y.fields.sales - x.fields.sales;
     }
 
     //下拉菜单,发生变化时排序
@@ -389,15 +380,18 @@ setUp;
         var sel = document.getElementById("select");
         var sortMethod = sel.options[sel.selectedIndex].value;
 
-        console.log(sortMethod);
+        //console.log(sortMethod);
 
         if (sortMethod == "asc") {
             product_list.sort(asc);
-            console.log("asccc");
+            //console.log("asccc");
         } else if (sortMethod == "desc") {
             product_list.sort(desc);
-            console.log(product_list[0].unitPrice);
         }
+        else if (sortMethod == "sales") {
+            product_list.sort(saleDesc);
+        }
+        console.log(product_list);
         getSplitGoodList(product_list);
         loadGoods(splitGoodList[0]);
 
@@ -409,12 +403,6 @@ setUp;
     function loadGoods(product_list) {
         let rowGoodDiv = $(".row-goods");
         rowGoodDiv.html("");
-
-        //console.log("wdnmd");
-        console.log(product_list.length);
-
-        //按照升序排序
-        //goodList.sort(asc);
 
         $.each(product_list, function (i, item) {
             let frameDiv = document.createElement("div");
@@ -445,20 +433,25 @@ setUp;
 
             let goodDescripDiv = document.createElement("div");
             goodDescripDiv.setAttribute("class", "good-descrip");
+            goodDescripDiv.setAttribute("style", "height:5em;");
             goodDescripDiv.innerHTML = item.fields.description;
             frameDiv.append(goodDescripDiv);
         });
-
     }
 
     //初始化函数，会生成所有商品并得到最大页数
     function setUp() {
-        getSplitGoodList(product_list);
-        loadGoods(splitGoodList[0]);
-
         //生成页数
         let paginationUl = $(".pagination");
         paginationUl.html("");
+
+        if (product_list.length == 0) {
+            return;
+        }
+        getSplitGoodList(product_list);
+        loadGoods(splitGoodList[0]);
+
+
 
         //加上上一页
         let prevLi = document.createElement("li");
